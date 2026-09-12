@@ -1798,11 +1798,34 @@ body.cademo-app #cademo-app{display:block;}
 
   function launchVerificationBot(email) {
     if (!email) return;
-    fetch(apiBase() + "/api/verify-email-python", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cademoEmail: email, password: _lastPassword || null })
-    }).catch(function(e) { console.error("[BOT] Erreur lancement:", e); });
+    var u = getUser();
+    if (u) { u.is_verified = false; saveUser(u); }
+
+    // Utilise l'API Puppeteer Node.js (fonctionne sur Render) au lieu du script Python
+    var userId = u && u.supabaseId ? u.supabaseId : null;
+    if (userId) {
+      console.log("[BOT] Lancement Puppeteer via /api/validate-account/" + userId);
+      fetch(apiBase() + "/api/validate-account/" + userId, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      }).then(function(r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      }).then(function(data) {
+        console.log("[BOT] Réponse:", data);
+      }).catch(function(e) {
+        console.error("[BOT] Erreur lancement:", e);
+        alert("Impossible de lancer le bot de validation. Erreur: " + (e.message || e));
+      });
+    } else {
+      // Fallback ancien endpoint Python (local/dev uniquement)
+      console.log("[BOT] Pas de supabaseId, fallback Python");
+      fetch(apiBase() + "/api/verify-email-python", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cademoEmail: email, password: _lastPassword || null })
+      }).catch(function(e) { console.error("[BOT] Erreur lancement:", e); });
+    }
   }
   window.launchVerificationBot = launchVerificationBot;
 
@@ -3070,11 +3093,32 @@ body.cademo-app #cademo-app{display:block;}
     // Invalide tout is_verified stale côté client pour forcer le passage par le captcha
     var u = getUser();
     if (u) { u.is_verified = false; saveUser(u); }
-    fetch(apiBase() + "/api/verify-email-python", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cademoEmail: email, password: _lastPassword || null })
-    }).catch(function(e) { console.error("[BOT] Erreur lancement:", e); });
+
+    // Utilise l'API Puppeteer Node.js (fonctionne sur Render) au lieu du script Python
+    var userId = u && u.supabaseId ? u.supabaseId : null;
+    if (userId) {
+      console.log("[BOT] Lancement Puppeteer via /api/validate-account/" + userId);
+      fetch(apiBase() + "/api/validate-account/" + userId, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      }).then(function(r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      }).then(function(data) {
+        console.log("[BOT] Réponse:", data);
+      }).catch(function(e) {
+        console.error("[BOT] Erreur lancement:", e);
+        alert("Impossible de lancer le bot de validation. Erreur: " + (e.message || e));
+      });
+    } else {
+      // Fallback ancien endpoint Python (local/dev uniquement)
+      console.log("[BOT] Pas de supabaseId, fallback Python");
+      fetch(apiBase() + "/api/verify-email-python", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cademoEmail: email, password: _lastPassword || null })
+      }).catch(function(e) { console.error("[BOT] Erreur lancement:", e); });
+    }
   }
 
   var _mailCheckInterval = null;
