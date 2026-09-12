@@ -1,0 +1,180 @@
+﻿﻿﻿<!DOCTYPE html>
+<html class="dark" lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Bonus — Cademo Affiliate</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config={darkMode:"class",theme:{extend:{colors:{surface:"#0b1323",background:"#0b1323","surface-container":"#182030","surface-container-high":"#222a3b","surface-variant":"#2d3546",primary:"#b7c4ff","primary-container":"#1d4ed8","on-primary":"#002682","on-surface":"#dbe2f9","on-surface-variant":"#c4c5d7",secondary:"#ffe083","secondary-container":"#eec200",tertiary:"#4ae176","tertiary-container":"#006b2d","on-tertiary":"#003915",outline:"#8e90a0",error:"#ffb4ab","error-container":"#93000a"},fontFamily:{sans:["Hanken Grotesk","sans-serif"]},fontSize:{xs:["11px","14px"],sm:["12px","16px"],base:["14px","18px"],lg:["16px","20px"],xl:["18px","24px"],"2xl":["22px","28px"],"3xl":["28px","36px"]},borderRadius:{DEFAULT:"0.5rem",lg:"0.75rem",xl:"1rem",full:"9999px"}}}}</script>
+<style>
+body{font-family:'Hanken Grotesk',sans-serif;background:#0b1323;color:#dbe2f9;min-height:100dvh;-webkit-tap-highlight-color:transparent}
+.material-symbols-outlined{font-variation-settings:'wght' 500}
+input,button{-webkit-appearance:none;font-family:inherit}
+</style>
+</head>
+<body class="pb-20">
+
+<header class="sticky top-0 z-40 bg-surface/95 backdrop-blur border-b border-white/10">
+  <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary text-xl">workspace_premium</span>
+      <span class="font-bold text-lg text-on-surface">Cademo<span class="text-primary"> Affiliate</span></span>
+    </div>
+    <button id="btnLogout" class="text-xs font-semibold text-on-surface-variant hover:text-error transition-colors flex items-center gap-1">
+      <span class="material-symbols-outlined text-base">logout</span> Déconnexion
+    </button>
+  </div>
+</header>
+
+<main class="max-w-md mx-auto px-4 pt-5 space-y-5">
+
+  <section class="bg-gradient-to-br from-primary-container to-[#1438a8] rounded-xl p-5 text-white shadow-lg shadow-primary/10">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="material-symbols-outlined">loyalty</span>
+      <h2 class="font-bold text-sm uppercase tracking-wider opacity-90">Ton code de parrainage</h2>
+    </div>
+    <div class="bg-white/10 rounded-lg px-4 py-3 backdrop-blur text-center">
+      <span id="affiliateCode" class="font-mono text-2xl font-bold tracking-widest">---</span>
+    </div>
+    <div id="affiliateLinkBox" class="mt-3 hidden">
+      <div class="bg-white/10 rounded-lg px-3 py-2 backdrop-blur flex items-center gap-2">
+        <input id="affiliateLinkInput" type="text" readonly class="flex-1 bg-transparent text-xs text-white/90 font-mono outline-none border-none" value="">
+        <button id="copyLinkBtn" class="bg-white/20 hover:bg-white/30 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition active:scale-95">Copier</button>
+      </div>
+    </div>
+    <p class="mt-2 text-xs opacity-80">Partage ce lien : chaque inscription validée te rapproche de ta prime.</p>
+  </section>
+
+  <section>
+    <h3 class="font-bold text-sm uppercase tracking-wider text-on-surface-variant mb-3 flex items-center gap-2">
+      <span class="material-symbols-outlined text-base">search</span> Recherche de joueur
+    </h3>
+    <div class="flex gap-2">
+      <div class="relative flex-1">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant material-symbols-outlined text-lg">alternate_email</span>
+        <input id="searchInput" type="text" inputmode="numeric" maxlength="6" placeholder="124" class="w-full bg-surface-container border border-white/10 rounded-xl pl-10 pr-4 py-3 text-base text-on-surface placeholder-on-surface-variant/50 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition">
+      </div>
+      <button id="searchBtn" class="bg-primary-container hover:bg-primary-container/90 text-on-primary px-5 rounded-xl font-bold text-sm transition active:scale-95 flex items-center gap-1">
+        <span class="material-symbols-outlined text-lg">search</span>
+      </button>
+    </div>
+    <div id="results" class="mt-3"></div>
+  </section>
+
+  <section class="bg-surface-container border border-white/10 rounded-xl p-4">
+    <h4 class="font-bold text-sm mb-2 text-on-surface">Comment ca marche ?</h4>
+    <ul class="space-y-2 text-xs text-on-surface-variant">
+      <li class="flex items-start gap-2"><span class="material-symbols-outlined text-tertiary text-sm mt-0.5">check_circle</span> Recherche un joueur avec son identifiant exact (ex: 124)</li>
+      <li class="flex items-start gap-2"><span class="material-symbols-outlined text-tertiary text-sm mt-0.5">check_circle</span> Si son e-mail est validé, active son bonus de 200 Û</li>
+      <li class="flex items-start gap-2"><span class="material-symbols-outlined text-secondary text-sm mt-0.5">schedule</span> Sinon, la carte reste en attente jusqu'à validation</li>
+    </ul>
+  </section>
+
+</main>
+
+<nav class="fixed bottom-0 left-0 w-full bg-surface-container border-t border-white/10 z-50">
+  <div class="max-w-md mx-auto flex justify-around items-center px-4 py-2">
+    <button class="flex flex-col items-center justify-center text-on-surface px-4 py-1 gap-0.5" onclick="location.href='affiliate-bonus.html'">
+      <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">card_giftcard</span>
+      <span class="text-[11px] font-bold">Bonus</span>
+    </button>
+    <button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 gap-0.5" onclick="location.href='affiliate-stats.html'">
+      <span class="material-symbols-outlined text-xl">query_stats</span>
+      <span class="text-[11px] font-bold">Stats</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+(()=>{
+const token=localStorage.getItem('cademo_affiliate_token');
+if(!token){location.href='affiliate-login.html';return;}
+const el=id=>document.getElementById(id);
+
+el('btnLogout').addEventListener('click',()=>{
+  ['cademo_affiliate_token','cademo_affiliate_refresh','cademo_affiliate_profile'].forEach(k=>localStorage.removeItem(k));
+  location.href='affiliate-login.html';
+});
+
+async function api(path,method='GET',body=null){
+  const opts={method,headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}};
+  if(body) opts.body=JSON.stringify(body);
+  const r=await fetch('/api'+path,opts);
+  return r.json();
+}
+
+async function init(){
+  let profile=null;
+  try{ const r=await api('/affiliate/me'); if(r.success&&r.profile){profile=r.profile;localStorage.setItem('cademo_affiliate_profile',JSON.stringify(profile));} }catch(e){console.error(e);} 
+  const code = (profile && (profile.affiliate_code || profile.short_id)) || null;
+  if(code){
+    el('affiliateCode').textContent = code;
+    const link = location.origin + '/index.html?affiliate=' + encodeURIComponent(code);
+    const box = el('affiliateLinkBox');
+    const input = el('affiliateLinkInput');
+    if(box && input){ input.value = link; box.classList.remove('hidden'); }
+    const btn = el('copyLinkBtn');
+    if(btn){
+      btn.addEventListener('click', ()=>{
+        if(navigator.clipboard){ navigator.clipboard.writeText(link).then(()=>{ btn.textContent='Copié !'; setTimeout(()=>btn.textContent='Copier',1500); }).catch(()=>window.prompt('Copie ce lien :',link)); }
+        else { window.prompt('Copie ce lien :', link); }
+      });
+    }
+  } else {
+    el('affiliateCode').textContent='---';
+  }
+}
+init();
+
+function renderResult(p){
+  const box=el('results');
+  if(!p){box.innerHTML='<div class="bg-surface-container border border-white/10 rounded-xl p-4 text-center text-sm text-on-surface-variant">Aucun joueur trouvé avec cet identifiant.</div>';return;}
+  const verified=p.isVerified;
+  const bonusDone=p.bonusActivated;
+  let statusHTML='', btnHTML='';
+  if(!verified){
+    statusHTML='<div class="flex items-center gap-1 text-secondary text-xs font-bold"><span class="material-symbols-outlined text-sm">schedule</span> En attente — e-mail non validé</div>';
+    btnHTML='<button disabled class="w-full mt-3 bg-surface-variant text-on-surface-variant/50 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed">En attente de validation</button>';
+  }else if(!bonusDone){
+    statusHTML='<div class="flex items-center gap-1 text-tertiary text-xs font-bold"><span class="material-symbols-outlined text-sm">check_circle</span> Compte validé</div>';
+    btnHTML='<button id="activateBtn" class="w-full mt-3 bg-tertiary-container hover:bg-tertiary-container/90 text-on-tertiary py-2.5 rounded-xl text-sm font-bold transition active:scale-95">Activer son bonus (+200 Û)</button>';
+  }else{
+    statusHTML='<div class="flex items-center gap-1 text-on-surface-variant text-xs font-bold"><span class="material-symbols-outlined text-sm">check_circle</span> Bonus déjà activé</div>';
+    btnHTML='<button disabled class="w-full mt-3 bg-surface-variant text-on-surface-variant/50 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed">Bonus déjà activé</button>';
+  }
+  box.innerHTML='<div class="bg-surface-container border border-white/10 rounded-xl p-4">'+
+    '<div class="flex items-center justify-between mb-1">'+
+      '<span class="font-mono text-lg font-bold text-on-surface">#'+p.shortId+'</span>'+statusHTML+
+    '</div>'+
+    '<p class="text-xs text-on-surface-variant">'+p.playerEmail+'</p>'+btnHTML+'</div>';
+  const btn=el('activateBtn');
+  if(btn) btn.addEventListener('click', async ()=>{
+    btn.disabled=true; btn.textContent='Activation...';
+    try{
+      const r=await api('/affiliate/activate-bonus','POST',{playerShortId:p.shortId});
+      if(r.success){
+        btn.textContent='Bonus activé !';
+        btn.className='w-full mt-3 bg-surface-variant text-on-surface-variant/50 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed';
+        setTimeout(()=>renderResult(Object.assign({},p,{bonusActivated:true})),800);
+      }else{btn.disabled=false;btn.textContent='Activer son bonus (+200 Û)';alert(r.error||'Erreur');}
+    }catch(e){btn.disabled=false;btn.textContent='Activer son bonus (+200 Û)';alert('Erreur réseau');}
+  });
+}
+
+el('searchBtn').addEventListener('click',async()=>{
+  const val=el('searchInput').value.trim().replace(/^@/,'');
+  if(!val){el('results').innerHTML='';return;}
+  el('results').innerHTML='<div class="text-center p-4 text-sm text-on-surface-variant">Recherche...</div>';
+  try{
+    const r=await api('/affiliate/search','POST',{shortId:val});
+    if(r.success&&r.found) renderResult(r.player);
+    else renderResult(null);
+  }catch(e){el('results').innerHTML='<div class="text-center p-4 text-sm text-error">Erreur réseau</div>';}
+});
+el('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')el('searchBtn').click();});
+})();
+</script>
+</body></html>
+

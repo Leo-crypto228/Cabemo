@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cademo - Ticket</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#006b2d",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "tertiary": "#4ae176",
+                        "surface": "#0b1323",
+                        "secondary-fixed-dim": "#eec200",
+                        "primary-fixed": "#dce1ff",
+                        "surface-container-lowest": "#060e1e",
+                        "on-secondary-fixed": "#231b00",
+                        "on-tertiary-container": "#5cf083",
+                        "on-primary-container": "#cad3ff",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#141b2c",
+                        "inverse-on-surface": "#293041",
+                        "surface-bright": "#31394b",
+                        "background": "#0b1323",
+                        "surface-variant": "#2d3546",
+                        "tertiary-fixed": "#6bff8f",
+                        "secondary-fixed": "#ffe083",
+                        "on-background": "#dbe2f9",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface": "#dbe2f9",
+                        "on-primary-fixed-variant": "#0039b5",
+                        "on-secondary-container": "#645000",
+                        "surface-container-highest": "#2d3546",
+                        "on-secondary": "#3c2f00",
+                        "surface-container-high": "#222a3b",
+                        "inverse-surface": "#dbe2f9",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#003915",
+                        "surface-tint": "#b7c4ff",
+                        "outline-variant": "#434655",
+                        "inverse-primary": "#2151da",
+                        "surface-container": "#182030",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#1d4ed8",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "outline": "#8e90a0",
+                        "primary": "#b7c4ff",
+                        "on-primary": "#002682",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#001551",
+                        "secondary": "#ffe083",
+                        "surface-dim": "#0b1323",
+                        "on-secondary-fixed-variant": "#574500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-md": "12px",
+                        "container-margin": "12px",
+                        "space-xs": "4px",
+                        "card-gap": "8px",
+                        "space-sm": "8px",
+                        "space-lg": "16px"
+                    },
+                    "fontFamily": {
+                        "data-display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-bold": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-muted": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "data-display": ["22px", { "lineHeight": "22px", "fontWeight": "800" }],
+                        "body-lg": ["16px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-muted": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "18px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        /* Hide scrollbar for clean horizontal scroll */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col pb-24 selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar from JSON -->
+<header class="bg-surface dark:bg-surface-dim flex justify-between items-center px-container-margin h-16 w-full docked full-width top-0 border-b border-outline-variant dark:border-outline-variant flat no shadows sticky z-40">
+<div class="flex items-center gap-2">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface dark:text-on-surface tracking-tight">Cademo</h1>
+</div>
+<div class="flex items-center gap-space-md"><button class="flex items-center bg-error-container rounded-full px-4 py-1.5 border border-error/30 hover:bg-error transition-colors active:scale-[0.98]"><span class="material-symbols-outlined text-[18px] text-on-error-container mr-1">lock</span><span class="font-label-bold text-label-bold text-on-error-container uppercase">DÉBLOQUE 200$</span></button></div>
+</header>
+<!-- Main Content: Betting Slip -->
+<main class="flex-1 px-container-margin pt-space-lg max-w-md mx-auto w-full flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Your Ticket</h2>
+<button class="font-label-bold text-label-bold text-outline hover:text-on-surface transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">delete</span> Clear All
+            </button>
+</div>
+<!-- Bet List -->
+<div class="flex flex-col gap-card-gap">
+<!-- Bet Item 1 -->
+<div class="bg-surface-container-high border border-outline-variant/50 rounded-lg p-space-md flex flex-col gap-space-sm relative overflow-hidden group">
+<div class="absolute inset-y-0 left-0 w-1 bg-primary-container"></div>
+<div class="flex justify-between items-start pl-2">
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface">L. James</span>
+<span class="font-label-muted text-label-muted text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[12px]">sports_basketball</span> LAL @ DEN
+                        </span>
+</div>
+<button class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="pl-2 flex justify-between items-end mt-1">
+<div class="flex flex-col">
+<span class="font-data-display text-data-display text-on-surface">24.5</span>
+<span class="font-label-bold text-label-bold text-outline uppercase tracking-wider">Points</span>
+</div>
+<div class="bg-primary-container text-on-primary-container px-3 py-1.5 rounded-DEFAULT font-body-md text-body-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">arrow_upward</span>
+                        More
+                    </div>
+</div>
+</div>
+<!-- Bet Item 2 -->
+<div class="bg-surface-container-high border border-outline-variant/50 rounded-lg p-space-md flex flex-col gap-space-sm relative overflow-hidden">
+<div class="absolute inset-y-0 left-0 w-1 bg-surface-variant"></div>
+<div class="flex justify-between items-start pl-2">
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface">N. Jokic</span>
+<span class="font-label-muted text-label-muted text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[12px]">sports_basketball</span> LAL @ DEN
+                        </span>
+</div>
+<button class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="pl-2 flex justify-between items-end mt-1">
+<div class="flex flex-col">
+<span class="font-data-display text-data-display text-on-surface">9.5</span>
+<span class="font-label-bold text-label-bold text-outline uppercase tracking-wider">Assists</span>
+</div>
+<div class="bg-surface-variant text-on-surface px-3 py-1.5 rounded-DEFAULT font-body-md text-body-md flex items-center gap-1 border border-outline-variant/50">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+                        Less
+                    </div>
+</div>
+</div>
+<!-- Bet Item 3 -->
+<div class="bg-surface-container-high border border-outline-variant/50 rounded-lg p-space-md flex flex-col gap-space-sm relative overflow-hidden">
+<div class="absolute inset-y-0 left-0 w-1 bg-primary-container"></div>
+<div class="flex justify-between items-start pl-2">
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface">S. Curry</span>
+<span class="font-label-muted text-label-muted text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[12px]">sports_basketball</span> GSW @ PHX
+                        </span>
+</div>
+<button class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="pl-2 flex justify-between items-end mt-1">
+<div class="flex flex-col">
+<span class="font-data-display text-data-display text-on-surface">4.5</span>
+<span class="font-label-bold text-label-bold text-outline uppercase tracking-wider">3-Pointers</span>
+</div>
+<div class="bg-primary-container text-on-primary-container px-3 py-1.5 rounded-DEFAULT font-body-md text-body-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">arrow_upward</span>
+                        More
+                    </div>
+</div>
+</div>
+</div>
+<!-- Stake & Payout Section -->
+<div class="bg-surface-container rounded-xl p-space-md border border-outline-variant/30 flex flex-col gap-space-md mt-2">
+<div class="flex flex-col gap-2">
+<label class="font-label-bold text-label-bold text-on-surface-variant" for="stake-input">Stake Amount</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 font-headline-sm text-headline-sm text-on-surface">$</span>
+<input class="w-full bg-surface-container-highest border border-outline-variant/50 rounded-lg py-3 pl-8 pr-4 font-headline-sm text-headline-sm text-on-surface focus:ring-primary-container focus:border-primary-container placeholder-outline transition-all" id="stake-input" placeholder="0" type="number" value="25"/>
+</div>
+</div>
+<!-- Quick Stakes -->
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<button class="flex-shrink-0 bg-surface-variant border border-outline-variant/50 hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-full transition-colors whitespace-nowrap">
+                    $5
+                </button>
+<button class="flex-shrink-0 bg-surface-variant border border-outline-variant/50 hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-full transition-colors whitespace-nowrap">
+                    $10
+                </button>
+<button class="flex-shrink-0 bg-primary-container/20 border border-primary-container text-primary-fixed-dim font-body-md text-body-md px-4 py-2 rounded-full transition-colors whitespace-nowrap">
+                    $25
+                </button>
+<button class="flex-shrink-0 bg-surface-variant border border-outline-variant/50 hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-full transition-colors whitespace-nowrap">
+                    $50
+                </button>
+<button class="flex-shrink-0 bg-surface-variant border border-outline-variant/50 hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-full transition-colors whitespace-nowrap">
+                    $100
+                </button>
+</div>
+<div class="h-px w-full bg-outline-variant/30 my-1"></div>
+<div class="flex justify-between items-center">
+<span class="font-body-lg text-body-lg text-on-surface-variant">To Win</span>
+<div class="flex flex-col items-end">
+<span class="font-headline-lg text-headline-lg text-tertiary-fixed">$145.80</span>
+<span class="font-label-muted text-label-muted text-outline">Multiplier: x5.83</span>
+</div>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary-container hover:bg-secondary transition-colors rounded-lg py-4 font-headline-sm text-headline-sm flex justify-center items-center gap-2 mt-2 active:scale-[0.98]">
+                Validate Bet
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">done</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar from JSON -->
+<nav class="bg-surface-container dark:bg-surface-container-low fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 rounded-t-xl border-t border-outline-variant dark:border-outline-variant flat no shadows md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-muted text-label-muted">Paris</span>
+</a>
+<!-- Active State for Ticket -->
+<a class="flex flex-col items-center justify-center text-primary-container dark:text-primary-container p-2 active:scale-92 transition-all duration-100" href="#"><span class="material-symbols-outlined mb-0.5 font-bold" style="font-variation-settings: 'FILL' 1;">receipt_long</span><span class="font-label-muted text-label-muted font-bold">Ticket</span></a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="font-label-muted text-label-muted">My Bets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-muted text-label-muted">Profile</span>
+</a>
+</nav>
+</body></html>

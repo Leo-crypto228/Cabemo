@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile - Cademo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#006b2d",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "tertiary": "#4ae176",
+                        "surface": "#0b1323",
+                        "secondary-fixed-dim": "#eec200",
+                        "primary-fixed": "#dce1ff",
+                        "surface-container-lowest": "#060e1e",
+                        "on-secondary-fixed": "#231b00",
+                        "on-tertiary-container": "#5cf083",
+                        "on-primary-container": "#cad3ff",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#141b2c",
+                        "inverse-on-surface": "#293041",
+                        "surface-bright": "#31394b",
+                        "background": "#0b1323",
+                        "surface-variant": "#2d3546",
+                        "tertiary-fixed": "#6bff8f",
+                        "secondary-fixed": "#ffe083",
+                        "on-background": "#dbe2f9",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface": "#dbe2f9",
+                        "on-primary-fixed-variant": "#0039b5",
+                        "on-secondary-container": "#645000",
+                        "surface-container-highest": "#2d3546",
+                        "on-secondary": "#3c2f00",
+                        "surface-container-high": "#222a3b",
+                        "inverse-surface": "#dbe2f9",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#003915",
+                        "surface-tint": "#b7c4ff",
+                        "outline-variant": "#434655",
+                        "inverse-primary": "#2151da",
+                        "surface-container": "#182030",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#1d4ed8",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "outline": "#8e90a0",
+                        "primary": "#b7c4ff",
+                        "on-primary": "#002682",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#001551",
+                        "secondary": "#ffe083",
+                        "surface-dim": "#0b1323",
+                        "on-secondary-fixed-variant": "#574500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-md": "12px",
+                        "container-margin": "12px",
+                        "space-xs": "4px",
+                        "card-gap": "8px",
+                        "space-sm": "8px",
+                        "space-lg": "16px"
+                    },
+                    "fontFamily": {
+                        "data-display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-bold": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-muted": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<!-- Main Content -->
+<main class="flex-grow p-container-margin flex flex-col gap-space-md mb-24 md:mb-0">
+<!-- Profile Header & Balance -->
+<section class="bg-surface-container-high rounded-lg p-space-lg flex flex-col gap-space-md border border-outline-variant/30 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/10 to-transparent pointer-events-none"></div>
+<div class="flex items-center gap-space-lg relative z-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg">Alex Mercer</h2>
+<p class="font-body-md text-on-surface-variant">Member since 2023</p>
+</div>
+</div>
+<div class="mt-space-sm bg-surface-container rounded p-space-md flex flex-col gap-space-xs relative z-10"><button class="bg-error text-on-error font-label-bold py-3 px-4 rounded-lg w-full flex items-center justify-center gap-space-sm transition-all hover:bg-error/90"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">lock</span><span class="uppercase tracking-wider">DÉBLOQUE 200$</span></button></div>
+</section>
+<!-- Goal Progress -->
+<section class="bg-surface-container-high rounded-lg p-space-md flex flex-col gap-space-sm border border-outline-variant/30">
+<div class="flex justify-between items-end">
+<h3 class="font-headline-sm text-headline-sm">Road to €2,000</h3>
+<span class="font-label-bold text-primary">62%</span>
+</div>
+<div class="w-full bg-surface-variant h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 62%;"></div>
+</div>
+<p class="font-label-muted text-on-surface-variant text-right">€754.50 remaining</p>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-2 gap-space-sm">
+<div class="bg-surface-container-high rounded-lg p-space-md flex flex-col gap-space-xs border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="list_alt">list_alt</span>
+<span class="font-label-muted text-on-surface-variant mt-1">Bets Placed</span>
+<span class="font-headline-sm text-headline-sm">142</span>
+</div>
+<div class="bg-surface-container-high rounded-lg p-space-md flex flex-col gap-space-xs border border-outline-variant/30">
+<span class="material-symbols-outlined text-tertiary" data-icon="emoji_events">emoji_events</span>
+<span class="font-label-muted text-on-surface-variant mt-1">Bets Won</span>
+<span class="font-headline-sm text-headline-sm">89</span>
+</div>
+<div class="bg-surface-container-high rounded-lg p-space-md flex flex-col gap-space-xs border border-outline-variant/30 col-span-2">
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="payments">payments</span>
+<span class="font-label-muted text-on-surface-variant mt-1">Total Staked</span>
+<span class="font-headline-sm text-headline-sm">€ 3,450.00</span>
+</div>
+</section>
+<!-- Settings List -->
+<section class="bg-surface-container-high rounded-lg p-space-lg flex flex-col items-center gap-space-md border border-outline-variant/30 text-center"><p class="font-body-md text-on-surface">Ton solde de depart de 200 € en crédits de jeu est bloqué. Pour activer ton portefeuille de parieur et récupérer tes 200 € de départ pour parier, fais scanner ton QR code par ton affilié</p><div class="relative w-40 h-40 bg-white p-2 rounded-lg overflow-hidden"><div class="w-full h-full bg-black rounded blur-sm flex items-center justify-center"><div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[8px] font-bold text-black">ALEX</div></div></div><p class="font-label-muted text-on-surface-variant">débloque le QR code en vérifiant ton mail</p><button class="bg-primary text-on-primary font-label-bold py-2 px-4 rounded-full w-full">Vérifie mon mail</button></section><section class="flex flex-col gap-space-xs mt-space-sm">
+<h3 class="font-label-bold text-on-surface-variant uppercase px-2 mb-1">Account &amp; Settings</h3>
+<button class="bg-surface-container-high hover:bg-surface-variant rounded-lg p-space-md flex items-center justify-between border border-outline-variant/30 transition-colors text-left">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="person">person</span>
+<span class="font-body-md">Personal Information</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="bg-surface-container-high hover:bg-surface-variant rounded-lg p-space-md flex items-center justify-between border border-outline-variant/30 transition-colors text-left">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="font-body-md">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="mt-space-md bg-surface-container-high hover:bg-error-container/20 rounded-lg p-space-md flex items-center justify-center gap-space-sm border border-error/30 transition-colors text-error w-full">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-lg">Log Out</span>
+</button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container-low border-t border-outline-variant dark:border-outline-variant fixed bottom-0 w-full z-50 rounded-t-xl flex justify-around items-center px-2 py-3 md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant transition-all duration-100">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-muted text-label-muted">Paris</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant transition-all duration-100">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-muted text-label-muted">Ticket</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant transition-all duration-100">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-muted text-label-muted">My Bets</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary transition-all duration-100 font-bold">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1, 'wght' 700;">person</span>
+<span class="font-label-muted text-label-muted" style="font-variation-settings: 'FILL' 1, 'wght' 700;">Profile</span>
+</button>
+</nav>
+</body></html>

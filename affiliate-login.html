@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="dark" lang="fr">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Cademo Affiliés</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"outline-variant":"#434655",error:"#ffb4ab","on-surface":"#dbe2f9","surface-variant":"#2d3546","surface-container-highest":"#2d3546",surface:"#0b1323","inverse-primary":"#2151da","secondary-fixed-dim":"#eec200","on-primary-container":"#cad3ff","surface-container-lowest":"#060e1e","primary-fixed":"#dce1ff","tertiary-container":"#006b2d","surface-container-high":"#222a3b","on-error":"#690005","on-primary":"#002682","tertiary-fixed":"#6bff8f","surface-bright":"#31394b",background:"#0b1323","primary-container":"#1d4ed8","on-error-container":"#ffdad6",outline:"#8e90a0","surface-container":"#182030",secondary:"#ffe083",tertiary:"#4ae176","error-container":"#93000a","on-secondary-fixed":"#231b00",primary:"#b7c4ff","surface-container-low":"#141b2c","on-surface-variant":"#c4c5d7","surface-dim":"#0b1323","on-background":"#dbe2f9","secondary-container":"#eec200","on-tertiary":"#003915"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"container-margin":"12px","space-lg":"16px","card-gap":"8px","space-xs":"4px","space-sm":"8px","space-md":"12px"},fontFamily:{"body-lg":["Hanken Grotesk"],"body-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"label-muted":["Hanken Grotesk"],"label-bold":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"data-display":["Hanken Grotesk"]},fontSize:{"body-lg":["16px",{lineHeight:"20px",fontWeight:"600"}],"body-md":["14px",{lineHeight:"18px",fontWeight:"500"}],"headline-lg":["24px",{lineHeight:"32px",fontWeight:"700"}],"label-muted":["11px",{lineHeight:"14px",fontWeight:"500"}],"label-bold":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"24px",fontWeight:"700"}],"data-display":["22px",{lineHeight:"22px",fontWeight:"800"}]}}}}}</script>
+<style>
+body{background-color:#0b1323;color:#dbe2f9}.bg-grid-pattern{background-image:linear-gradient(to right,rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.02) 1px,transparent 1px);background-size:40px 40px}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="min-h-[100dvh] flex flex-col font-body-md bg-grid-pattern">
+
+
+
+<header class="pt-6 pb-2 text-center">
+  <div class="inline-flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings:'FILL' 1">security</span>
+    <h1 class="font-headline-lg text-headline-lg font-black tracking-tight text-primary uppercase">CADEMO</h1>
+  </div>
+</header>
+<main class="flex-1 flex items-center justify-center px-4 py-4 w-full">
+  <div class="w-full max-w-sm">
+  <div class="bg-surface-container-high rounded-xl border border-white/5 overflow-hidden shadow-2xl">
+    <div class="p-space-lg md:p-8 text-center border-b border-white/5">
+      <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2" id="formTitle">Bienvenue !</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant hidden" id="formSubtitle">Connectez-vous ou créez votre compte partenaire.</p>
+    </div>
+    <form class="p-space-lg md:p-8 flex flex-col gap-space-lg" id="authForm">
+      <div class="flex flex-col gap-space-xs">
+        <label class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider" for="email">E-mail</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-lg">mail</span>
+          <input class="w-full bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-body-lg text-body-lg rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors placeholder:text-outline/50" id="email" placeholder="adresse@email.com" required type="email">
+        </div>
+      </div>
+      <div class="flex flex-col gap-space-xs">
+        <label class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider" for="password">Mot de passe</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-lg">lock</span>
+          <input class="w-full bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-body-lg text-body-lg rounded-lg py-3 pl-10 pr-10 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors placeholder:text-outline/50" id="password" placeholder="••••••••" required type="password">
+          <button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors focus:outline-none flex items-center justify-center" id="togglePassword" type="button">
+            <span class="material-symbols-outlined text-lg" id="visibilityIcon">visibility_off</span>
+          </button>
+        </div>
+      </div>
+      <div class="mt-space-sm">
+        <button class="w-full bg-primary-container text-white font-body-lg text-body-lg py-3 rounded-lg hover:bg-inverse-primary transition-colors active:scale-[0.98] flex items-center justify-center gap-2" id="btnSubmit" type="submit">
+          <span id="btnText">Continuer</span>
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </button>
+      </div>
+      <button class="w-full bg-surface-container border border-outline-variant/30 text-on-surface font-body-lg text-body-lg py-3 rounded-lg hover:bg-surface-bright transition-colors active:scale-[0.98]" id="btnToggle" type="button">Créer un nouveau compte</button>
+      <p class="text-center font-label-muted text-label-muted text-error hidden" id="errorMsg"></p>
+    </form>
+  </div>
+</main>
+<footer class="py-4 text-center border-t border-outline-variant/10 text-on-surface-variant">
+  <p class="font-label-muted text-label-muted">© 2024 Cademo Affiliates</p>
+</footer>
+
+<script>
+(function(){
+const SUPABASE_URL="https://vmmicbfoobdbtikcqxel.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtbWljYmZvb2JkYnRpa2NxeGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3Njg2NTUsImV4cCI6MjEwMzM0NDY1NX0.ahztCUDIp6om4r8e0l44nHbRExKdCXhRiutzRvIriyU";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+let isLogin=true; const el=id=>document.getElementById(id);
+el('togglePassword').addEventListener('click',function(){
+ const inp=el('password'),type=inp.type==='password'?'text':'password';
+ inp.type=type; el('visibilityIcon').textContent=type==='password'?'visibility_off':'visibility';
+});
+el('btnToggle').addEventListener('click',function(){
+ isLogin=!isLogin;
+ el('formTitle').textContent=isLogin?'Bienvenue !':'Nouveau compte';
+ el('formSubtitle').textContent=isLogin?'Connectez-vous ou créez votre compte partenaire.':'Créez votre compte partenaire CADEMO.';
+ el('btnText').textContent=isLogin?'Continuer':'Créer mon compte';
+ el('btnToggle').textContent=isLogin?'Créer un nouveau compte':"J'ai déjà un compte";
+ el('errorMsg').classList.add('hidden');
+});
+function showError(msg){el('errorMsg').textContent=msg;el('errorMsg').classList.remove('hidden');}
+function clearError(){el('errorMsg').classList.add('hidden');}
+el('authForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  clearError();
+  // Nettoie l'ancien profil pour éviter de mélanger les comptes
+  localStorage.removeItem('cademo_affiliate_profile');
+  const email=el('email').value.trim().toLowerCase(),pw=el('password').value;
+  if(!email||pw.length<6){showError('Email et mot de passe (6 caractères min) requis.');return;}
+  el('btnSubmit').disabled=true;
+
+  try{
+    let result;
+    if(isLogin){
+      result=await sb.auth.signInWithPassword({email,password:pw});
+    }else{
+      result=await sb.auth.signUp({email,password:pw});
+      const signUpError = (result.error && result.error.message) || '';
+      const isUserExists = signUpError.toLowerCase().includes('already') ||
+                           signUpError.toLowerCase().includes('user already') ||
+                           signUpError.toLowerCase().includes('email already') ||
+                           signUpError.toLowerCase().includes('account already') ||
+                           signUpError.toLowerCase().includes('exists');
+      const noSession = !result.data || !result.data.session;
+
+      // Si l'utilisateur existe déjà (erreur explicite) ou si signUp n'a pas retourné de session,
+      // essayer de se connecter directement avec le mot de passe fourni
+      if (isUserExists || noSession) {
+        if (isUserExists) {
+          showError('Ce compte existe déjà. Connexion automatique en cours...');
+        }
+        result = await sb.auth.signInWithPassword({email,password:pw});
+      }
+    }
+    if(result.error) throw result.error;
+
+    const session=result.data && result.data.session;
+    if(!session){
+      showError("Impossible de récupérer la session. Si vous venez de créer le compte, vérifiez dans Supabase (Auth → Email provider) que l'option 'Confirm email' est bien désactivée.");
+      el('btnSubmit').disabled=false;
+      return;
+    }
+
+    localStorage.setItem('cademo_affiliate_token',session.access_token);
+    localStorage.setItem('cademo_affiliate_refresh',session.refresh_token);
+    const refCode=el('ref')?el('ref').value.trim():'';
+    const setupRes=await fetch('/api/affiliate/setup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,userId:session.user.id,referralCode:refCode||null})}).then(r=>r.json());
+    if(setupRes.success){localStorage.setItem('cademo_affiliate_profile',JSON.stringify(setupRes.user));}
+    window.location.href='affiliate-bonus.html?v=2';
+  }catch(err){
+    const msg=(err.message||'').toLowerCase();
+    if(msg.includes('invalid login')){
+      showError('Email ou mot de passe incorrect. Si ce compte existe déjà, le mot de passe saisi ne correspond pas.');
+    }else if(msg.includes('already registered') || msg.includes('user already') || msg.includes('email already') || msg.includes('account already') || msg.includes('already exists')){
+      showError("Ce compte existe déjà. Cliquez sur 'J\'ai déjà un compte' pour vous connecter.");
+    }else if(msg.includes('rate limit')){
+      showError('Trop de tentatives. Attendez 1 minute avant de réessayer.');
+    }else if(msg.includes('email') && msg.includes('confirm')){
+      showError("Votre email doit être confirmé. Vérifiez dans Supabase Auth → Email provider que 'Confirm email' est désactivé.");
+    }else{
+      showError(err.message||'Erreur inconnue');
+    }
+    el('btnSubmit').disabled=false;
+  }
+});
+})();
+</script>
+</body></html>

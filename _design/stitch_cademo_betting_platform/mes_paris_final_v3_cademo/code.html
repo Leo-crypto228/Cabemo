@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Bets - Cademo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#006b2d",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "tertiary": "#4ae176",
+                        "surface": "#0b1323",
+                        "secondary-fixed-dim": "#eec200",
+                        "primary-fixed": "#dce1ff",
+                        "surface-container-lowest": "#060e1e",
+                        "on-secondary-fixed": "#231b00",
+                        "on-tertiary-container": "#5cf083",
+                        "on-primary-container": "#cad3ff",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#141b2c",
+                        "inverse-on-surface": "#293041",
+                        "surface-bright": "#31394b",
+                        "background": "#0b1323",
+                        "surface-variant": "#2d3546",
+                        "tertiary-fixed": "#6bff8f",
+                        "secondary-fixed": "#ffe083",
+                        "on-background": "#dbe2f9",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface": "#dbe2f9",
+                        "on-primary-fixed-variant": "#0039b5",
+                        "on-secondary-container": "#645000",
+                        "surface-container-highest": "#2d3546",
+                        "on-secondary": "#3c2f00",
+                        "surface-container-high": "#222a3b",
+                        "inverse-surface": "#dbe2f9",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#003915",
+                        "surface-tint": "#b7c4ff",
+                        "outline-variant": "#434655",
+                        "inverse-primary": "#2151da",
+                        "surface-container": "#182030",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#1d4ed8",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "outline": "#8e90a0",
+                        "primary": "#b7c4ff",
+                        "on-primary": "#002682",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#001551",
+                        "secondary": "#ffe083",
+                        "surface-dim": "#0b1323",
+                        "on-secondary-fixed-variant": "#574500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-md": "12px",
+                        "container-margin": "12px",
+                        "space-xs": "4px",
+                        "card-gap": "8px",
+                        "space-sm": "8px",
+                        "space-lg": "16px"
+                    },
+                    "fontFamily": {
+                        "data-display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-bold": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-muted": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "data-display": ["22px", { "lineHeight": "22px", "fontWeight": "800" }],
+                        "body-lg": ["16px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-muted": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "18px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-20 overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-container-margin h-16 w-full border-b border-outline-variant bg-surface sticky top-0 z-40">
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">Cademo</span>
+</div>
+<div class="flex items-center gap-3"><button class="flex items-center bg-error-container text-on-error-container rounded-full px-4 py-1.5 border border-error/30 hover:bg-error transition-all duration-100"><span class="material-symbols-outlined text-sm mr-1">lock</span><span class="font-label-bold text-label-bold uppercase tracking-wider">DÉBLOQUE 200$</span></button></div>
+</header>
+<main class="px-container-margin pt-space-lg">
+<!-- Tabbed Navigation -->
+<div class="flex w-full mb-space-lg bg-surface-container-low rounded-lg p-1">
+<button class="flex-1 py-2 text-center rounded-md bg-primary-container text-on-primary-container font-label-bold text-label-bold transition-all shadow-sm">
+                Active (En cours)
+            </button>
+<button class="flex-1 py-2 text-center rounded-md text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-variant transition-all">
+                Settled
+            </button>
+</div>
+<!-- Filter Chips -->
+<div class="flex overflow-x-auto gap-2 pb-2 mb-space-lg scrollbar-hide -mx-container-margin px-container-margin"><button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-primary-container text-on-primary-container font-body-md text-body-md">All</button><button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-body-md text-body-md hover:bg-surface-variant">Formule 1</button><button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-body-md text-body-md hover:bg-surface-variant">Basket</button><button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-body-md text-body-md hover:bg-surface-variant">Football</button></div>
+<!-- Bet Cards List -->
+<div class="flex flex-col gap-card-gap">
+<!-- Bet Card 1: Active -->
+<div class="bg-surface-container-low border border-primary-container/30 rounded-lg p-space-md relative overflow-hidden">
+<!-- Status Indicator -->
+<div class="absolute top-0 right-0 bg-primary-container/20 text-primary-fixed px-2 py-1 rounded-bl-lg font-label-bold text-[10px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed animate-pulse"></span>
+                    En cours
+                </div>
+<div class="flex justify-between items-start mb-3">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">sports_basketball</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider">NBA - Moneyline</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Lakers vs Warriors</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Today, 10:30 PM ET</p>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant/50 rounded-md p-2 mb-3 flex justify-between items-center">
+<div>
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Selection</span>
+<span class="font-body-lg text-body-lg text-on-surface">Lakers to Win</span>
+</div>
+<div class="text-right">
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Odds</span>
+<span class="font-data-display text-data-display text-secondary">+150</span>
+</div>
+</div>
+<div class="flex justify-between border-t border-outline-variant/30 pt-3 mt-1">
+<div>
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Stake</span>
+<span class="font-body-md text-body-md text-on-surface">$50.00</span>
+</div>
+<div class="text-right">
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">To Win</span>
+<span class="font-body-md text-body-md text-tertiary-fixed">$125.00</span>
+</div>
+</div>
+</div>
+<!-- Bet Card 2: Active Parlay -->
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-lg p-space-md relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-surface-variant text-on-surface-variant px-2 py-1 rounded-bl-lg font-label-bold text-[10px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                    En cours
+                </div>
+<div class="flex justify-between items-start mb-3">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary text-sm">dynamic_feed</span>
+<span class="font-label-bold text-label-bold text-secondary uppercase tracking-wider">3-Leg Parlay</span>
+</div>
+</div>
+</div>
+<!-- Parlay Legs -->
+<div class="flex flex-col gap-2 mb-3">
+<div class="bg-surface border border-outline-variant/50 rounded-md p-2 flex justify-between items-center relative pl-3">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary rounded-l-md"></div>
+<div>
+<span class="font-body-md text-body-md text-on-surface block">A. Edwards Over 24.5 Pts</span>
+<span class="font-label-muted text-label-muted text-on-surface-variant">MIN vs IND</span>
+</div>
+<span class="material-symbols-outlined text-tertiary text-sm">check_circle</span>
+</div>
+<div class="bg-surface border border-outline-variant/50 rounded-md p-2 flex justify-between items-center">
+<div>
+<span class="font-body-md text-body-md text-on-surface block">G. Antetokounmpo Over 11.5 Reb</span>
+<span class="font-label-muted text-label-muted text-on-surface-variant">MIL vs BOS</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">schedule</span>
+</div>
+<div class="bg-surface border border-outline-variant/50 rounded-md p-2 flex justify-between items-center">
+<div>
+<span class="font-body-md text-body-md text-on-surface block">J. Green Under 5.5 Ast</span>
+<span class="font-label-muted text-label-muted text-on-surface-variant">HOU vs OKC</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">schedule</span>
+</div>
+</div>
+<div class="flex justify-between items-end border-t border-outline-variant/30 pt-3 mt-1">
+<div>
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Total Odds</span>
+<span class="font-body-lg text-body-lg text-on-surface">+450</span>
+</div>
+<div class="flex gap-4">
+<div>
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Stake</span>
+<span class="font-body-md text-body-md text-on-surface">$20.00</span>
+</div>
+<div class="text-right">
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">To Win</span>
+<span class="font-body-md text-body-md text-tertiary-fixed">$110.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bet Card 3: Settled - Won -->
+<div class="bg-surface-container-low border border-tertiary-fixed/30 rounded-lg p-space-md relative overflow-hidden opacity-80">
+<div class="absolute top-0 right-0 bg-tertiary-container/30 text-tertiary-fixed px-2 py-1 rounded-bl-lg font-label-bold text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">emoji_events</span>
+                    Gagné
+                </div>
+<div class="flex justify-between items-start mb-3">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">sports_football</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider">NFL - Spread</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Chiefs vs Ravens</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Jan 28, 3:00 PM ET</p>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant/50 rounded-md p-2 mb-3 flex justify-between items-center">
+<div>
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Selection</span>
+<span class="font-body-lg text-body-lg text-on-surface">Chiefs -3.5</span>
+</div>
+<div class="text-right">
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Odds</span>
+<span class="font-body-lg text-body-lg text-on-surface-variant">-110</span>
+</div>
+</div>
+<div class="flex justify-between border-t border-outline-variant/30 pt-3 mt-1">
+<div>
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Stake</span>
+<span class="font-body-md text-body-md text-on-surface-variant">$100.00</span>
+</div>
+<div class="text-right">
+<span class="font-label-muted text-label-muted text-on-surface-variant block mb-0.5">Paid</span>
+<span class="font-body-md text-body-md text-tertiary-fixed font-bold">$190.90</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-surface-container dark:bg-surface-container-low border-t border-outline-variant dark:border-outline-variant rounded-t-xl md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant transition-all duration-100" href="#">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<span class="font-label-muted text-label-muted mt-1">Paris</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant transition-all duration-100" href="#">
+<span class="material-symbols-outlined text-2xl">receipt_long</span>
+<span class="font-label-muted text-label-muted mt-1">Ticket</span>
+</a>
+<!-- Active Tab -->
+<a class="flex flex-col items-center justify-center text-primary p-2 transition-all duration-100" href="#"><span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1, 'wght' 700;">history</span><span class="font-label-bold text-label-bold mt-1">My Bets</span></a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant transition-all duration-100" href="#">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="font-label-muted text-label-muted mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

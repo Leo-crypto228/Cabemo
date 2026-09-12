@@ -1,0 +1,125 @@
+await btn.click().catch(async () => {
+      // Si le clic échoue, essayer un clic JS forcé
+      await page.evaluate((el) => el.click(), btn);
+    });
+    console.log("[GBA] Bouton 'Écrire un avis' cliqué");
+    await delay(HUMAN_DELAY() * 3);
+
+    // Screenshot post-clic pour debug
+    await page.screenshot({ path: "./debug_review_form_" + userId + "_" + Date.now() + ".png", fullPage: true });
+
+    // Attendre l'apparition du champ texte (modal / side-panel)
+    let txt = null;
+    try {
+      txt = await page.waitForSelector('textarea, div[role="textbox"], div[contenteditable="true"]', { visible: true, timeout: 15000 });
+    } catch (e) {
+      console.log("[GBA] Timeout en attendant le champ texte, fallback page.$");
+    }
+    if (!txt) {
+      txt = await page.$('textarea, div[role="textbox"], div[contenteditable="true"]');
+    }
+    if (!txt) {
+      await page.screenshot({ path: "./debug_review_no_textbox_" + userId + "_" + Date.now() + ".png", fullPage: true });
+      await browser.close();
+      return { success: false, error: "Champ texte introuvable après ouverture du formulaire" };
+    }
+
+    // Étoiles : cibler la première rangée de 5 étoiles (note globale en haut)
+    const starHandle = await page.evaluateHandle((r) => {
+      const labels = [r + ' étoiles', r + ' étoile', r + ' stars', r + ' star', r + ' Stars', r + ' Star'];
+      // Méthode 1: aria-label exact sans restriction de role (note globale uniquement)
+      for (const label of labels) {
+        const el = document.querySelector(`[aria-label="${label}"]`);
+        if (el) return el;
+      }
+      // Méthode 2: tous les éléments avec aria-label exact
+      const allLabelled = Array.from(document.querySelectorAll('[aria-label]'));
+      for (const label of labels) {
+        const el = allLabelled.find(e => (e.getAttribute('aria-label') || '').trim() === label);
+        if (el) return el;
+      }
+      // Méthode 3: chercher la première rangée de 5 étoiles interactives
+      // (les sous-catégories sont ignorées car on prend le premier conteneur avec ≥5 étoiles)
+      const containers = Array.from(document.querySelectorAll('div, span'));
+      for (const container of containers) {
+        const children = Array.from(container.children);
+        if (children.length < 5) continue;
+        const starChildren = [];
+        for (const child of children) {
+          const role = child.getAttribute('role');
+          const lbl = child.getAttribute('aria-label') || '';
+          const cls = child.className || '';
+          const isClickable = role === 'radio' || role === 'button' || role === 'img' || child.tabIndex >= 0 || child.onclick || cls.includes('google-symbols');
+          const isStarLike = lbl.includes('étoile') || lbl.includes('star') || cls.includes('elGi1d') || cls.includes('gnOR4e') || cls.includes('hCCjke');
+          if (isClickable && isStarLike) starChildren.push(child);
+        }
+        if (starChildren.length >= 5 && starChildren.length >= r) {
+          return starChildren[r - 1];
+        }
+      }
+      // Méthode 4: fallback sur tous les [role="radio"]
+      const radios = Array.from(document.querySelectorAll('[role="radio"]'));
+      if (radios.length >= r) return radios[r - 1];
+      return null;
+    }, rating);
+    const starEl = starHandle ? await starHandle.asElement() : null;
+    if (starEl) {
+      await starEl.click().catch(() => {});
+      console.log("[GBA] " + rating + " etoiles selectionnees (note globale)");
+    } else {
+      console.log("[GBA] Impossible de localiser l etoile " + rating);
+      await page.screenshot({ path: "./debug_review_no_stars_" + userId + "_" + Date.now() + ".png", fullPage: true });
+      await browser.close();
+      return { success: false, error: "Impossible de localiser les etoiles de notation globale. Le bot ne peut pas passer cette etape." };
+    }
+    await delay(HUMAN_DELAY());
+
+    const reviewText = await generateReviewWithOllama(companyName, category, rating);
+
+    // Re-query frais car Google Maps swap souvent le DOM à l'ouverture de la modale
+    txt = await page.$('textarea, div[role="textbox"], div[contenteditable="true"]');
+    if (!txt) {
+      await page.screenshot({ path: "./debug_review_no_textbox2_" + userId + "_" + Date.now() + ".png", fullPage: true });
+      await browser.close();
+      return { success: false, error: "Champ texte disparu après generation avis" };
+    }
+
+    // Saisie robuste : click + evaluate pour contenteditable, type pour textarea
+    await txt.click().catch(() => {});
+    await delay(500);
+    const tagName = await txt.evaluate(el => el.tagName.toLowerCase());
+    if (tagName === 'textarea') {
+      await txt.type(reviewText, { delay: TYPING_DELAY() });
+    } else {
+      // contenteditable / role=textbox
+      await txt.evaluate((el, text) => {
+        el.innerText = text;
+        el.textContent = text;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }, reviewText);
+      // Simuler un typing minimal pour déclencher les event listeners internes de Google
+      await page.keyboard.type(' ', { delay: 50 });
+      await page.keyboard.press('Backspace');
+    }
+    console.log("[GBA] Texte saisi (" + reviewText.length + " caracteres)");
+    await delay(HUMAN_DELAY());
+
+    // Screenshot avant publication pour debug
+    await page.screenshot({ path: "./debug_review_filled_" + userId + "_" + Date.now() + ".png", fullPage: true });
+
+    const submit = await findByText(page, ['Publier', 'Post', 'Publish']);
+    if (submit) {
+      await submit.click();
+      console.log("[GBA] Avis soumis !");
+      await delay(HUMAN_DELAY() * 3);
+      const t = await page.evaluate(function() { return document.body.innerText; });
+      const ok = t.indexOf("Merci") >= 0 || t.indexOf("publie") >= 0 || t.indexOf("posted") >= 0 || t.indexOf("merci") >= 0;
+      await browser.close();
+      return { success: true, message: ok ? "Avis publie avec succes" : "Avis soumis (confirmation non visible)", reviewText: reviewText, rating: rating, company: companyName };
+    } else {
+      await page.screenshot({ path: "./debug_submit_" + userId + "_" + Date.now() + ".png" });
+      await browser.close();
+      return { success: false, error: "Bouton Publier introuvable" };
+    }
+  } 

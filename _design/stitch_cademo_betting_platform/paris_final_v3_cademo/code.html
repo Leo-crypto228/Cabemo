@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cademo - Paris</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#006b2d",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "tertiary": "#4ae176",
+                        "surface": "#0b1323",
+                        "secondary-fixed-dim": "#eec200",
+                        "primary-fixed": "#dce1ff",
+                        "surface-container-lowest": "#060e1e",
+                        "on-secondary-fixed": "#231b00",
+                        "on-tertiary-container": "#5cf083",
+                        "on-primary-container": "#cad3ff",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#141b2c",
+                        "inverse-on-surface": "#293041",
+                        "surface-bright": "#31394b",
+                        "background": "#0b1323",
+                        "surface-variant": "#2d3546",
+                        "tertiary-fixed": "#6bff8f",
+                        "secondary-fixed": "#ffe083",
+                        "on-background": "#dbe2f9",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface": "#dbe2f9",
+                        "on-primary-fixed-variant": "#0039b5",
+                        "on-secondary-container": "#645000",
+                        "surface-container-highest": "#2d3546",
+                        "on-secondary": "#3c2f00",
+                        "surface-container-high": "#222a3b",
+                        "inverse-surface": "#dbe2f9",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#003915",
+                        "surface-tint": "#b7c4ff",
+                        "outline-variant": "#434655",
+                        "inverse-primary": "#2151da",
+                        "surface-container": "#182030",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#1d4ed8",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "outline": "#8e90a0",
+                        "primary": "#b7c4ff",
+                        "on-primary": "#002682",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#001551",
+                        "secondary": "#ffe083",
+                        "surface-dim": "#0b1323",
+                        "on-secondary-fixed-variant": "#574500",
+                        // Adhoc colors based on style guidance
+                        "card-bg": "#1E293B",
+                        "card-bg-active": "#1D4ED8",
+                        "ui-overlay": "#334155",
+                        "btn-primary": "#FACC15",
+                        "btn-primary-text": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "space-md": "12px",
+                        "container-margin": "12px",
+                        "space-xs": "4px",
+                        "card-gap": "8px",
+                        "space-sm": "8px",
+                        "space-lg": "16px"
+                    },
+                    "fontFamily": {
+                        "data-display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-bold": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-muted": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "data-display": ["22px", { "lineHeight": "22px", "fontWeight": "800" }],
+                        "body-lg": ["16px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-muted": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "18px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #0b1323;
+            color: #dbe2f9;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex flex-col overflow-hidden pb-[72px]">
+<!-- TopAppBar from JSON -->
+<header class="bg-surface dark:bg-surface-dim docked full-width top-0 border-b border-outline-variant dark:border-outline-variant flat no shadows flex justify-between items-center px-container-margin h-16 w-full shrink-0">
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface dark:text-on-surface m-0 leading-none">Cademo</h1>
+</div>
+<div class="flex items-center gap-space-sm"><button class="bg-error-container text-on-error-container border border-error px-4 py-1.5 rounded-full flex items-center gap-2 hover:scale-105 transition-transform shadow-md"><span class="material-symbols-outlined text-[18px]">lock</span><span class="font-label-bold text-label-bold uppercase tracking-wide">DÉBLOQUE 200$</span></button></div>
+</header>
+<main class="flex-1 overflow-y-auto w-full max-w-[600px] mx-auto flex flex-col">
+<!-- Sports Nav (Horizontal Scroll) -->
+<div class="px-container-margin py-space-sm border-b border-outline-variant/30 shrink-0">
+<div class="flex space-x-space-lg overflow-x-auto hide-scrollbar items-center"><button class="flex flex-col items-center gap-1 min-w-max text-primary border-b-2 border-primary pb-1"><span class="font-body-md text-body-md font-bold">Formule 1</span></button><button class="flex flex-col items-center gap-1 min-w-max text-on-surface-variant hover:text-on-surface transition-colors"><span class="font-body-md text-body-md">Basket</span></button><button class="flex flex-col items-center gap-1 min-w-max text-on-surface-variant hover:text-on-surface transition-colors"><span class="font-body-md text-body-md">Football</span></button></div>
+</div>
+<!-- Search & Filter Controls -->
+<div class="px-container-margin py-space-sm shrink-0 flex items-center gap-space-sm"><div class="flex-1 bg-surface-container-high rounded-lg px-4 py-2 flex items-center gap-2 border border-outline-variant/30"><span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span><input class="bg-transparent border-none outline-none text-body-md text-on-surface w-full placeholder:text-on-surface-variant" placeholder="Rechercher un événement..." type="text"/></div></div>
+<!-- Stat Categories Chips -->
+<div class="px-container-margin pb-space-md shrink-0">
+<div class="flex space-x-space-sm overflow-x-auto hide-scrollbar">
+<button class="bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full font-body-md text-body-md whitespace-nowrap border border-primary-container">
+                    All
+                </button>
+<button class="bg-surface-container-high text-on-surface px-4 py-1.5 rounded-full font-body-md text-body-md whitespace-nowrap border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+                    Points
+                </button>
+<button class="bg-surface-container-high text-on-surface px-4 py-1.5 rounded-full font-body-md text-body-md whitespace-nowrap border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+                    Rebounds
+                </button>
+<button class="bg-surface-container-high text-on-surface px-4 py-1.5 rounded-full font-body-md text-body-md whitespace-nowrap border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+                    Assists
+                </button>
+<button class="bg-surface-container-high text-on-surface px-4 py-1.5 rounded-full font-body-md text-body-md whitespace-nowrap border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+                    Steals
+                </button>
+</div>
+</div>
+<!-- Player Cards List -->
+<div class="px-container-margin flex flex-col gap-card-gap pb-container-margin">
+<!-- Card 1 (Standard) -->
+<div class="bg-card-bg rounded-xl border border-white/10 p-space-md flex flex-col relative overflow-hidden">
+<div class="absolute right-[-20px] top-[10px] text-[80px] font-black text-white/5 font-data-display leading-none pointer-events-none">SG</div>
+<div class="flex items-start gap-space-md mb-4 relative z-10">
+<div class="flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface m-0">A. Edwards</h3>
+<p class="font-label-muted text-label-muted text-on-surface-variant mt-1 uppercase tracking-wider">
+                            MIN <span class="material-symbols-outlined text-[10px] inline-block align-middle mx-1">sports_basketball</span> IND | 7pm ET
+                        </p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto relative z-10">
+<div>
+<div class="font-data-display text-data-display text-on-surface">4.5</div>
+<div class="font-label-muted text-label-muted text-on-surface-variant">3-pointers made</div>
+</div>
+<div class="flex gap-space-sm">
+<button class="bg-ui-overlay hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-lg flex items-center gap-1 transition-colors border border-white/5">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span> Less
+                        </button>
+<button class="bg-ui-overlay hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-lg flex items-center gap-1 transition-colors border border-white/5">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span> More
+                        </button>
+</div>
+</div>
+</div>
+<!-- Card 2 (Active/Selected State) -->
+<div class="bg-card-bg-active rounded-xl border border-white/20 p-space-md flex flex-col relative overflow-hidden ring-primary-fixed-dim/50">
+<div class="absolute right-[-20px] top-[10px] text-[80px] font-black text-white/10 font-data-display leading-none pointer-events-none">PF</div>
+<div class="flex items-start gap-space-md mb-4 relative z-10">
+<div class="flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface m-0">G. Antetokounmpo</h3>
+<p class="font-label-muted text-label-muted text-on-surface-variant mt-1 uppercase tracking-wider text-on-primary-container">
+                            BOS <span class="material-symbols-outlined text-[10px] inline-block align-middle mx-1">sports_basketball</span> MIL | 7pm ET
+                        </p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto relative z-10">
+<div>
+<div class="font-data-display text-data-display text-on-surface">32.5</div>
+<div class="font-label-muted text-label-muted text-on-surface-variant text-on-primary-container">Points</div>
+</div>
+<div class="flex gap-space-sm">
+<button class="bg-black/20 hover:bg-black/30 text-on-surface font-body-md text-body-md px-4 py-2 rounded-lg flex items-center gap-1 transition-colors border border-white/10">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span> Less
+                        </button>
+<button class="bg-btn-primary text-btn-primary-text font-body-lg text-body-lg px-6 py-2 rounded-lg flex items-center gap-1 transition-transform hover:scale-105 shadow-md">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span> More
+                        </button>
+</div>
+</div>
+</div>
+<!-- Card 3 (Standard) -->
+<div class="bg-card-bg rounded-xl border border-white/10 p-space-md flex flex-col relative overflow-hidden">
+<div class="absolute right-[-20px] top-[10px] text-[80px] font-black text-white/5 font-data-display leading-none pointer-events-none">PG</div>
+<div class="flex items-start gap-space-md mb-4 relative z-10">
+<div class="flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface m-0">J. Green</h3>
+<p class="font-label-muted text-label-muted text-on-surface-variant mt-1 uppercase tracking-wider">
+                            HOU <span class="material-symbols-outlined text-[10px] inline-block align-middle mx-1">sports_basketball</span> OKC | 8pm ET
+                        </p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto relative z-10">
+<div>
+<div class="font-data-display text-data-display text-on-surface">29.5</div>
+<div class="font-label-muted text-label-muted text-on-surface-variant">Points</div>
+</div>
+<div class="flex gap-space-sm">
+<button class="bg-ui-overlay hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-lg flex items-center gap-1 transition-colors border border-white/5">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span> Less
+                        </button>
+<button class="bg-ui-overlay hover:bg-surface-bright text-on-surface font-body-md text-body-md px-4 py-2 rounded-lg flex items-center gap-1 transition-colors border border-white/5">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span> More
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar from JSON -->
+<nav class="bg-surface-container dark:bg-surface-container-low fixed bottom-0 w-full z-50 rounded-t-xl border-t border-outline-variant dark:border-outline-variant flat no shadows fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 max-w-[600px] left-1/2 -translate-x-1/2">
+<button class="flex flex-col items-center justify-center text-primary px-3 py-1 group">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" style="font-variation-settings: 'FILL' 1, 'wght' 700;">dashboard</span>
+<span class="font-label-muted text-label-muted mt-1 font-bold">Paris</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-lg transition-colors group">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150">receipt_long</span>
+<span class="font-label-muted text-label-muted mt-1">Ticket</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-lg transition-colors group">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150">history</span>
+<span class="font-label-muted text-label-muted mt-1">My Bets</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-lg transition-colors group">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150">person</span>
+<span class="font-label-muted text-label-muted mt-1">Profile</span>
+</button>
+</nav>
+</body></html>

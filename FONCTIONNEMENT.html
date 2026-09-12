@@ -1,0 +1,418 @@
+<title>Cademo écran par écran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --paper:#F3F5F8;
+  --card:#FFFFFF;
+  --ink:#121A25;
+  --ink-2:#4E5B6E;
+  --ink-3:#7C8798;
+  --line:#DBE0E8;
+  --line-2:#EDF0F4;
+  --accent:#A65A05;
+  --accent-soft:#FAF0E3;
+  --teal:#0B6459;
+  --teal-soft:#E4F1EF;
+  --good:#1C6E38;
+  --bad:#9C2323;
+  --shade:#F7F9FB;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1218;
+    --card:#151C25;
+    --ink:#E9EDF3;
+    --ink-2:#9BA7B7;
+    --ink-3:#75828F;
+    --line:#26313F;
+    --line-2:#1D2733;
+    --accent:#E5A044;
+    --accent-soft:#2B2113;
+    --teal:#5CC3B3;
+    --teal-soft:#12271F;
+    --good:#5FBE7E;
+    --bad:#E08484;
+    --shade:#111820;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1218;
+  --card:#151C25;
+  --ink:#E9EDF3;
+  --ink-2:#9BA7B7;
+  --ink-3:#75828F;
+  --line:#26313F;
+  --line-2:#1D2733;
+  --accent:#E5A044;
+  --accent-soft:#2B2113;
+  --teal:#5CC3B3;
+  --teal-soft:#12271F;
+  --good:#5FBE7E;
+  --bad:#E08484;
+  --shade:#111820;
+}
+
+*{box-sizing:border-box;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:17px;
+  line-height:1.62;
+  margin:0;
+  padding:0 20px 90px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:760px;margin:0 auto;}
+
+/* --- en-tête --- */
+.masthead{padding:64px 0 34px;border-bottom:2px solid var(--ink);margin-bottom:40px;}
+.eyebrow{
+  font-family:"Archivo",system-ui,sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 14px;
+}
+h1{
+  font-family:"Archivo",system-ui,sans-serif;
+  font-size:clamp(38px,7vw,60px);font-weight:700;line-height:1.02;
+  letter-spacing:-.025em;margin:0 0 18px;text-wrap:balance;
+}
+.standfirst{font-size:19px;color:var(--ink-2);margin:0;max-width:60ch;}
+
+/* --- sections --- */
+section{margin:0 0 52px;}
+h2{
+  font-family:"Archivo",system-ui,sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);margin:0 0 20px;padding-bottom:10px;border-bottom:1px solid var(--line);
+  display:flex;align-items:baseline;gap:12px;
+}
+h2 .n{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  color:var(--accent);letter-spacing:0;
+}
+h3{
+  font-family:"Archivo",system-ui,sans-serif;
+  font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0 0 4px;text-wrap:balance;
+}
+p{margin:0 0 16px;max-width:66ch;}
+ul{margin:0 0 16px;padding-left:22px;max-width:66ch;}
+li{margin-bottom:7px;}
+strong{font-weight:600;}
+a{color:var(--accent);}
+
+/* --- parcours --- */
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-bottom:8px;}
+.flow-step{
+  flex:1 1 96px;background:var(--card);border:1px solid var(--line);border-radius:3px;
+  padding:12px 12px 13px;min-width:96px;
+}
+.flow-step .fs-n{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  color:var(--accent);display:block;margin-bottom:5px;
+}
+.flow-step .fs-t{
+  font-family:"Archivo",system-ui,sans-serif;font-size:14px;font-weight:600;
+  line-height:1.25;display:block;
+}
+.flow-step.is-gate{border-color:var(--accent);background:var(--accent-soft);}
+
+/* --- fiches écrans --- */
+.screen-card{
+  background:var(--card);border:1px solid var(--line);border-radius:4px;
+  padding:22px 24px;margin-bottom:14px;
+}
+.screen-card .sc-top{display:flex;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+.screen-card .sc-id{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--accent);
+  white-space:nowrap;
+}
+.screen-card .sc-top h3{margin:0;flex:1 1 auto;}
+.screen-card p{font-size:16px;}
+.screen-card p:last-child,.screen-card ul:last-child{margin-bottom:0;}
+.tag{
+  font-family:"Archivo",system-ui,sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:2px;
+  background:var(--shade);color:var(--ink-2);border:1px solid var(--line);white-space:nowrap;
+}
+.tag.t-lock{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);}
+.tag.t-live{background:var(--teal-soft);color:var(--teal);border-color:var(--teal);}
+.tag.t-todo{background:transparent;color:var(--ink-3);border-style:dashed;}
+
+/* --- tableaux --- */
+.scroller{overflow-x:auto;margin-bottom:18px;border:1px solid var(--line);border-radius:4px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:520px;}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line-2);vertical-align:top;}
+th{
+  font-family:"Archivo",system-ui,sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  background:var(--shade);border-bottom:1px solid var(--line);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none;}
+td.num,th.num{
+  font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  text-align:right;white-space:nowrap;
+}
+td.odd{color:var(--accent);font-weight:600;}
+code,.mono{
+  font-family:"IBM Plex Mono",monospace;font-size:.88em;
+  background:var(--shade);border:1px solid var(--line-2);border-radius:2px;padding:1px 5px;
+}
+pre{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;line-height:1.6;
+  background:var(--card);border:1px solid var(--line);border-radius:4px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 18px;color:var(--ink);
+}
+pre code{background:none;border:none;padding:0;font-size:inherit;}
+
+/* --- encadré --- */
+.callout{
+  border-left:3px solid var(--accent);background:var(--accent-soft);
+  padding:16px 20px;margin:0 0 20px;border-radius:0 3px 3px 0;
+}
+.callout p{margin:0;font-size:16px;}
+.callout p + p{margin-top:10px;}
+
+.kpi{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
+.kpi div{
+  flex:1 1 130px;background:var(--card);border:1px solid var(--line);
+  border-radius:4px;padding:14px 16px;
+}
+.kpi b{
+  display:block;font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.1;margin-bottom:4px;
+}
+.kpi span{
+  display:block;font-family:"Archivo",system-ui,sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);
+}
+
+footer{border-top:1px solid var(--line);padding-top:20px;color:var(--ink-3);font-size:14px;}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <p class="eyebrow">Fiche de fonctionnement · 26 août 2026</p>
+  <h1>Cademo, écran par écran</h1>
+  <p class="standfirst">Ce que fait l'application, page par page : ce qui s'affiche, ce qu'on peut y faire, ce qui est stocké et ce qui reste à brancher. Rien sur l'apparence — uniquement le fonctionnement.</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span> En bref</h2>
+  <p>Cademo est une application de paris sur de vrais événements sportifs : <strong>Formule 1, football et basket</strong>. Chaque compte reçoit un solde de départ crédité par l'administrateur. Le joueur place des paris simples ou combinés sur des cotes fixes. L'objectif affiché est d'atteindre <strong>2000 €</strong> — un seuil calibré pour être très difficile à franchir. Les comptes qui y arrivent deviennent éligibles à un tirage au sort.</p>
+  <div class="kpi">
+    <div><b>200 €</b><span>Solde de départ</span></div>
+    <div><b>2000 €</b><span>Objectif</span></div>
+    <div><b>24</b><span>Paris disponibles</span></div>
+    <div><b>1 / 6,6 M</b><span>Chance d'y arriver</span></div>
+  </div>
+  <p>Tout tient dans un seul fichier, <code>index.html</code>, sans installation ni compilation. Le code d'origine écrit par Léo — les trois premiers écrans et leurs fonctions <code>showScreen()</code> et <code>goToPassword()</code> — est repris <strong>à l'identique</strong> ; tout le reste vient s'ajouter par-dessus sans le réécrire.</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span> Le parcours</h2>
+  <p>Trois écrans de connexion, puis cinq vues dans l'application. La dernière n'existe que pour un compte administrateur.</p>
+  <div class="flow">
+    <div class="flow-step"><span class="fs-n">00</span><span class="fs-t">Accueil</span></div>
+    <div class="flow-step"><span class="fs-n">01</span><span class="fs-t">E-mail</span></div>
+    <div class="flow-step"><span class="fs-n">02</span><span class="fs-t">Mot de passe</span></div>
+    <div class="flow-step"><span class="fs-n">03</span><span class="fs-t">Paris</span></div>
+    <div class="flow-step"><span class="fs-n">04</span><span class="fs-t">Ticket</span></div>
+    <div class="flow-step"><span class="fs-n">05</span><span class="fs-t">Mes paris</span></div>
+    <div class="flow-step"><span class="fs-n">06</span><span class="fs-t">Profil</span></div>
+    <div class="flow-step is-gate"><span class="fs-n">07</span><span class="fs-t">Admin</span></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03</span> Les écrans un par un</h2>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">00</span><h3>Accueil</h3><span class="tag">Code d'origine</span></div>
+    <p>Point d'entrée. Un titre, une accroche, et <strong>un seul bouton</strong> — celui qui existait déjà dans le fichier de départ. Il envoie directement à l'écran e-mail. Aucune autre action possible depuis cette page.</p>
+  </div>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">01</span><h3>E-mail</h3><span class="tag">Code d'origine</span></div>
+    <p>Champ de saisie de l'adresse, bouton <strong>Suivant</strong>, bouton <strong>Créer un compte</strong> qui renvoie à l'accueil. Si le champ est vide, un message le signale et le passage à l'écran suivant est bloqué. L'adresse saisie est mémorisée et réaffichée à l'écran suivant.</p>
+    <p>Cette adresse sert d'<strong>identifiant unique du compte</strong> dans toute l'application : c'est elle qui détermine quel solde, quels paris et quels droits sont chargés.</p>
+  </div>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">02</span><h3>Mot de passe</h3><span class="tag">Code d'origine</span></div>
+    <p>Rappel de l'adresse saisie, champ mot de passe, case <strong>Afficher le mot de passe</strong> — désormais fonctionnelle : elle bascule réellement le champ entre masqué et visible. Le bouton <strong>Suivant</strong> ouvre l'application.</p>
+    <p>À ce moment précis, le compte est créé s'il n'existe pas encore, avec un solde de départ de 200 € et aucun pari. S'il existe déjà, son solde et son historique sont rechargés tels quels.</p>
+    <div class="callout">
+      <p><strong>Le mot de passe n'est pas encore vérifié.</strong> N'importe quelle valeur ouvre le compte correspondant à l'adresse saisie. C'est le point à traiter en priorité avant toute mise en ligne — voir la section 08.</p>
+    </div>
+  </div>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">03</span><h3>Paris</h3><span class="tag t-live">Données F1 en direct</span></div>
+    <p>La vue principale. Elle contient :</p>
+    <ul>
+      <li>un bandeau avec le <strong>solde courant</strong> et le rappel de l'objectif 2000 € ;</li>
+      <li>trois onglets de sport — <strong>F1, Foot, Basket</strong> — qui rechargent entièrement la liste ;</li>
+      <li>le nom de l'<strong>événement en cours</strong> pour le sport choisi, avec une pastille indiquant si la donnée vient d'une source réelle ou d'un jeu de test ;</li>
+      <li>une <strong>recherche</strong> par nom de joueur, de pilote ou de type de pari ;</li>
+      <li>des <strong>filtres</strong> propres à chaque sport (6 pour la F1, 6 pour le foot, 7 pour le basket) ;</li>
+      <li>la <strong>liste des paris</strong> disponibles.</li>
+    </ul>
+    <p>Chaque pari propose deux issues opposées, chacune avec sa cote. Cliquer sur une issue l'ajoute à la sélection ; recliquer la retire. <strong>Un seul choix par pari</strong> : sélectionner l'issue inverse remplace la précédente. Dès qu'une issue est sélectionnée, une barre apparaît en bas avec le nombre de sélections et la cote totale.</p>
+  </div>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">04</span><h3>Ticket</h3></div>
+    <p>Ouvert depuis la barre du bas. Il récapitule chaque issue sélectionnée avec sa cote et permet de la retirer une par une. On y saisit la <strong>mise</strong>, soit à la main, soit via des raccourcis (5, 10, 25, 50 €, ou <strong>Max</strong> qui prend tout le solde disponible).</p>
+    <p>Le ticket affiche en direct la mise, la cote totale, le solde restant après mise et le <strong>gain potentiel</strong>. Le bouton de validation se désactive si la mise est nulle ou supérieure au solde, et indique alors <em>Solde insuffisant</em>.</p>
+    <p>À la validation : la mise est <strong>débitée immédiatement</strong>, le pari est enregistré au statut <em>en cours</em>, la sélection est vidée et l'application bascule sur « Mes paris ».</p>
+  </div>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">05</span><h3>Mes paris</h3></div>
+    <p>Deux onglets : <strong>En cours</strong> et <strong>Réglés</strong>, du plus récent au plus ancien. Chaque ticket indique s'il s'agit d'un pari simple ou d'un combiné, le détail de chaque issue avec sa cote, la mise, la cote totale et le gain — potentiel s'il est en cours, acquis s'il est gagné, remplacé par un tiret s'il est perdu.</p>
+  </div>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">06</span><h3>Profil</h3></div>
+    <p>Trois blocs :</p>
+    <ul>
+      <li><strong>Solde</strong> — le montant courant, une barre de progression vers 2000 € et le pourcentage atteint ;</li>
+      <li><strong>Compte</strong> — l'adresse, le nombre de paris placés, le nombre de paris gagnés, le total misé depuis le début et la meilleure cote validée ;</li>
+      <li><strong>Éligibilité au tirage</strong> — <em>éligible</em> ou <em>non éligible</em> selon que le solde a franchi 2000 €.</li>
+    </ul>
+    <p>Un bouton <strong>Se déconnecter</strong> renvoie à l'accueil et vide la sélection en cours. Les paris et le solde du compte sont conservés.</p>
+  </div>
+
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">07</span><h3>Admin</h3><span class="tag t-lock">Accès restreint</span></div>
+    <p>Un <strong>onglet supplémentaire dans la barre du bas</strong>, qui n'apparaît que si l'adresse connectée figure dans la liste des administrateurs. Pour tout autre compte l'onglet est absent, et la vue reste inaccessible même en tentant de l'ouvrir directement.</p>
+    <p>Elle contient deux blocs.</p>
+    <p><strong>Comptes</strong> — la liste de tous les comptes existants, avec pour chacun son adresse, son solde, son nombre de paris et une mention si l'objectif est atteint. Un filtre permet de n'afficher que les comptes <strong>à 2000 € ou plus</strong>. Sur chaque ligne, deux actions :</p>
+    <ul>
+      <li><strong>Créditer</strong> — ajoute un montant au solde. Un montant négatif retire ; le solde ne peut pas descendre sous zéro.</li>
+      <li><strong>Supprimer</strong> — efface le compte et tout son historique, après confirmation.</li>
+    </ul>
+    <p><strong>Paris à régler</strong> — tous les paris en cours, tous comptes confondus, groupés par adresse. Chacun peut être marqué <strong>Gagné</strong> ou <strong>Perdu</strong>. Un pari gagné crédite immédiatement le compte du montant de la mise multiplié par la cote ; un pari perdu ne rend rien, la mise ayant déjà été débitée à la validation. Le pari passe alors dans les paris réglés et n'apparaît plus dans cette liste.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span> Les paris disponibles</h2>
+  <p>24 paris répartis en deux familles. Les <strong>stars</strong> sont des performances attendues, avec des cotes faibles. Les <strong>outsiders</strong> sont des exploits improbables signés par ceux qu'on n'attend pas, avec des cotes très élevées. C'est le mélange des deux qui rend l'objectif difficile : les stars seules ne multiplient pas assez, les outsiders seuls ne passent presque jamais.</p>
+  <div class="scroller">
+    <table>
+      <thead><tr><th>Sport</th><th class="num">Stars</th><th class="num">Outsiders</th><th class="num">Filtres</th><th>Cote la plus haute</th><th class="num">Cote</th></tr></thead>
+      <tbody>
+        <tr><td>Formule 1</td><td class="num">4</td><td class="num">4</td><td class="num">6</td><td>Une Haas monte sur le podium</td><td class="num odd">41.00</td></tr>
+        <tr><td>Football</td><td class="num">4</td><td class="num">4</td><td class="num">6</td><td>Le gardien marque dans le temps additionnel</td><td class="num odd">151.00</td></tr>
+        <tr><td>Basket</td><td class="num">5</td><td class="num">3</td><td class="num">7</td><td>Le pire shooteur rentre 5 tirs à 3 points</td><td class="num odd">38.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Les paris prennent deux formes. Certains portent sur un <strong>seuil chiffré</strong> — au-dessus ou en dessous d'une valeur, par exemple 32,5 points marqués. Les autres sont des <strong>questions fermées</strong> — l'événement se produit ou non. Dans les deux cas, deux issues, deux cotes.</p>
+</section>
+
+<section>
+  <h2><span class="n">05</span> Les règles de calcul</h2>
+  <ul>
+    <li><strong>Cote d'un combiné</strong> — le produit de toutes les cotes sélectionnées. Deux issues à 2.05 et 1.95 donnent une cote totale de 4.00.</li>
+    <li><strong>Gain</strong> — la mise multipliée par la cote totale, puis <strong>plafonnée à 45 €</strong>. La mise fait partie du gain, elle n'est pas rendue en plus.</li>
+    <li><strong>Mise</strong> — au minimum 5 €, au maximum 10 % du solde sans jamais dépasser 50 €.</li>
+    <li><strong>Débit</strong> — la mise quitte le solde au moment de la validation, pas au règlement.</li>
+    <li><strong>Statuts</strong> — un pari est <em>en cours</em>, puis <em>gagné</em> ou <em>perdu</em>. Il n'y a pas d'annulation ni de remboursement.</li>
+    <li><strong>Tout ou rien</strong> — dans un combiné, une seule issue ratée fait perdre l'ensemble.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">05b</span> Pourquoi l'objectif est hors d'atteinte</h2>
+  <p>Trois plafonds, et eux seuls, rendent les 2000 € inaccessibles. Ils ont été calibrés en résolvant la chaîne de Markov du jeu — pas estimés à vue de nez. Le calcul donne au joueur la <strong>meilleure stratégie possible à chaque solde</strong> : le résultat est donc un plafond que personne ne peut dépasser.</p>
+  <div class="scroller">
+    <table>
+      <thead><tr><th>Réglage</th><th class="num">Valeur</th><th>Effet</th></tr></thead>
+      <tbody>
+        <tr><td>Marge maison</td><td class="num">15 %</td><td>Chaque pari a une espérance de 0,85 : le solde s'érode à chaque mise.</td></tr>
+        <tr><td>Mise maximum</td><td class="num">10 % / 50 €</td><td>Interdit le « tout ou rien », qui est la seule façon de battre un jeu perdant.</td></tr>
+        <tr><td>Gain maximum</td><td class="num">45 €</td><td>Le levier décisif : il faut enchaîner une quarantaine de gains pour atteindre l'objectif.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Résultat mesuré : <strong>1 chance sur 6 590 919</strong>, soit 0,0000152 %. Sans ces plafonds, un joueur qui mise tout sur une seule grosse cote y arriverait dans <strong>9,7 % des cas</strong> — c'est-à-dire environ une fois sur dix.</p>
+  <div class="callout">
+    <p>Le plafond de gain est <strong>affiché sur le ticket</strong> avant validation : quand il mord, l'écran indique le gain brut et le montant réellement versé. Rien n'est masqué au joueur.</p>
+    <p>Le calcul se rejoue avec <code>node tools/bareme.js</code>. Toute modification des cotes ou des plafonds doit passer par ce fichier.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">06</span> Ce qui est stocké</h2>
+  <p>Tout est enregistré dans le navigateur, sous deux clés : <code>cademo_users</code> pour l'ensemble des comptes, <code>cademo_current</code> pour l'adresse connectée. Il n'y a pas encore de serveur ni de base de données.</p>
+  <pre><code>compte = {
+  email      : "adresse@exemple.com",   // identifiant unique
+  balance    : 200,                     // solde courant
+  bets       : [ ... ],                 // historique complet
+  createdAt  : "2026-08-26T18:42:00Z"
+}
+
+pari = {
+  id        : "b1756230…",
+  legs      : [ { who, label, odds, marketId, sport } ],
+  stake     : 10,                       // mise
+  odds      : 4.00,                     // cote totale
+  status    : "open" | "won" | "lost",
+  placedAt  : "…",
+  settledAt : "…"                       // uniquement une fois réglé
+}</code></pre>
+  <div class="callout">
+    <p>Certains navigateurs bloquent l'enregistrement quand la page est ouverte directement depuis le disque. Dans ce cas l'application <strong>bascule automatiquement en mémoire</strong> : tout fonctionne, mais les comptes disparaissent à la fermeture de l'onglet. Servir la page depuis un serveur local règle le problème.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">07</span> D'où viennent les données sportives</h2>
+  <div class="scroller">
+    <table>
+      <thead><tr><th>Sport</th><th>Source</th><th>Clé</th><th>État</th></tr></thead>
+      <tbody>
+        <tr><td>Formule 1</td><td>Jolpica / Ergast</td><td>Aucune</td><td><span class="tag t-live">Branché</span></td></tr>
+        <tr><td>Football</td><td>football-data.org</td><td>Gratuite, sur inscription</td><td><span class="tag t-todo">À brancher</span></td></tr>
+        <tr><td>Basket</td><td>balldontlie.io</td><td>Gratuite, sur inscription</td><td><span class="tag t-todo">À brancher</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>La F1 fonctionne déjà : l'application interroge la source à l'ouverture et affiche le <strong>prochain Grand Prix réel</strong> avec sa date. Aucune clé n'est nécessaire et l'appel se fait directement depuis le navigateur. En cas d'échec ou de coupure réseau, un libellé de secours prend le relais sans bloquer l'application.</p>
+  <p>Le football et le basket ne peuvent pas être appelés de la même façon : leurs fournisseurs exigent une clé, et une clé placée dans la page serait lisible par n'importe qui. Ils demandent donc un <strong>petit relais côté serveur</strong> qui garde la clé et transmet les réponses. Tant que ce relais n'existe pas, ces deux sports affichent un jeu de données de test.</p>
+  <p>Aujourd'hui, les cotes sont écrites à la main dans le fichier et les résultats sont saisis par l'administrateur. Le règlement automatique à partir des résultats réels viendra avec le relais.</p>
+</section>
+
+<section>
+  <h2><span class="n">08</span> Ce qui reste à faire</h2>
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">A</span><h3>La connexion</h3></div>
+    <p>C'est le chantier prioritaire. Aujourd'hui le mot de passe n'est pas vérifié et la liste des administrateurs est inscrite dans la page, donc lisible et modifiable par quiconque ouvre le code. Tant que tout reste sur le poste de Léo, cela n'a aucune conséquence. Dès qu'une autre personne y accède, il faut un vrai contrôle côté serveur : c'est lui, et lui seul, qui doit décider qui est administrateur.</p>
+    <p>Deuxième point sur le même sujet : l'écran de connexion reprend l'identité visuelle de Google tout en demandant un mot de passe. Cette combinaison est bloquée par les hébergeurs et les navigateurs, et empêchera toute mise en ligne. Il faudra la remplacer par une véritable connexion Google, ou par une connexion propre à l'application.</p>
+  </div>
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">B</span><h3>Le serveur</h3></div>
+    <p>Les comptes vivent dans le navigateur : ils ne suivent pas d'un appareil à l'autre, et l'administrateur ne voit que les comptes créés sur son propre poste. Une base partagée est nécessaire pour que l'espace admin serve à quelque chose à plusieurs.</p>
+  </div>
+  <div class="screen-card">
+    <div class="sc-top"><span class="sc-id">C</span><h3>Le reste</h3></div>
+    <ul>
+      <li>Relais serveur pour les clés football et basket.</li>
+      <li>Règlement automatique des paris à partir des résultats réels.</li>
+      <li>Cotes calculées plutôt qu'écrites à la main.</li>
+      <li>Mécanique du tirage au sort une fois les 2000 € atteints.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Cademo · <span class="mono">C:\Users\Leo\cademo\index.html</span> · fiche mise à jour le 26 août 2026</p>
+</footer>
+
+</div>

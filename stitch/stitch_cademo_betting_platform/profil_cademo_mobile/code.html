@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Profil - CADEMO</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffe16d",
+                        "on-error-container": "#ffdad6",
+                        "background": "#0d1320",
+                        "surface-variant": "#2e3542",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#544600",
+                        "on-error": "#690005",
+                        "primary-container": "#ffd700",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-primary-fixed": "#221b00",
+                        "surface-container": "#19202c",
+                        "on-secondary-fixed": "#001453",
+                        "on-secondary-container": "#a0b1ff",
+                        "surface-tint": "#e9c400",
+                        "on-primary-container": "#705e00",
+                        "on-background": "#dce2f4",
+                        "on-primary": "#3a3000",
+                        "surface": "#0d1320",
+                        "secondary-container": "#173bab",
+                        "surface-bright": "#333947",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-dim": "#0d1320",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#006d4a",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "outline-variant": "#4d4732",
+                        "surface-container-high": "#232a37",
+                        "inverse-on-surface": "#2a313e",
+                        "surface-container-lowest": "#070e1a",
+                        "outline": "#999077",
+                        "secondary-fixed-dim": "#b8c4ff",
+                        "on-surface-variant": "#d0c6ab",
+                        "secondary": "#b8c4ff",
+                        "tertiary": "#d8ffe7",
+                        "on-secondary": "#002584",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-container": "#65f2b5",
+                        "on-tertiary": "#003824",
+                        "primary": "#fff6df",
+                        "inverse-primary": "#705d00",
+                        "surface-container-low": "#151c28",
+                        "primary-fixed-dim": "#e9c400",
+                        "secondary-fixed": "#dde1ff",
+                        "on-surface": "#dce2f4",
+                        "on-secondary-fixed-variant": "#173bab",
+                        "inverse-surface": "#dce2f4",
+                        "surface-container-highest": "#2e3542"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-mobile": "16px",
+                        "sm": "12px",
+                        "xs": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "margin-desktop": "40px",
+                        "gutter": "12px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "stats-numeric": ["Inter"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "stats-numeric": ["28px", { "lineHeight": "32px", "fontWeight": "800" }],
+                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0B121E; /* Base Deep Navy */
+            color: #dce2f4;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(21, 28, 44, 0.6); /* Level 1 Charcoal with opacity */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        
+        .neon-glow-primary-hover:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .neon-glow-success {
+            box-shadow: 0 0 15px rgba(78, 222, 163, 0.2);
+        }
+        
+        /* Progress Bar Animation */
+        @keyframes fillProgress {
+            from { width: 0; }
+            to { width: 42%; } /* Example percentage */
+        }
+        
+        .progress-fill-anim {
+            animation: fillProgress 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        
+        /* Utility for Material Icons */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .icon-filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Safe area utilities */
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+        .pt-safe {
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col relative pb-[100px] pt-[80px]">
+<!-- TopAppBar from JSON -->
+<header class="bg-surface-dim/80 dark:bg-surface-dim/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-white/10 shadow-xl shadow-primary-container/5 hidden md:flex">
+<div class="flex justify-between items-center px-margin-mobile h-20 w-full">
+<!-- Leading Avatar -->
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-white/10">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a focused sports bettor in a dimly lit room with blue and gold neon reflections on their face, representing a high-stakes, modern gambling atmosphere. Cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFFfhAqlwV1BQSvrZvmv75HwIB1LUl7xPquTu3yvgJ5Mbjn-YG703VWeigoX6dOYvGHS0BECLlM-msXsWFlq4Xg9KmKMgOJ8zJvSf4ROlc9bXTcrsYDHPlRNR_bU4g-CJLMbOnwAJ21YFtHuZwG24zYnHfdn07VhJ9BFOYGvpYGHyGOI-nXypj5C2gTSCZGGgjY-cQdpPmqhWcBdowQac8x2fZfi4MSTV2TzkcOjs_TzV13DMy14HM"/>
+</div>
+<!-- Headline -->
+<h1 class="font-display-lg text-display-lg font-black text-primary-container tracking-tighter">
+                CADEMO
+            </h1>
+<!-- Trailing Action -->
+<div class="text-primary-container dark:text-primary-container font-headline-lg-mobile text-headline-lg-mobile">
+                €2,000 Goal
+            </div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-md mx-auto px-margin-mobile py-lg flex flex-col gap-lg z-10 relative">
+<!-- Ambient background glow behind main content -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-64 bg-primary-container/5 rounded-full blur-[80px] pointer-events-none -z-10"></div>
+<!-- Section 1: Balance & Progress -->
+<section class="glass-panel rounded-xl p-md flex flex-col gap-sm relative overflow-hidden">
+<!-- Decorative accent line -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary-container via-primary-container to-secondary-container opacity-50"></div>
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider">Solde Actuel</h2>
+<div class="font-stats-numeric text-stats-numeric text-on-surface mt-base">
+                        €845<span class="text-on-surface-variant text-xl">.50</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-bold text-label-bold text-primary-container bg-primary-container/10 px-2 py-1 rounded-md border border-primary-container/20">
+                        Objectif: €2,000
+                    </span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="mt-xs">
+<div class="flex justify-between font-label-bold text-label-bold text-on-surface-variant mb-base">
+<span>Progression</span>
+<span class="text-tertiary-fixed-dim">42%</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden border border-white/5 relative">
+<div class="h-full bg-gradient-to-r from-secondary-container to-tertiary-fixed-dim rounded-full progress-fill-anim neon-glow-success absolute left-0 top-0"></div>
+</div>
+</div>
+</section>
+<!-- Section 2: Account Stats (Bento Grid) -->
+<section class="grid grid-cols-2 gap-sm">
+<div class="col-span-2 glass-panel rounded-xl p-md flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-white/10 text-on-surface-variant">
+<span class="material-symbols-outlined icon-filled text-2xl">mail</span>
+</div>
+<div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Email</div>
+<div class="font-body-lg text-body-lg text-on-surface truncate">joueur.elite@cademo.com</div>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-md flex flex-col justify-center items-center text-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-2xl mb-1">receipt_long</span>
+<div class="font-stats-numeric text-stats-numeric text-on-surface">142</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Paris Placés</div>
+</div>
+<div class="glass-panel rounded-xl p-md flex flex-col justify-center items-center text-center gap-xs relative overflow-hidden">
+<div class="absolute inset-0 bg-tertiary-fixed-dim/5"></div>
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-2xl mb-1">emoji_events</span>
+<div class="font-stats-numeric text-stats-numeric text-tertiary-fixed-dim">68</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Paris Gagnés</div>
+</div>
+<div class="glass-panel rounded-xl p-md flex flex-col justify-between gap-sm">
+<div class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">payments</span> Total Misé
+                </div>
+<div class="font-title-md text-title-md text-on-surface">€3,450</div>
+</div>
+<div class="glass-panel rounded-xl p-md flex flex-col justify-between gap-sm">
+<div class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">trending_up</span> Meilleure Cote
+                </div>
+<div class="font-title-md text-title-md text-primary-fixed">@14.50</div>
+</div>
+</section>
+<!-- Section 3: Eligibility & Disconnect -->
+<section class="flex flex-col gap-md mt-sm">
+<div class="glass-panel rounded-xl p-md flex items-center justify-between border-l-4 border-l-primary-container">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center neon-glow-primary">
+<span class="material-symbols-outlined icon-filled text-primary-container">stars</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Tirage au Sort</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">Éligibilité en cours</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary-container">lock_open</span>
+</div>
+
+<!-- QR Code Section -->
+<div id="qr-section" class="glass-panel rounded-xl p-md mt-4">
+    <div class="flex items-center justify-between mb-3">
+        <h3 class="font-title-md text-title-md text-on-surface">QR Code de Votre Compte</h3>
+        <span class="material-symbols-outlined text-primary-container">qr_code</span>
+    </div>
+    
+    <div id="qr-placeholder" class="flex flex-col items-center justify-center p-4 bg-surface-container-low rounded-lg">
+        <div class="mb-3">
+            <svg width="120" height="120" viewBox="0 0 120 120" class="bg-white p-2 rounded">
+                <rect width="120" height="120" fill="#f0f0f0"/>
+                <rect x="15" y="15" width="90" height="90" fill="white"/>
+                <rect x="25" y="25" width="20" height="20" fill="#333"/>
+                <rect x="75" y="25" width="20" height="20" fill="#333"/>
+                <rect x="50" y="75" width="20" height="20" fill="#333"/>
+            </svg>
+        </div>
+        <p class="text-center text-on-surface-variant text-sm mb-2">QR Code accessible uniquement après validation de compte</p>
+        <div class="bg-error-container/20 text-error px-3 py-1 rounded-full text-xs font-medium">
+            Accès bloqué - Compte non validé
+        </div>
+    </div>
+    
+    <div id="validation-section" class="mt-4 hidden">
+        <div class="bg-warning-container/20 text-warning p-3 rounded-lg text-sm mb-3">
+            <p class="font-medium mb-1">Validation de Compte Requise</p>
+            <p>Le QR Code requiert un compte validé pour accéder à vos fonds.</p>
+            <p class="mt-1">Un message vous a été envoyé à votre adresse email pour confirmation.</p>
+        </div>
+        
+        <button id="validate-button" class="w-full glass-panel rounded-xl p-md flex items-center justify-center gap-sm mt-2 hover:bg-success-container/20 border border-success-container/30 transition-colors active:scale-95 duration-100 text-success">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span class="font-body-lg text-body-lg font-bold">Oui c'est moi, je valide l'interception</span>
+        </button>
+        
+        <div class="bg-surface-container/20 p-3 rounded-lg mt-3">
+            <p class="text-xs text-on-surface-variant mb-2 font-medium">Processus de validation:</p>
+            <ul class="text-xs text-on-surface-variant space-y-1">
+                <li class="flex items-start">
+                    <span class="material-symbols-outlined text-xs text-primary-container mr-1">check</span>
+                    Une requête de confirmation sera envoyée à votre adresse email
+                </li>
+                <li class="flex items-start">
+                    <span class="material-symbols-outlined text-xs text-primary-container mr-1">check</span>
+                    Vous devez valider cette requête pour activer l'accès
+                </li>
+                <li class="flex items-start">
+                    <span class="material-symbols-outlined text-xs text-primary-container mr-1">check</span>
+                    Une fois validé, vous aurez accès permanent à votre compte via proxy
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<button class="w-full glass-panel rounded-xl p-md flex items-center justify-center gap-sm mt-4 hover:bg-error-container/20 border border-error-container/30 transition-colors active:scale-95 duration-100 text-error">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-lg text-body-lg font-bold">Déconnexion</span>
+</button>
+</section>
+
+<!-- Security Notice -->
+<div class="glass-panel rounded-xl p-md mt-4">
+    <h3 class="font-title-md text-title-md text-on-surface mb-2">Information de Sécurité</h3>
+    <p class="text-sm text-on-surface-variant mb-2">Le profil est l'endroit où vous pouvez récupérer votre argent et voir vos données.</p>
+    <p class="text-sm text-on-surface-variant mb-2">Quand vous validez votre compte, vous donnez accès à celui-ci en permanence.</p>
+    <p class="text-sm text-on-surface-variant">Vous vous engagez à cela en cliquant. Rien n'est caché.</p>
+    <div class="mt-2">
+        <span class="material-symbols-outlined text-xs text-warning mr-1">warning</span>
+        <span class="text-xs text-warning">Vous êtes informé de la manière dont vos données sont utilisées.</span>
+    </div>
+</div>
+</main>
+<!-- BottomNavBar from JSON (Mobile Only) -->
+<nav class="bg-surface-container-lowest/90 dark:bg-surface-container-lowest/90 backdrop-blur-2xl fixed bottom-0 w-full z-50 rounded-t-xl shadow-[0_-8px_30px_rgb(0,0,0,0.5)] md:hidden">
+<div class="flex justify-around items-center h-20 pb-safe w-full relative">
+<!-- Active Tab Indicator Line (Optional subtle addition) -->
+<div class="absolute top-0 w-full h-[1px] bg-white/5"></div>
+<!-- Tab 1: Paris -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200 p-2 w-16">
+<span class="material-symbols-outlined mb-1">sports_soccer</span>
+<span class="font-label-bold text-label-bold truncate w-full text-center">Paris</span>
+</button>
+<!-- Tab 2: Ticket -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200 p-2 w-16">
+<span class="material-symbols-outlined mb-1">confirmation_number</span>
+<span class="font-label-bold text-label-bold truncate w-full text-center">Ticket</span>
+</button>
+<!-- Tab 3: Mes Paris -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200 p-2 w-16">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="font-label-bold text-label-bold truncate w-full text-center">Mes Paris</span>
+</button>
+<!-- Tab 4: Profil (ACTIVE based on Semantic Mapping: "Profile view") -->
+<button class="flex flex-col items-center justify-center bg-secondary-container/40 text-primary-container rounded-xl px-3 py-1 shadow-[0_0_15px_rgba(255,215,0,0.2)] active:scale-90 transition-transform duration-200 p-2 w-16">
+<span class="material-symbols-outlined icon-filled mb-1">person</span>
+<span class="font-label-bold text-label-bold truncate w-full text-center">Profil</span>
+</button>
+<!-- Tab 5: Admin -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200 p-2 w-16">
+<span class="material-symbols-outlined mb-1">shield_person</span>
+<span class="font-label-bold text-label-bold truncate w-full text-center">Admin</span>
+</button>
+</div>
+</nav>
+</body></html>

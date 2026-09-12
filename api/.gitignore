@@ -1,0 +1,10 @@
+# le VRAI fichier d'environnement, contient des secrets → jamais committé.
+.env
+
+# le magasin de configs chiffré (contient des refresh_tokens)
+.config-store.json
+.config-store.json.tmp
+
+# npm
+node_modules/
+package-lock.json

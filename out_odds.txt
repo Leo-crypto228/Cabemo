@@ -1,0 +1,30 @@
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+[ODDS] ODDS_API_KEY not set — skipping real odds fetch.
+===========================================
+  CADEMO - AGENT DE VALIDATION AUTOMATISE
+===========================================
+  Serveur: http://localhost:8080
+
+  Endpoints:
+  POST /api/validate-account/:userId       - Valider compte Google (Puppeteer)
+  POST /api/validate-account-now/:userId   - Validation immédiate (Puppeteer)
+  POST /api/verify-email-python            - Valider via script Python (prod)
+  POST /api/setup-credentials              - Lier un compte Google (configuration)
+  GET  /api/validation-status/:userId      - Statut validation
+  GET  /api/worker-stats                   - Stats worker
+  POST /api/post-review/:userId            - Poster avis Google (IA)
+
+  AFFILIATION:
+  POST /api/affiliate/setup                - Setup profil affilié
+  GET  /api/affiliate/me                   - Profil affilié
+  POST /api/affiliate/search               - Recherche joueur #XXXX
+  POST /api/affiliate/activate-bonus       - Activer bonus 200€
+  GET  /api/affiliate/stats                - Stats & commissions
+  GET  /api/affiliate/referrals            - Liste des filleuls
+
+  ⚠️  NECESSITE:
+  1. SUPABASE_SERVICE_ROLE_KEY dans .env
+  2. Tables users, referrals, affiliate_commissions
+  3. PROXY_POOL dans worker/proxy-rotator.js
+  4. Puppeteer installé (Chrome requis)
+===========================================

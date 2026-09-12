@@ -1,0 +1,7 @@
+      await browser.close();
+      return { success: true, message: ok ? "Avis publie avec succes" : "Avis soumis (confirmation non visible)", reviewText: reviewText, rating: rating, company: companyName };
+    } else {
+      await page.screenshot({ path: "./debug_submit_" + userId + "_" + Date.now() + ".png" });
+      await browser.close();
+      return { success: false, error: "Bouton Publier introuvable" };
+    }

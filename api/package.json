@@ -1,0 +1,21 @@
+{
+  "name": "cademo-api",
+  "version": "1.1.0",
+  "description": "Cademo — API routes (verify-account) + module IMAP inbox check.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "imap": "node imap-check.js",
+    "config": "node config-store.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "google-auth-library": "^9.15.1",
+    "imapflow": "^1.7.6",
+    "mongodb": "^6.5.0",
+    "nodemailer": "^9.0.6",
+    "pg": "^8.11.5"
+  }
+}

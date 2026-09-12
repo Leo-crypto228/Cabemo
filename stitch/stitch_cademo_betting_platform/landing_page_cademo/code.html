@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cademo - L'élite du pari sportif</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#dde1ff",
+                        "tertiary": "#d8ffe7",
+                        "on-secondary": "#002584",
+                        "on-surface-variant": "#d0c6ab",
+                        "error-container": "#93000a",
+                        "on-background": "#dce2f4",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#e9c400",
+                        "surface-container-lowest": "#070e1a",
+                        "surface-container-high": "#232a37",
+                        "secondary-container": "#173bab",
+                        "on-secondary-container": "#a0b1ff",
+                        "on-primary-container": "#705e00",
+                        "secondary-fixed-dim": "#b8c4ff",
+                        "surface-variant": "#2e3542",
+                        "on-tertiary-fixed": "#002113",
+                        "primary": "#fff6df",
+                        "on-secondary-fixed-variant": "#173bab",
+                        "tertiary-container": "#65f2b5",
+                        "primary-fixed-dim": "#e9c400",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#4d4732",
+                        "on-tertiary": "#003824",
+                        "outline": "#999077",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container-highest": "#2e3542",
+                        "background": "#0d1320",
+                        "surface-container-low": "#151c28",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-primary-fixed": "#221b00",
+                        "on-tertiary-container": "#006d4a",
+                        "inverse-primary": "#705d00",
+                        "on-error": "#690005",
+                        "primary-fixed": "#ffe16d",
+                        "on-secondary-fixed": "#001453",
+                        "secondary": "#b8c4ff",
+                        "surface-container": "#19202c",
+                        "surface-bright": "#333947",
+                        "on-surface": "#dce2f4",
+                        "inverse-surface": "#dce2f4",
+                        "on-primary": "#3a3000",
+                        "surface-dim": "#0d1320",
+                        "surface": "#0d1320",
+                        "primary-container": "#ffd700",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-fixed-variant": "#544600",
+                        "inverse-on-surface": "#2a313e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "base": "4px",
+                        "margin-desktop": "40px",
+                        "md": "16px",
+                        "sm": "12px",
+                        "gutter": "12px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "stats-numeric": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "stats-numeric": ["28px", { "lineHeight": "32px", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(21, 28, 40, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow-gold {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .glow-blue {
+            box-shadow: 0 0 15px rgba(23, 59, 171, 0.3);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+<!-- Top Navigation (Minimal for landing page, leveraging TopAppBar styling) -->
+<header class="fixed top-0 w-full z-50 bg-surface-dim/80 dark:bg-surface-dim/80 backdrop-blur-xl border-b border-white/10 shadow-xl shadow-primary-container/5">
+<div class="flex justify-between items-center px-margin-mobile h-20 w-full max-w-7xl mx-auto">
+<div class="font-display-lg text-display-lg font-black text-primary-container tracking-tighter">CADEMO</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[795px] flex flex-col items-center justify-center px-margin-mobile py-xl overflow-hidden">
+<!-- WebGL Background -->
+<div class="absolute inset-0 z-0">
+<!-- STITCH_SHADER_START:ANIMATION_15 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_15" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_15');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+float fbm(vec2 p) {
+    float v = 0.0;
+    float a = 0.5;
+    mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+    for (int i = 0; i < 5; i++) {
+        v += a * noise(p);
+        p = m * p;
+        a *= 0.5;
+    }
+    return v;
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 p = uv * 2.0 - 1.0;
+    p.x *= u_resolution.x / u_resolution.y;
+    
+    // Dynamic liquid movement
+    float n = fbm(p * 2.0 + u_time * 0.2);
+    float n2 = fbm(p * 1.5 - u_time * 0.15 + n * 2.0);
+    
+    // Colors based on Cademo palette
+    vec3 color1 = vec3(0.05, 0.08, 0.13); // Dark background
+    vec3 color2 = vec3(1.0, 0.84, 0.0) * 0.2; // Dim yellow/gold glow
+    vec3 color3 = vec3(0.1, 0.3, 0.6) * 0.3; // Deep blue glow
+    
+    vec3 color = mix(color1, color2, n2 * 0.8);
+    color = mix(color, color3, n * 0.5);
+    
+    // Interaction
+    float mDist = distance(uv, u_mouse / u_resolution);
+    color += (vec3(1.0, 0.84, 0.0) * 0.15) * (1.0 - smoothstep(0.0, 0.4, mDist));
+    
+    // Vignette
+    float vignette = 1.0 - length(p * 0.5);
+    color *= smoothstep(0.0, 1.0, vignette);
+
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_15 -->
+</div>
+<!-- Dark Overlay for Contrast -->
+<div class="absolute inset-0 bg-background/70 z-0"></div>
+<!-- Hero Content -->
+<div class="relative z-10 w-full max-w-md mx-auto flex flex-col items-center text-center space-y-lg">
+<h1 class="font-display-lg text-display-lg text-white mb-sm">
+<span class="text-primary-container text-glow">L'élite</span> du pari sportif.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-xl max-w-xs">
+                    Pariez sur le sport. Atteignez 2000€. Gagnez votre place.
+                </p>
+<!-- Authentication -->
+<div class="w-full mt-xl">
+<button class="w-full flex items-center justify-center gap-sm bg-white text-black py-md px-lg rounded-lg font-title-md text-title-md hover:bg-gray-100 transition-colors shadow-lg active:scale-95 duration-100">
+<svg class="w-6 h-6" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                        Sign in with Google
+                    </button>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 mt-sm">Sécurisé &amp; Rapide. Pas de mot de passe requis.</p>
+</div>
+</div>
+<!-- Value Props Chips -->
+<div class="relative z-10 w-full max-w-md mx-auto mt-xl flex flex-wrap justify-center gap-sm">
+<div class="glass-panel rounded-full px-sm py-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">redeem</span>
+<span class="font-label-bold text-label-bold text-on-surface">200€ Bonus</span>
+</div>
+<div class="glass-panel rounded-full px-sm py-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-tertiary-fixed text-sm" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-label-bold text-label-bold text-on-surface">Cotes en direct</span>
+</div>
+<div class="glass-panel rounded-full px-sm py-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">trophy</span>
+<span class="font-label-bold text-label-bold text-on-surface">Tirage 2000€</span>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="px-margin-mobile py-xl bg-surface-container-lowest">
+<div class="max-w-md mx-auto">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-white text-center mb-xl">Le Chemin vers la Victoire</h2>
+<div class="space-y-md relative before:absolute before:inset-y-0 before:left-[28px] before:w-[2px] before:bg-surface-variant before:z-0">
+<!-- Step 1 -->
+<div class="relative z-10 flex items-start gap-md glass-panel p-md rounded-xl">
+<div class="flex-shrink-0 w-[56px] h-[56px] rounded-full bg-surface-container flex items-center justify-center border border-white/10 glow-blue">
+<span class="material-symbols-outlined text-secondary-fixed text-[28px]">account_balance_wallet</span>
+</div>
+<div class="pt-1">
+<h3 class="font-title-md text-title-md text-white mb-xs">Déposez</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Alimentez votre compte en toute sécurité. Profitez de votre bonus de bienvenue instantané.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex items-start gap-md glass-panel p-md rounded-xl">
+<div class="flex-shrink-0 w-[56px] h-[56px] rounded-full bg-surface-container flex items-center justify-center border border-white/10 glow-blue">
+<span class="material-symbols-outlined text-secondary-fixed text-[28px]">sports_soccer</span>
+</div>
+<div class="pt-1">
+<h3 class="font-title-md text-title-md text-white mb-xs">Pariez</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Accédez aux meilleures cotes sur le football, le tennis, la F1 et plus encore.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex items-start gap-md glass-panel p-md rounded-xl border-primary-container/30 glow-gold">
+<div class="flex-shrink-0 w-[56px] h-[56px] rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-[28px]" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+</div>
+<div class="pt-1">
+<h3 class="font-title-md text-title-md text-primary-container mb-xs">Gagnez</h3>
+<p class="font-body-sm text-body-sm text-white">Atteignez le palier des 2000€ pour débloquer des récompenses exclusives.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background py-xl px-margin-mobile border-t border-white/5 text-center flex flex-col items-center">
+<div class="font-display-lg text-display-lg font-black text-primary-container tracking-tighter mb-md opacity-50">CADEMO</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/60 max-w-sm">
+            Jouer comporte des risques : endettement, dépendance... Appelez le 09 74 75 13 13 (appel non surtaxé). Réservé aux +18 ans.
+        </p>
+</footer>
+</body></html>

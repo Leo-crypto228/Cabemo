@@ -1,0 +1,494 @@
+<!DOCTYPE html><html class="dark scroll-smooth" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<script>if(window.self===window.top){window.location.href='index.html';}</script>
+<title>Cademo - Paris Sportifs Nouvelle Génération</title>
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config customization -->
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cademo: {
+              bg: '#040b15',
+              surface: '#081425',
+              surfaceAlt: '#0c1b30',
+              card: '#0d2038',
+              border: '#172b47',
+              accent: '#ffb703',
+              volt: '#facc15',
+              crimson: '#ef4444',
+              neonBlue: '#00e5ff'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Font: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style data-purpose="base-styling">
+    body {
+      background-color: #040b15;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+    /* Masquage de la barre de défilement horizontal tout en restant scrollable */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body class="bg-[#040b15] text-slate-100 antialiased min-h-screen flex flex-col justify-between">
+<!-- Loader plein écran -->
+<div id="initial-loader" style="position:fixed;top:0;left:0;right:0;bottom:0;background-color:#fff;display:none;align-items:center;justify-content:center;z-index:1000;">
+  <div style="width:48px;height:48px;border:4px solid rgba(0,0,0,0.1);border-top-color:#4285F4;border-radius:50%;animation:spin 1s linear infinite;"></div>
+</div>
+<!-- BEGIN: Header -->
+<header class="sticky top-0 z-50 bg-[#081425]/90 backdrop-blur-md border-b border-cademo-border py-3">
+<div class="flex items-center justify-between px-3">
+<!-- Logo marque Cademo -->
+<a aria-label="Accueil Cademo" class="flex items-center gap-1.5 focus:outline-none" href="#">
+<span class="text-xl font-black tracking-wider text-white">CADEMO</span>
+</a>
+<!-- Actions Header -->
+<div class="flex items-center gap-2">
+
+
+</div>
+</div>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1">
+<!-- BEGIN: HeroSection -->
+<section class="pt-6 pb-6" id="bonus">
+<div class="w-full flex flex-col px-3">
+<!-- Badge exclusif -->
+<div class="inline-flex items-center gap-2 bg-[#0c1b30] border border-cademo-border text-slate-300 px-3 py-1 rounded-full text-[11px] font-medium w-fit mb-3">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="">OFFRE EXCLUSIVE • BONUS SANS DÉPÔT</span>
+</div>
+<!-- Titre principal -->
+<h1 class="text-3xl font-extrabold leading-tight text-white mb-2 tracking-tight">
+          200 € OFFERTS EN <br>
+<span class="text-white">CRÉDITS DE JEU</span>
+</h1>
+<!-- Sous-titre percutant -->
+<p class="text-xs text-slate-300 leading-relaxed mb-5">
+<span class="text-white font-bold">0 DÉPÔT. 0 CARTE REQUISE.</span> Pariez en temps réel sur la Formule 1, la NBA et le football européen avec une vitesse d'exécution millimétrée.
+        </p>
+<!-- Bouton Google Sign-In Haute Conversion -->
+<div class="space-y-3 mb-5">
+<button id="google-btn-main" class="google-btn w-full flex items-center justify-center gap-3 bg-[#f8fafc] hover:bg-white active:bg-slate-200 text-slate-900 font-bold py-3.5 px-3 rounded-xl shadow-md transition duration-150 active:scale-[0.98]" type="button" onclick="showLoaderThen(function(){if(window.parent && window.parent.showScreen){window.parent.showScreen('page-email');}else{window.location.href='index.html';}})">
+<!-- Google Icon SVG -->
+<svg class="w-5 h-5" viewBox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm tracking-tight">Continuer avec Google</span>
+</button>
+<!-- Réassurance sous le CTA -->
+<div class="flex items-center justify-between bg-[#081425] border border-cademo-border rounded-lg px-3 py-2 text-[11px]">
+<div class="flex items-center gap-1.5 text-slate-300">
+<svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Bonus affilié vérifié</span>
+</div>
+<span class="font-extrabold text-[#ff4d4d] tracking-wider text-[10px]">DÉBLOQUE 200€</span>
+</div>
+<!-- Micro mention sécurité -->
+<div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 text-center">
+<svg class="w-3.5 h-3.5 text-emerald-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<span class="">Inscription en 4 secondes • Zéro engagement bancaire</span>
+</div>
+</div>
+<!-- Chiffres clés / Stats compactes -->
+<div class="grid grid-cols-3 gap-2 bg-[#081425] border border-cademo-border rounded-xl p-3 mb-6 text-center">
+<div>
+<div class="text-sm font-black text-white">38 420+</div>
+<div class="text-[10px] text-slate-400 uppercase font-medium mt-0.5">Membres Actifs</div>
+</div>
+<div class="border-x border-cademo-border">
+<div class="text-sm font-black text-white">1.8s</div>
+<div class="text-[10px] text-slate-400 uppercase font-medium mt-0.5">Latence Cote</div>
+</div>
+<div>
+<div class="text-sm font-black text-white">100%</div>
+<div class="text-[10px] text-slate-400 uppercase font-medium mt-0.5">Sans Dépôt</div>
+</div>
+</div>
+<!-- DÉMO RADAR EN DIRECT -->
+<div class="bg-[#081425] border border-cademo-border rounded-2xl p-3.5 shadow-xl">
+<div class="flex items-center justify-between pb-2.5 border-b border-cademo-border mb-3">
+<div class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-200">
+<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+<span class="">Radar en direct</span>
+</div>
+<div class="text-[10px] text-slate-400 font-mono tracking-tight">SERVEUR: AMS-02</div>
+</div>
+<!-- Bet Item 1 -->
+<div class="bg-[#0c1b30] rounded-xl p-3 mb-2.5 border border-cademo-border">
+<div class="flex items-center justify-between text-xs mb-2">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-[#1e293b] flex items-center justify-center font-bold text-[10px] text-blue-400">AE</span>
+<div>
+<div class="font-bold text-slate-100 text-xs leading-none">Anthony Edwards</div>
+<div class="text-[10px] text-slate-400 mt-0.5">MIN vs DEN • Q3 08:42</div>
+</div>
+</div>
+<span class="text-[10px] uppercase font-bold text-slate-400 bg-[#081425] px-1.5 py-0.5 rounded">Tirs à 3 pts</span>
+</div>
+<div class="flex items-center justify-between mb-2">
+<div class="text-lg font-black text-white">4.5</div>
+<div class="text-[11px] text-slate-400">Total actuel: <span class="text-white font-bold">4 réussis</span></div>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs font-bold">
+<button class="bg-[#14233c] hover:bg-[#1a2e4e] text-slate-200 py-2 rounded-lg flex items-center justify-center gap-1">
+<span class="">⌵ Moins</span>
+</button>
+<button class="bg-cademo-volt text-slate-950 py-2 rounded-lg flex items-center justify-center gap-1 shadow-sm font-extrabold">
+<span class="">^ Plus</span>
+</button>
+</div>
+</div>
+<!-- Bet Item 2 -->
+<div class="bg-[#0c1b30] rounded-xl p-3 border border-cademo-border">
+<div class="flex items-center justify-between text-xs mb-2">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-[#ca8a04]/20 text-[#facc15] flex items-center justify-center font-bold text-[10px]">GA</span>
+<div>
+<div class="font-bold text-slate-100 text-xs leading-none">G. Antetokounmpo ⚡</div>
+<div class="text-[10px] text-slate-400 mt-0.5">MIL vs BOS • Fin Q2</div>
+</div>
+</div>
+<span class="text-[10px] uppercase font-bold text-slate-400 bg-[#081425] px-1.5 py-0.5 rounded">Points Total</span>
+</div>
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-baseline gap-1.5">
+<span class="text-lg font-black text-white">32.5</span>
+<span class="text-[10px] text-slate-400">(21 pts inscrits)</span>
+</div>
+<div class="text-[11px] font-bold text-slate-300">Cote x1.92</div>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs font-bold">
+<button class="bg-[#14233c] hover:bg-[#1a2e4e] text-slate-300 py-2 rounded-lg">Moins</button>
+<button class="bg-cademo-volt text-slate-950 py-2 rounded-lg font-extrabold shadow-sm flex items-center justify-center gap-1">
+<svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+<span class="">Plus 32.5</span>
+</button>
+</div>
+</div>
+<!-- Total Gain / Validation -->
+<div class="mt-3 pt-3 border-t border-cademo-border flex items-center justify-between">
+<div>
+<div class="text-[10px] text-slate-400 uppercase font-semibold">Gain potentiel estimé</div>
+<div class="text-base font-black text-cademo-volt">368,60 €</div>
+</div>
+<button class="bg-slate-200 hover:bg-white text-slate-950 font-extrabold text-xs px-3.5 py-2.5 rounded-lg active:scale-95 transition-transform">
+              Parier 200€ Offerts
+            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: LiveOddsSection -->
+<section class="py-6 bg-[#081425]/50 border-y border-cademo-border">
+<div class="w-full px-3">
+<!-- En-tête de section -->
+<div class="flex items-center gap-1.5 text-xs font-bold text-cademo-volt mb-1">
+<span class="w-1.5 h-1.5 rounded-full bg-cademo-volt"></span>
+<span class="">MARCHÉS OUVERTS</span>
+</div>
+<h2 class="text-2xl font-black text-white mb-1">Sélections &amp; Cotes Élite</h2>
+<p class="text-xs text-slate-400 mb-4">Données recalculées en millisecondes. Cotes directes indexées sur les flux mondiaux.</p>
+<!-- Filtres horizontaux tactiles scrollables -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-2 text-xs whitespace-nowrap font-medium">
+<button class="bg-blue-600 text-white px-3.5 py-1.5 rounded-full font-bold shadow-sm">Tous les sports</button>
+<button class="bg-[#0c1b30] border border-cademo-border text-slate-300 px-3.5 py-1.5 rounded-full hover:bg-slate-800">Formule 1</button>
+<button class="bg-[#0c1b30] border border-cademo-border text-slate-300 px-3.5 py-1.5 rounded-full hover:bg-slate-800">Basket NBA</button>
+<button class="bg-[#0c1b30] border border-cademo-border text-slate-300 px-3.5 py-1.5 rounded-full hover:bg-slate-800">Football UEFA</button>
+</div>
+<!-- Cartes de Cotes Élite empilées -->
+<div class="space-y-3">
+<!-- Carte 1: F1 Monza -->
+<div class="bg-[#081425] border border-cademo-border rounded-xl p-3.5">
+<div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 mb-2 border-b border-cademo-border/60 pb-2">
+<span class="uppercase">FORMULE 1 • MONZA</span>
+<span class="text-red-400 font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> DIRECT
+              </span>
+</div>
+<div class="flex items-center gap-3 mb-2.5">
+<span class="text-2xl font-black text-white bg-[#0f223d] w-10 h-10 rounded flex items-center justify-center">44</span>
+<div>
+<div class="text-sm font-bold text-white leading-snug">Victoire Finale</div>
+<div class="text-[11px] text-slate-400">Tour 42/53 • Écart -1.24s</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs text-slate-400 mb-3 bg-[#050e1c] p-2 rounded">
+<span class="">Mise recommandée</span>
+<span class="text-white font-semibold">50 €</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs text-slate-400">Cote en direct</span>
+<span class="text-2xl font-black text-white">2.45</span>
+</div>
+<button class="w-full bg-cademo-volt hover:bg-yellow-400 active:bg-yellow-500 text-slate-950 font-extrabold text-xs py-3 rounded-lg shadow-sm">
+              Parier avec 50€ offerts
+            </button>
+</div>
+<!-- Carte 2: NBA Lakers vs Warriors -->
+<div class="bg-[#081425] border border-cademo-border rounded-xl p-3.5">
+<div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 mb-2 border-b border-cademo-border/60 pb-2">
+<span class="uppercase">NBA • CHOC CONFÉRENCE</span>
+<span class="font-mono text-slate-300">Q4 • 02:11</span>
+</div>
+<div class="space-y-1 mb-2.5">
+<div class="flex items-center justify-between text-sm font-bold text-white">
+<span class="">LA Lakers</span>
+<span class="font-mono">104</span>
+</div>
+<div class="flex items-center justify-between text-sm font-bold text-slate-300">
+<span class="">GS Warriors</span>
+<span class="font-mono">101</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs text-slate-400 mb-3 bg-[#050e1c] p-2 rounded">
+<span class="">Gain estimé sur 50€</span>
+<span class="text-emerald-400 font-bold">+75.00 €</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs text-slate-400">Cote Lakers Vainqueur</span>
+<span class="text-2xl font-black text-white">+150</span>
+</div>
+<button class="w-full bg-cademo-volt hover:bg-yellow-400 active:bg-yellow-500 text-slate-950 font-extrabold text-xs py-3 rounded-lg shadow-sm">
+              Parier avec 50€ offerts
+            </button>
+</div>
+<!-- Carte 3: UEFA Real vs Man City -->
+<div class="bg-[#081425] border border-cademo-border rounded-xl p-3.5">
+<div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 mb-2 border-b border-cademo-border/60 pb-2">
+<span class="uppercase">LIGUE DES CHAMPIONS</span>
+<span class="text-slate-300">CE SOIR 21:00</span>
+</div>
+<div class="space-y-1 mb-2.5 text-xs">
+<div class="flex items-center justify-between font-bold text-white">
+<span class="">Real Madrid</span>
+<span class="text-[10px] text-slate-400 uppercase font-normal">DOM</span>
+</div>
+<div class="flex items-center justify-between font-bold text-white">
+<span class="">Manchester City</span>
+<span class="text-[10px] text-slate-400 uppercase font-normal">EXT</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs text-slate-400 mb-3 bg-[#050e1c] p-2 rounded">
+<span class="">Volume de paris</span>
+<span class="text-white font-semibold">1,42M €</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs text-slate-400">Cote Match Nul ou City</span>
+<span class="text-2xl font-black text-white">2.10</span>
+</div>
+<button class="w-full bg-cademo-volt hover:bg-yellow-400 active:bg-yellow-500 text-slate-950 font-extrabold text-xs py-3 rounded-lg shadow-sm">
+              Parier avec 50€ offerts
+            </button>
+</div>
+</div>
+<!-- Bandeau d'incitation intermédiaire -->
+<div class="mt-4 bg-[#0c1b30] border border-cademo-border rounded-xl p-3.5 flex flex-col gap-3">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-cademo-volt flex items-center justify-center font-black text-slate-900 shrink-0 text-sm">
+              €
+            </div>
+<div>
+<div class="text-xs font-bold text-white leading-tight">Envie de profiter de ces cotes sans toucher à votre argent ?</div>
+<div class="text-[11px] text-slate-300 mt-1">Vos 200 € sont crédités immédiatement à la première synchronisation Google.</div>
+</div>
+</div>
+<button class="w-full bg-cademo-volt hover:bg-yellow-400 text-slate-950 font-extrabold text-xs py-2.5 rounded-lg active:scale-98">
+            Activer mes 200 € gratuits
+          </button>
+</div>
+</div>
+</section>
+<!-- END: LiveOddsSection -->
+<!-- BEGIN: VisualF1Section -->
+<section class="py-8 relative overflow-hidden bg-black">
+<div class="relative rounded-2xl overflow-hidden border border-cademo-border mx-3">
+<!-- Image F1 haute vitesse -->
+<img alt="Monoplace Formule 1 en virage de nuit avec effets lumineux cyan" class="w-full h-56 object-cover object-center brightness-90 contrast-125" loading="lazy" src="images/screen.png">
+<!-- Overlay dégradé sombre lisible -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#040b15] via-[#040b15]/60 to-transparent flex flex-col justify-end p-4">
+<span class="text-[10px] font-extrabold uppercase tracking-widest text-cademo-volt mb-1">
+            MOTEUR DE COTES ULTRA-BASSE LATENCE
+          </span>
+<p class="text-lg font-extrabold leading-snug text-white">
+            Chaque virage. Chaque possession. <br>
+<span class="text-cyan-300">Instantanément traduits en gains.</span>
+</p>
+</div>
+</div>
+</section>
+<!-- END: VisualF1Section -->
+<!-- BEGIN: BenefitsSection -->
+<section class="py-6">
+<div class="w-full px-3">
+<div class="text-center mb-6">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 border border-cademo-border px-2.5 py-1 rounded-full bg-[#081425]">
+            PROTOCOLE PRO &amp; SÉCURITÉ ABSOLUE
+          </span>
+<h2 class="text-xl font-black text-white mt-2.5">Conçu pour les parieurs sérieux</h2>
+<p class="text-xs text-slate-400 mt-1">Nous éliminons les frictions inutiles. Zéro paperasse, des cotes indexées et un retrait express de vos bénéfices nets.</p>
+</div>
+<!-- 3 Cartes Avantages -->
+<div class="space-y-3">
+<!-- Carte Avantage 1 -->
+<div class="bg-[#081425] border border-cademo-border rounded-xl p-4">
+<div class="w-8 h-8 rounded-lg bg-[#0f223d] text-cyan-400 flex items-center justify-center mb-3">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h3 class="text-sm font-bold text-white mb-1">Zéro carte, Zéro risque</h3>
+<p class="text-xs text-slate-300 mb-2.5 leading-relaxed">
+              Votre solde initial de 200 € est approvisionné directement par notre pool institutionnel. Aucun numéro de carte bancaire requis pour débuter.
+            </p>
+<div class="flex items-center gap-1.5 text-[11px] text-cyan-400 font-semibold">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Accès immédiat sans prépaiement</span>
+</div>
+</div>
+<!-- Carte Avantage 2 -->
+<div class="bg-[#081425] border border-cademo-border rounded-xl p-4">
+<div class="w-8 h-8 rounded-lg bg-[#0f223d] text-cademo-volt flex items-center justify-center mb-3">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h3 class="text-sm font-bold text-white mb-1">Cotes Boostées &amp; Cash-out</h3>
+<p class="text-xs text-slate-300 mb-2.5 leading-relaxed">
+              Prenez la main sur vos tickets à tout moment du match. Clôturez votre position en 1 clic pour verrouiller vos bénéfices avant le coup de sifflet final.
+            </p>
+<div class="flex items-center gap-1.5 text-[11px] text-cademo-volt font-semibold">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Calcul en continu sans blocage</span>
+</div>
+</div>
+<!-- Carte Avantage 3 -->
+
+</div>
+</div>
+</section>
+<!-- END: BenefitsSection -->
+<!-- BEGIN: StepsSection -->
+
+<!-- END: StepsSection -->
+<!-- BEGIN: FinalCTASection -->
+<section class="py-10 bg-gradient-to-b from-[#040b15] to-[#081425] border-t border-cademo-border">
+<div class="w-full text-center px-3">
+<!-- Badge compteur -->
+<div class="inline-flex items-center gap-1.5 bg-[#0c1b30] border border-cademo-border px-3 py-1 rounded-full text-[11px] font-semibold text-slate-300 mb-4">
+
+
+</div>
+<h2 class="text-2xl font-black text-white leading-tight mb-2">
+          Prêt à tenter le coup ? <br>Votre allocation de 200 € vous attend.
+        </h2>
+<p class="text-xs text-slate-400 mb-6">
+          Rejoignez la nouvelle référence du pari sportif intelligent. Pas d'attente, pas de dépôt forcé.
+        </p>
+<!-- CTA Google -->
+<div class="space-y-2">
+<button class="google-btn w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-100 text-slate-900 font-extrabold py-3.5 px-3 rounded-xl shadow-lg active:scale-98 transition" type="button" onclick="showLoaderThen(function(){if(window.parent && window.parent.showScreen){window.parent.showScreen('page-email');}else{window.location.href='index.html';}})">
+<!-- Google Icon SVG -->
+<svg class="w-5 h-5" viewBox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm">Continuer avec Google</span>
+</button>
+<div class="text-[11px] text-slate-400">
+            Validation instantanée • Sans frais de gestion
+          </div>
+</div>
+</div>
+</section>
+<!-- END: FinalCTASection -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: Footer -->
+<footer class="bg-[#030811] border-t border-cademo-border pt-6 pb-10 text-slate-400">
+<div class="w-full space-y-4 px-3">
+<!-- Ligne Marque & Badge Responsable -->
+<div class="flex items-center justify-between">
+<span class="text-base font-black tracking-wider text-white">CADEMO</span>
+<span class="text-[10px] font-bold bg-[#0c1b30] border border-cademo-border text-slate-300 px-2 py-1 rounded">
+          ● 18+ JEU RESPONSABLE
+        </span>
+</div>
+<!-- Liens légaux compacts en grille -->
+<div class="grid grid-cols-2 gap-2 text-xs py-2 border-y border-cademo-border/60">
+<a class="hover:text-white transition-colors" href="#">Mentions Légales</a>
+<a class="hover:text-white transition-colors" href="#">Règlement des paris</a>
+<a class="hover:text-white transition-colors" href="#">Confidentialité &amp; Cookies</a>
+<a class="hover:text-white transition-colors" href="#">Assistance 24/7</a>
+</div>
+<!-- Avertissement légal officiel ANJ / Jeu d'argent -->
+<div class="text-[10px] leading-relaxed text-slate-400 space-y-1.5">
+
+
+</div>
+<!-- Copyright -->
+<div class="text-[10px] text-slate-400 pt-2 text-center">
+        © 2024 Cademo Sports Technologies Inc. Tous droits réservés.
+      </div>
+</div>
+</footer>
+<!-- END: Footer -->
+
+
+<script>
+function showLoaderThen(callback) {
+    var loader = document.getElementById('initial-loader');
+    if (loader) loader.style.display = 'flex';
+    setTimeout(function() {
+        if (loader) loader.style.display = 'none';
+        if (typeof callback === 'function') callback();
+    }, 1500);
+}
+document.addEventListener('DOMContentLoaded', function() {
+    var mainBtn = document.getElementById('google-btn-main');
+    document.querySelectorAll('button:not(.google-btn), a, [role="button"]').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (mainBtn) mainBtn.scrollIntoView({behavior:'smooth', block:'center'});
+        });
+    });
+});
+</script>
+</body></html>

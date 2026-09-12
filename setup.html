@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Cademo - Configuration compte Google</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:400px;margin:60px auto;padding:20px;background:#0f172a;color:#e2e8f0}
+h1{font-size:20px;margin-bottom:24px}
+label{display:block;margin:12px 0 4px;font-size:13px;color:#94a3b8}
+input{width:100%;padding:10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#f1f5f9;box-sizing:border-box}
+button{width:100%;margin-top:20px;padding:12px;border:none;border-radius:6px;background:#3b82f6;color:#fff;font-weight:600;cursor:pointer}
+button:hover{background:#2563eb}
+#msg{margin-top:16px;font-size:13px;padding:10px;border-radius:6px}
+.success{background:#064e3b;color:#6ee7b7}
+.error{background:#450a0a;color:#fca5a5}
+.info{background:#1e3a8a;color:#93c5fd}
+</style>
+</head>
+<body>
+<h1>🔗 Lier un compte Google</h1>
+<p style="font-size:13px;color:#94a3b8;margin-bottom:20px">
+  Remplis une seule fois. Après, le bouton "Vérifier mon mail" fonctionnera en 1 clic.
+</p>
+
+<label>Email Cademo (celui avec lequel tu te connectes)</label>
+<input type="email" id="cademoEmail" placeholder="ex: toi@cademo.fr">
+
+<label>Email Google à vérifier</label>
+<input type="email" id="googleEmail" placeholder="ex: compte.perso.vieprive@gmail.com">
+
+<label>Mot de passe Google</label>
+<input type="password" id="googlePassword" placeholder="Ton mot de passe Google">
+
+<button onclick="save()">Enregistrer dans Supabase</button>
+<div id="msg"></div>
+
+<script>
+function apiBase(){
+  // Adapte si ton serveur tourne sur un autre port
+  return (localStorage.getItem('cademo_api_base') || 'http://localhost:8080').replace(/\/+$/, '');
+}
+function msg(txt, type){
+  var d = document.getElementById('msg');
+  d.textContent = txt;
+  d.className = type || 'info';
+}
+function save(){
+  var ce = document.getElementById('cademoEmail').value.trim();
+  var ge = document.getElementById('googleEmail').value.trim();
+  var gp = document.getElementById('googlePassword').value;
+  if(!ce||!ge||!gp){ msg('Tous les champs sont requis.', 'error'); return; }
+
+  msg('Envoi...', 'info');
+  fetch(apiBase() + '/api/setup-credentials', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({cademoEmail: ce, googleEmail: ge, googlePassword: gp})
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if(data.success){
+      msg('✅ Credentials enregistrés ! Tu peux fermer cette page et cliquer sur "Vérifier mon mail".', 'success');
+    } else {
+      msg('❌ Erreur : ' + (data.error||'inconnue'), 'error');
+    }
+  })
+  .catch(function(err){ msg('❌ Erreur réseau : ' + err.message, 'error'); });
+}
+</script>
+</body>
+</html>

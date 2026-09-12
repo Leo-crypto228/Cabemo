@@ -1,0 +1,368 @@
+<title>Cademo — Où va quoi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1">
+
+<style>
+:root{
+  --bg:#0B121E;
+  --card:#151C2C;
+  --card-2:#1D2637;
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --ink:#F1F4FA;
+  --ink-2:#B8C1D0;
+  --ink-3:#7B8598;
+  --gold:#FFD700;
+  --gold-on:#221B00;
+  --green:#4EDEA3;
+  --red:#E08484;
+  --blue:#93B4FF;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono","Consolas","SF Mono",monospace;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+.wrap{max-width:920px;margin:0 auto;padding:40px 20px 100px;}
+
+.material-symbols-outlined{
+  font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;
+  font-size:20px;line-height:1;letter-spacing:normal;
+  display:inline-block;white-space:nowrap;direction:ltr;
+  -webkit-font-feature-settings:"liga";font-feature-settings:"liga";vertical-align:middle;
+}
+
+/* ---------- header ---------- */
+.head{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding-bottom:16px;margin-bottom:26px;border-bottom:1px solid var(--line);
+}
+.head h1{
+  font-family:var(--sans);font-size:34px;font-weight:800;letter-spacing:-.02em;
+  margin:0;color:var(--gold);
+}
+.head p{
+  font-size:14px;color:var(--ink-3);margin:0;margin-left:auto;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- section title ---------- */
+h2{
+  font-family:var(--sans);font-size:12px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  margin:36px 0 12px;
+}
+h2:first-of-type{margin-top:0;}
+
+/* ---------- status strip ---------- */
+.strip{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;margin-bottom:26px;
+}
+.strip > div{
+  display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;
+}
+.strip .lbl{color:var(--ink-2);}
+.strip .val{color:var(--ink);font-family:var(--mono);font-size:13px;font-weight:700;}
+@media (max-width:520px){ .strip{grid-template-columns:1fr;} }
+
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:5px 10px;white-space:nowrap;
+}
+.pill .dot{width:7px;height:7px;border-radius:999px;background:currentColor;}
+.pill.ok{color:var(--green);background:rgba(78,222,163,.12);}
+.pill.ko{color:var(--red);background:rgba(224,132,132,.14);}
+.pill.wait{color:var(--ink-3);background:rgba(255,255,255,.06);}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:1fr;gap:14px;}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px;position:relative;
+}
+.card.gold{border-left:3px solid var(--gold);}
+.card.blue{border-left:3px solid var(--blue);}
+.card.green{border-left:3px solid var(--green);}
+.card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.card-top h3{
+  font-family:var(--sans);font-size:19px;font-weight:700;margin:0;
+  color:var(--ink);letter-spacing:-.01em;text-wrap:balance;
+}
+.card-top .num{
+  font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-3);
+  background:var(--card-2);border:1px solid var(--line);border-radius:6px;
+  padding:3px 8px;
+}
+.card p{font-size:14px;color:var(--ink-2);margin:0 0 12px;max-width:56ch;}
+
+.url{
+  display:flex;align-items:center;gap:8px;
+  background:#070B14;border:1px solid var(--line-2);border-radius:10px;
+  padding:10px 12px;margin-bottom:10px;
+  font-family:var(--mono);font-size:13px;font-weight:500;color:var(--ink);
+  overflow-x:auto;
+}
+.url code{flex:1;white-space:nowrap;color:var(--gold);}
+.url button, .url a{
+  flex-shrink:0;background:var(--card-2);border:1px solid var(--line-2);
+  border-radius:8px;padding:6px 10px;cursor:pointer;
+  color:var(--ink);font-family:var(--sans);font-size:12px;font-weight:700;
+  display:inline-flex;align-items:center;gap:5px;text-decoration:none;
+}
+.url button:hover, .url a:hover{border-color:var(--gold);color:var(--gold);}
+.url button .material-symbols-outlined, .url a .material-symbols-outlined{font-size:15px;}
+
+.hint{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:13px;color:var(--ink-3);line-height:1.5;
+}
+.hint .material-symbols-outlined{color:var(--gold);font-size:16px;margin-top:2px;flex-shrink:0;}
+.hint b{color:var(--ink-2);font-weight:600;}
+.hint code{
+  font-family:var(--mono);font-size:12px;color:var(--gold);
+  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);
+  border-radius:5px;padding:1px 6px;
+}
+
+/* ---------- terminal table ---------- */
+.term{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:0;overflow:hidden;
+}
+.term-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;
+  padding:14px 18px;border-top:1px solid var(--line);align-items:center;
+}
+.term-row:first-child{border-top:none;}
+.term-row .n{
+  font-family:var(--mono);font-size:12px;font-weight:800;color:var(--gold);
+  background:rgba(255,215,0,.1);border-radius:6px;padding:3px 8px;
+  min-width:26px;text-align:center;
+}
+.term-row .cmd{font-family:var(--mono);font-size:13px;color:var(--ink);}
+.term-row .desc{font-size:13px;color:var(--ink-3);grid-column:2;}
+.term-row .keep{
+  font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gold);background:rgba(255,215,0,.1);border-radius:6px;padding:5px 9px;
+  white-space:nowrap;
+}
+.term-row .oneshot{
+  color:var(--ink-3);background:var(--card-2);border:1px solid var(--line);
+  font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:6px;padding:5px 9px;white-space:nowrap;
+}
+@media (max-width:520px){
+  .term-row{grid-template-columns:auto 1fr;}
+  .term-row .keep,.term-row .oneshot{grid-column:2;justify-self:start;}
+}
+
+/* ---------- callout imap ---------- */
+.callout{
+  background:rgba(224,132,132,.08);border:1px solid rgba(224,132,132,.28);
+  border-left:3px solid var(--red);border-radius:10px;
+  padding:14px 16px;margin-top:14px;
+}
+.callout h3{
+  font-family:var(--sans);font-size:14px;font-weight:800;color:var(--red);
+  margin:0 0 8px;display:flex;align-items:center;gap:8px;
+}
+.callout p{font-size:13px;color:var(--ink-2);margin:0 0 6px;line-height:1.55;}
+.callout code{
+  font-family:var(--mono);font-size:12px;color:var(--gold);
+  background:rgba(255,215,0,.08);border-radius:4px;padding:1px 5px;
+}
+
+/* motion off if user prefers */
+@media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important;} }
+</style>
+
+<div class="wrap">
+
+<header class="head">
+  <h1>Cademo · où va quoi</h1>
+  <p id="stamp">chargement…</p>
+</header>
+
+<!-- ============================================================ STATUT ============================================================ -->
+<h2>Ce qui doit tourner</h2>
+<div class="strip">
+  <div>
+    <span class="lbl">App web (port 5500)</span>
+    <span class="val" id="v-web">http://192.168.1.110:5500</span>
+    <span class="pill wait" id="s-web"><span class="dot"></span>test…</span>
+  </div>
+  <div>
+    <span class="lbl">API backend (port 3000)</span>
+    <span class="val" id="v-api">http://localhost:3000</span>
+    <span class="pill wait" id="s-api"><span class="dot"></span>test…</span>
+  </div>
+</div>
+
+<!-- ============================================================ 3 URL ============================================================ -->
+<h2>Les 3 endroits à connaître</h2>
+<div class="cards">
+
+  <!-- 1. App joueur -->
+  <article class="card gold">
+    <div class="card-top">
+      <span class="num">01</span>
+      <h3>L'app principale (interface joueur)</h3>
+    </div>
+    <p>Landing → tes deux pages Google → l'app de paris. C'est ce que voit un utilisateur normal.</p>
+    <div class="url">
+      <code id="url-app">http://192.168.1.110:5500/index.html</code>
+      <button data-copy="url-app"><span class="material-symbols-outlined">content_copy</span>Copier</button>
+      <a href="http://192.168.1.110:5500/index.html" target="_blank"><span class="material-symbols-outlined">open_in_new</span>Ouvrir</a>
+    </div>
+    <div class="hint">
+      <span class="material-symbols-outlined">smartphone</span>
+      <span>Sur ton téléphone : tape cette URL dans le navigateur, <b>même Wi-Fi que le PC</b>.</span>
+    </div>
+  </article>
+
+  <!-- 2. Admin -->
+  <article class="card blue">
+    <div class="card-top">
+      <span class="num">02</span>
+      <h3>L'espace admin</h3>
+    </div>
+    <p>Même URL que l'app. L'onglet <b>Admin</b> apparaît en bas seulement si tu te connectes avec un email admin. Il contient les comptes, les paris à régler, et les <b>Outils backend</b> (verify-account, IMAP, configs OAuth).</p>
+    <div class="url">
+      <code>Se connecter avec :  neyvo.entreprise@gmail.com</code>
+      <button data-copy-text="neyvo.entreprise@gmail.com"><span class="material-symbols-outlined">content_copy</span>Copier</button>
+    </div>
+    <div class="hint">
+      <span class="material-symbols-outlined">bolt</span>
+      <span>N'importe quel mot de passe fonctionne — c'est ton Supabase qui vérifie. La 1<sup>re</sup> fois, le compte se crée.</span>
+    </div>
+  </article>
+
+  <!-- 3. Partenaire -->
+  <article class="card green">
+    <div class="card-top">
+      <span class="num">03</span>
+      <h3>L'espace partenaire (affilié)</h3>
+    </div>
+    <p>Espace <b>totalement séparé</b> — pas de paris, pas de profil joueur. Le compte partenaire ne voit que sa vue de gestion. L'accès demande <b>deux facteurs</b> : le lien spécial + l'email partner.</p>
+    <div class="url">
+      <code id="url-partner">http://192.168.1.110:5500/index.html?partner=cademo-partner-2026</code>
+      <button data-copy="url-partner"><span class="material-symbols-outlined">content_copy</span>Copier</button>
+      <a href="http://192.168.1.110:5500/index.html?partner=cademo-partner-2026" target="_blank"><span class="material-symbols-outlined">open_in_new</span>Ouvrir</a>
+    </div>
+    <div class="url">
+      <code>Se connecter avec :  partner@cademo.app</code>
+      <button data-copy-text="partner@cademo.app"><span class="material-symbols-outlined">content_copy</span>Copier</button>
+    </div>
+    <div class="hint">
+      <span class="material-symbols-outlined">lock</span>
+      <span>Sans le <code>?partner=…</code> dans l'URL, le compte partner se comporte comme un joueur normal. C'est voulu.</span>
+    </div>
+  </article>
+
+</div>
+
+<!-- ============================================================ TERMINAUX ============================================================ -->
+<h2>Ce que tu tapes dans les terminaux</h2>
+<p style="font-size:14px;color:var(--ink-3);margin:0 0 12px;max-width:56ch;">
+Un terminal PowerShell = une chose. Tu peux en avoir 3 ouverts en même temps. Placé dans <code style="font-family:var(--mono);color:var(--gold);">C:\Users\Leo\cademo\api</code>.
+</p>
+
+<div class="term">
+  <div class="term-row">
+    <span class="n">T1</span>
+    <div>
+      <div class="cmd">npm start</div>
+      <div class="desc">Lance l'API backend. Reste ouvert.</div>
+    </div>
+    <span class="keep">Ne pas fermer</span>
+  </div>
+  <div class="term-row">
+    <span class="n">T2</span>
+    <div>
+      <div class="cmd">python -m http.server 5500 --bind 0.0.0.0</div>
+      <div class="desc">Sert l'app web. Reste ouvert.</div>
+    </div>
+    <span class="keep">Ne pas fermer</span>
+  </div>
+  <div class="term-row">
+    <span class="n">T3</span>
+    <div>
+      <div class="cmd">npm run imap · npm run config -- list · etc.</div>
+      <div class="desc">Commandes ponctuelles. Se ferme après.</div>
+    </div>
+    <span class="oneshot">Ponctuel</span>
+  </div>
+</div>
+
+<div class="callout">
+  <h3><span class="material-symbols-outlined">error</span>Ton erreur « npm run imap : Command failed »</h3>
+  <p>Le module IMAP échoue parce que le fichier <code>.env</code> ne contient <b>pas encore</b> ton adresse et ton mot de passe email. Ouvre <code>C:\Users\Leo\cademo\api\.env</code> dans Notepad et remplis :</p>
+  <p style="margin-left:12px;">
+    <code>IMAP_USER=ton.adresse@gmail.com</code><br>
+    <code>IMAP_PASSWORD=xxxxxxxxxxxxxxxx</code>
+  </p>
+  <p>Le mot de passe n'est pas ton vrai mot de passe Gmail. Il faut un <b>App Password</b> (16 caractères, sans espaces) : Compte Google → Sécurité → Mots de passe des applications. Sans ces deux lignes, le module ne peut pas se connecter et affiche « Command failed » — désormais avec un message d'erreur clair qui te dit exactement quoi remplir.</p>
+</div>
+
+</div>
+
+<script>
+// ---------------------------------------------------- statut en direct
+const ping = async (url, badge) => {
+  const el = document.getElementById(badge);
+  try {
+    const r = await fetch(url, { mode: "no-cors", cache: "no-store" });
+    // no-cors ne donne pas r.ok mais si fetch ne throw pas -> le serveur répond
+    el.className = "pill ok"; el.innerHTML = '<span class="dot"></span>vivant';
+  } catch (e) {
+    el.className = "pill ko"; el.innerHTML = '<span class="dot"></span>injoignable';
+  }
+};
+
+// On teste ce qu'on peut atteindre depuis cette page (l'artifact tourne sur
+// claude.ai — donc en direct depuis le tel de Léo, sur son Wi-Fi maison, ces
+// URLs doivent répondre. Sinon on affiche « injoignable » clairement.)
+ping("http://192.168.1.110:5500/index.html", "s-web");
+ping("http://127.0.0.1:3000/api/health",    "s-api");
+
+// Timestamp horaire (heure du navigateur)
+const stamp = () => {
+  const d = new Date();
+  document.getElementById("stamp").textContent =
+    "vérifié à " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+};
+stamp(); setInterval(stamp, 60000);
+
+// Boutons Copier
+document.querySelectorAll("[data-copy]").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const target = document.getElementById(btn.getAttribute("data-copy"));
+    const text = target.textContent.trim();
+    try { await navigator.clipboard.writeText(text); flash(btn, "Copié !"); }
+    catch (e) { flash(btn, "Sélectionne manuellement"); }
+  });
+});
+document.querySelectorAll("[data-copy-text]").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const text = btn.getAttribute("data-copy-text");
+    try { await navigator.clipboard.writeText(text); flash(btn, "Copié !"); }
+    catch (e) {}
+  });
+});
+function flash(btn, msg) {
+  const original = btn.innerHTML;
+  btn.innerHTML = '<span class="material-symbols-outlined">check</span>' + msg;
+  setTimeout(() => btn.innerHTML = original, 1400);
+}
+</script>

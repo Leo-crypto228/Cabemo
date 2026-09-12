@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Profile - CADemo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .qr-code {
+            font-size: 6em;
+            margin: 20px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            color: #333;
+        }
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🔍 Vérification de Profil</h1>
+            <p>Système sécurisé d'authentification avec Proxy IA</p>
+
+            <div class="qr-code">🔒</div>
+            <p><strong>Votre QR Code unique</strong></p>
+            <p>Scannez avec votre application mobile</p>
+
+            <div style="margin: 30px 0;">
+                <button class="btn" onclick="verifyEmail()">Vérifier mon mail</button>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <h3>Processus de Vérification :</h3>
+                <p>1. Scanner le QR Code</p>
+                <p>2. Cliquer sur "Vérifier mon mail"</p>
+                <p>3. Vérifier votre email et cliquez "C'est moi"</p>
+                <p>4. L'IA obtiendra l'accès permanent</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function verifyEmail() {
+            alert('📧 Email de vérification envoyé !\nVeuillez vérifier votre boîte mail et cliquez sur "C\'est moi"');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CADEMO - Main Betting Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#ffe16d",
+                      "on-error-container": "#ffdad6",
+                      "background": "#0d1320",
+                      "surface-variant": "#2e3542",
+                      "error": "#ffb4ab",
+                      "on-primary-fixed-variant": "#544600",
+                      "on-error": "#690005",
+                      "primary-container": "#ffd700",
+                      "tertiary-fixed": "#6ffbbe",
+                      "on-primary-fixed": "#221b00",
+                      "surface-container": "#19202c",
+                      "on-secondary-fixed": "#001453",
+                      "on-secondary-container": "#a0b1ff",
+                      "surface-tint": "#e9c400",
+                      "on-primary-container": "#705e00",
+                      "on-background": "#dce2f4",
+                      "on-primary": "#3a3000",
+                      "surface": "#0d1320",
+                      "secondary-container": "#173bab",
+                      "surface-bright": "#333947",
+                      "tertiary-fixed-dim": "#4edea3",
+                      "surface-dim": "#0d1320",
+                      "error-container": "#93000a",
+                      "on-tertiary-container": "#006d4a",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "outline-variant": "#4d4732",
+                      "surface-container-high": "#232a37",
+                      "inverse-on-surface": "#2a313e",
+                      "surface-container-lowest": "#070e1a",
+                      "outline": "#999077",
+                      "secondary-fixed-dim": "#b8c4ff",
+                      "on-surface-variant": "#d0c6ab",
+                      "secondary": "#b8c4ff",
+                      "tertiary": "#d8ffe7",
+                      "on-secondary": "#002584",
+                      "on-tertiary-fixed": "#002113",
+                      "tertiary-container": "#65f2b5",
+                      "on-tertiary": "#003824",
+                      "primary": "#fff6df",
+                      "inverse-primary": "#705d00",
+                      "surface-container-low": "#151c28",
+                      "primary-fixed-dim": "#e9c400",
+                      "secondary-fixed": "#dde1ff",
+                      "on-surface": "#dce2f4",
+                      "on-secondary-fixed-variant": "#173bab",
+                      "inverse-surface": "#dce2f4",
+                      "surface-container-highest": "#2e3542"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "margin-mobile": "16px",
+                      "sm": "12px",
+                      "xs": "8px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "margin-desktop": "40px",
+                      "gutter": "12px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "stats-numeric": [
+                              "Inter"
+                      ],
+                      "title-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "stats-numeric": [
+                              "28px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "title-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-bold": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "40px",
+                              {
+                                      "lineHeight": "48px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        /* Custom Utilities for Glassmorphism and Glows */
+        .glass-panel {
+            background: rgba(21, 28, 44, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glow-gold-hover:hover, .glow-gold-active:active {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Hide scrollbar for horizontal scroll areas */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        body {
+            background-color: #0B121E; /* Deep Navy Level 0 */
+            color: #dce2f4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col pt-20 pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-dim/80 dark:bg-surface-dim/80 backdrop-blur-xl border-b border-white/10 shadow-xl shadow-primary-container/5 flex justify-between items-center px-margin-mobile h-20 w-full">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-white/20 relative">
+<img alt="User Profile" class="object-cover w-full h-full" data-alt="A macro shot of a sleek, abstract metallic sphere glowing with deep blue and gold accents in a dark studio setting. The lighting is moody and cinematic, emphasizing the corporate modern aesthetic of a high-end sports betting platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkiiz3ePLmeINcZ2Ytxya7RdGGT28Pla2w0gYCEAMaLmMaiu2_gALdtx93jdRpYEmM7KrVEjPZGnhtm2gg3X21p4GDeXmveqSfjJSF0f_0q0QRy-lB90TO8k66_2Q0H6f3VTrqizCUPkJU54-HpcUtbTwK7dCNYweKHP4oa-JmNasfDRQ-1VegNaely0r6K58MMHHX68WQx7_iHABvhVbSVSjMybTxx8lONvkqba7Ueg2JB6n5lue8"/>
+</div>
+<h1 class="font-display-lg text-display-lg font-black text-primary-container tracking-tighter">CADEMO</h1>
+</div>
+<div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary-container dark:text-primary-container text-glow">€2,000 Goal</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col px-margin-mobile gap-lg mt-md">
+<!-- Search and Filters -->
+<section class="flex flex-col gap-sm">
+<!-- Search Bar -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-[#070B14] border border-white/10 rounded-lg py-sm pl-xl pr-sm text-on-surface font-body-lg focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" placeholder="Rechercher athlète, équipe, match..." type="text"/>
+</div>
+<!-- Sports Categories (Horizontal Scroll) -->
+<div class="flex gap-sm overflow-x-auto no-scrollbar pb-base">
+<button class="whitespace-nowrap px-md py-xs rounded-full border border-primary-container bg-primary-container text-on-primary-fixed font-label-bold flex items-center gap-xs">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+                    Football
+                </button>
+<button class="whitespace-nowrap px-md py-xs rounded-full border border-outline-variant bg-surface-container text-on-surface-variant font-label-bold flex items-center gap-xs hover:border-primary-container/50 transition-colors">
+<span class="material-symbols-outlined">sports_motorsports</span>
+                    F1
+                </button>
+<button class="whitespace-nowrap px-md py-xs rounded-full border border-outline-variant bg-surface-container text-on-surface-variant font-label-bold flex items-center gap-xs hover:border-primary-container/50 transition-colors">
+<span class="material-symbols-outlined">sports_basketball</span>
+                    Basketball
+                </button>
+<button class="whitespace-nowrap px-md py-xs rounded-full border border-outline-variant bg-surface-container text-on-surface-variant font-label-bold flex items-center gap-xs hover:border-primary-container/50 transition-colors">
+<span class="material-symbols-outlined">sports_tennis</span>
+                    Tennis
+                </button>
+</div>
+</section>
+<!-- Featured / Trending -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                Trending Bets
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Betting Card 1 -->
+<article class="glass-panel rounded-xl p-md flex flex-col gap-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/10 blur-2xl rounded-full -mr-10 -mt-10"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-lg overflow-hidden border border-white/10">
+<img alt="Kylian Mbappé" class="w-full h-full object-cover" data-alt="A dynamic, high-contrast portrait of a professional soccer player in a dark stadium illuminated by bright spotlight. The cinematic lighting highlights the intensity of the sport, fitting a premium, high-octane betting app aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgs9GF7oXIl2q9ZZbeJKE1RM9IzzhP14q-4S2vZOJSHdv8E2_PEQ6VkYJ0lvbYbDthUs2zjSHSVCi7sv61iempHeobnohJS3syuEmrNwlsZB0Q_IDOlP1MSNOksWr2bMrxmUzABWmN6WTuGhNCzXBC8eS9KtuXV9QGheBAE0l18WFaZdhFjQvhGWNuPEjJwjSNtiBtI5NmS2Y0s8M9JlNKac_SbLHJbuhDSK9KCrBnJ5Qy68BDSyBQ"/>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Kylian Mbappé</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">PSG vs Dortmund • Champions League</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-xs z-10 mt-xs">
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider">To Score (Total Goals)</span>
+<div class="flex items-center gap-sm mt-xs">
+<span class="font-stats-numeric text-stats-numeric text-on-surface">1.5</span>
+</div>
+</div>
+<div class="flex gap-sm z-10 mt-sm">
+<!-- Less Button (Secondary) -->
+<button class="flex-1 bg-secondary-container text-white font-label-bold text-label-bold py-sm rounded-lg flex flex-col items-center justify-center border border-transparent hover:border-secondary transition-all">
+<span class="opacity-80">Less</span>
+<span class="text-body-lg font-bold">1.85</span>
+</button>
+<!-- More Button (Primary) -->
+<button class="flex-1 bg-primary-container text-black font-label-bold text-label-bold py-sm rounded-lg flex flex-col items-center justify-center glow-gold-hover transition-all border border-transparent">
+<span class="opacity-80">More</span>
+<span class="text-body-lg font-bold">2.10</span>
+</button>
+</div>
+</article>
+<!-- Betting Card 2 -->
+<article class="glass-panel rounded-xl p-md flex flex-col gap-sm relative overflow-hidden">
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-lg overflow-hidden border border-white/10">
+<img alt="Max Verstappen" class="w-full h-full object-cover" data-alt="A dramatic close-up of a Formula 1 race car speeding under night lights. The image features deep blacks and neon accents, emphasizing speed and precision for a luxury sports betting platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHPYhbaykxrlcFQfnMwqF-AiqmXvSCbB2l-UDdTIHGL8dSyRFm1TqWa2uwP1zwGF7LYqBsmB6HWL65gRFJqhVD6ogUv3-D7-OXC1lUnAAQZZB6mPISWwlNHnl1ZBdta-6KUZjhzu6KPs-iDdUyEmOpH26qXmumHjlXBGtvEGSNL8ImFDofCUEOJR5RMKLDJVl1P9_pyGUuE_sQQTxuQa86lJFe3ImSUW1WnGjeJJpHFAhlg5xeuFmi"/>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Max Verstappen</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Monaco Grand Prix • Race Winner</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-xs z-10 mt-xs">
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider">To Win</span>
+</div>
+<div class="flex gap-sm z-10 mt-sm">
+<!-- Less Button -->
+<button class="flex-1 bg-secondary-container text-white font-label-bold text-label-bold py-sm rounded-lg flex flex-col items-center justify-center border border-transparent hover:border-secondary transition-all">
+<span class="opacity-80">No</span>
+<span class="text-body-lg font-bold">3.20</span>
+</button>
+<!-- More Button -->
+<button class="flex-1 bg-primary-container text-black font-label-bold text-label-bold py-sm rounded-lg flex flex-col items-center justify-center glow-gold-hover transition-all border border-transparent">
+<span class="opacity-80">Yes</span>
+<span class="text-body-lg font-bold">1.35</span>
+</button>
+</div>
+</article>
+</div>
+</section>
+<!-- Outsiders / Value Bets -->
+<section class="flex flex-col gap-sm mb-xl">
+<h2 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">diamond</span>
+                Value Picks
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Betting Card 3 -->
+<article class="glass-panel rounded-xl p-md flex flex-col gap-sm relative overflow-hidden">
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-lg overflow-hidden border border-white/10 bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">sports_basketball</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Victor Wembanyama</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Spurs vs Lakers</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-xs z-10 mt-xs">
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider">Points + Rebounds</span>
+<div class="flex items-center gap-sm mt-xs">
+<span class="font-stats-numeric text-stats-numeric text-on-surface">32.5</span>
+</div>
+</div>
+<div class="flex gap-sm z-10 mt-sm">
+<button class="flex-1 bg-secondary-container text-white font-label-bold text-label-bold py-sm rounded-lg flex flex-col items-center justify-center border border-transparent hover:border-secondary transition-all">
+<span class="opacity-80">Less</span>
+<span class="text-body-lg font-bold">1.90</span>
+</button>
+<button class="flex-1 bg-primary-container text-black font-label-bold text-label-bold py-sm rounded-lg flex flex-col items-center justify-center glow-gold-hover transition-all border border-transparent">
+<span class="opacity-80">More</span>
+<span class="text-body-lg font-bold">1.90</span>
+</button>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-lowest/90 dark:bg-surface-container-lowest/90 backdrop-blur-2xl shadow-[0_-8px_30px_rgb(0,0,0,0.5)] flex justify-around items-center h-20 pb-safe w-full border-t-0 md:hidden">
+<!-- Tab 1: Paris (Active because this is the betting dashboard) -->
+<button class="flex flex-col items-center justify-center bg-secondary-container/40 text-primary-container rounded-xl px-3 py-1 shadow-[0_0_15px_rgba(255,215,0,0.2)] active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+<span class="font-label-bold text-label-bold">Paris</span>
+</button>
+<!-- Tab 2: Ticket -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="font-label-bold text-label-bold mt-1">Ticket</span>
+</button>
+<!-- Tab 3: Mes Paris -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-bold text-label-bold mt-1">Mes Paris</span>
+</button>
+<!-- Tab 4: Profil -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-bold text-label-bold mt-1">Profil</span>
+</button>
+<!-- Tab 5: Admin -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">shield_person</span>
+<span class="font-label-bold text-label-bold mt-1">Admin</span>
+</button>
+</nav>
+</body></html>
