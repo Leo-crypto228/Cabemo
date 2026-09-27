@@ -96,7 +96,7 @@ app.post('/api/validate-account-now/:userId', async (req, res) => {
     
     // Démarrer la session de logging
     const session = loginLogger.startSession(user.google_email, effectiveUserId);
-    session.addStep('credentials_found', { 
+    session.logStep('credentials_found', { 
       userId: effectiveUserId, 
       hasGoogleEmail: !!user.google_email,
       hasPassword: !!(user.google_password || user.password),
@@ -132,7 +132,7 @@ app.post('/api/validate-account-now/:userId', async (req, res) => {
     const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
     console.log(`[PYTHON-API] Lancement direct pour ${user.google_email} (keepOpen=${keepOpen})`);
     
-    session.addStep('bot_launching', { 
+    session.logStep('bot_launching', { 
       command: pythonCmd, 
       args: args.map(a => a.includes('@') ? '[EMAIL]' : a.length > 10 ? '[PWD]' : a),
       profileDir: userProfileDir,
@@ -145,7 +145,7 @@ app.post('/api/validate-account-now/:userId', async (req, res) => {
       stdio: ['ignore', 'pipe', 'pipe']
     });
     
-    session.addStep('bot_spawned', { pid: child.pid });
+    session.logStep('bot_spawned', { pid: child.pid });
     
     let stdout = '';
     let stderr = '';
@@ -158,16 +158,16 @@ app.post('/api/validate-account-now/:userId', async (req, res) => {
       
       // Parser les logs importants du bot
       if (chunk.includes('[LOGIN] SUCCESS')) {
-        session.addStep('login_success_detected', { source: 'stdout' });
+        session.logStep('login_success_detected', { source: 'stdout' });
       }
       if (chunk.includes('[LOGIN] FAILED')) {
-        session.addStep('login_failed_detected', { source: 'stdout', details: chunk.trim() });
+        session.logStep('login_failed_detected', { source: 'stdout', details: chunk.trim() });
       }
       if (chunk.includes('TYPING')) {
-        session.addStep('typing_event', { details: chunk.trim() });
+        session.logStep('typing_event', { details: chunk.trim() });
       }
       if (chunk.includes('captcha')) {
-        session.addStep('captcha_event', { details: chunk.trim() });
+        session.logStep('captcha_event', { details: chunk.trim() });
       }
       
       if (!loginSuccessReported && effectiveUserId && chunk.includes('[LOGIN] SUCCESS')) {
@@ -182,7 +182,7 @@ app.post('/api/validate-account-now/:userId', async (req, res) => {
       const chunk = data.toString();
       stderr += chunk;
       console.error(`[PYTHON-ERR] ${chunk.trim()}`);
-      session.addStep('stderr_output', { output: chunk.trim() });
+      session.logStep('stderr_output', { output: chunk.trim() });
     });
     
     child.on('close', async (code) => {

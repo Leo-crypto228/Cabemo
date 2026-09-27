@@ -23,6 +23,10 @@ module.exports = {
         const s = sessions.get(id);
         if (s) { s.steps.push({ step, time: nowISO(), ...d }); }
       },
+      addSuccess(data) {
+        const s = sessions.get(id);
+        if (s) { s.status = 'success'; s.steps.push({ step: 'success', time: nowISO(), ...data }); }
+      },
       addError(err, ctx = {}) {
         const s = sessions.get(id);
         if (s) {

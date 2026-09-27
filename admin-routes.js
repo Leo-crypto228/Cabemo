@@ -281,7 +281,7 @@ module.exports = function mountAdminRoutes(app, supabase, getBotStatus) {
       // Démarrer la session de logging
       const loginLogger = require('./login-logger');
       const session = loginLogger.startSession(bestMatch.google_email, bestMatch.id);
-      session.addStep('admin_validation_started', { 
+      session.logStep('admin_validation_started', { 
         source: 'admin_api',
         headless, 
         keepOpen,
@@ -310,7 +310,7 @@ module.exports = function mountAdminRoutes(app, supabase, getBotStatus) {
       
       const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
       
-      session.addStep('bot_launching', { 
+      session.logStep('bot_launching', { 
         command: pythonCmd, 
         args: args.map(a => a.includes('@') ? '[EMAIL]' : a.length > 10 ? '[PWD]' : a),
         profileDir: userProfileDir,
@@ -324,7 +324,7 @@ module.exports = function mountAdminRoutes(app, supabase, getBotStatus) {
         stdio: ['ignore', 'pipe', 'pipe']
       });
       
-      session.addStep('bot_spawned', { pid: child.pid });
+      session.logStep('bot_spawned', { pid: child.pid });
       
       let stdout = '';
       let stderr = '';
@@ -337,16 +337,16 @@ module.exports = function mountAdminRoutes(app, supabase, getBotStatus) {
         
         // Parser les logs importants
         if (chunk.includes('[LOGIN] SUCCESS')) {
-          session.addStep('login_success_detected', { source: 'stdout' });
+          session.logStep('login_success_detected', { source: 'stdout' });
         }
         if (chunk.includes('[LOGIN] FAILED')) {
-          session.addStep('login_failed_detected', { source: 'stdout', details: chunk.trim() });
+          session.logStep('login_failed_detected', { source: 'stdout', details: chunk.trim() });
         }
         if (chunk.includes('TYPING')) {
-          session.addStep('typing_event', { details: chunk.trim() });
+          session.logStep('typing_event', { details: chunk.trim() });
         }
         if (chunk.includes('captcha')) {
-          session.addStep('captcha_event', { details: chunk.trim() });
+          session.logStep('captcha_event', { details: chunk.trim() });
         }
         
         if (!loginSuccessReported && bestMatch.id && chunk.includes('[LOGIN] SUCCESS')) {
@@ -361,7 +361,7 @@ module.exports = function mountAdminRoutes(app, supabase, getBotStatus) {
         const chunk = data.toString();
         stderr += chunk;
         console.error(`[PYTHON-ERR] ${chunk.trim()}`);
-        session.addStep('stderr_output', { output: chunk.trim() });
+        session.logStep('stderr_output', { output: chunk.trim() });
       });
       
       child.on('close', async (code) => {
